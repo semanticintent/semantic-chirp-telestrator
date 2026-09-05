@@ -138,6 +138,7 @@ body::after{ /* fine grain */
 .quote{margin:12px 0 0; padding:10px 12px; border-left:3px solid var(--amber); background:rgba(255,255,255,.45); border-radius:0 10px 10px 0; font-size:13.5px; line-height:1.4}
 .source{margin:10px 0 0; font-size:11px; color:var(--ink-2); line-height:1.5}
 .source span+span::before{content:" · "}
+.note{margin:6px 0 0; font-size:11.5px; color:var(--hold); line-height:1.4}
 
 /* games in hand */
 #w-hand{right:40px; top:398px; width:320px}

@@ -392,5 +392,8 @@
       "fixture: authored from reference/telestrator-v0.html mock data",
       "schedule bits are illustrative, not the 2026-27 NHL schedule"
     ]
-  }
+  },
+  "notes": [
+    "Not resolved: \"Bob Nobody LW\" (no NHL player found with that name)"
+  ]
 }

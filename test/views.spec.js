@@ -45,6 +45,7 @@ describe('views', () => {
       expect(seen).toEqual(ids);
       expect(out).toContain(esc(read.take));
       for (const d of read.source.data) expect(out).toContain(d);
+      for (const n of read.notes ?? []) expect(out).toContain(esc(n));
       expect(String(views.panel(states(name, read).cued))).not.toContain('data-replay');
     });
     it(`hand over ${name} draws one bar per known side`, () => {
