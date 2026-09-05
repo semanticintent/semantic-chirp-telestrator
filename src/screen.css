@@ -1,0 +1,133 @@
+/* The desktop, the windows, the dock, and the rink's SVG classes. Colours come from tokens.css; shadows and glass are here. */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  font-family:var(--font-b); color:var(--ink); overflow:hidden; position:relative;
+  background:
+    radial-gradient(1200px 700px at 12% 8%, #FFF4DC 0%, rgba(255,244,220,0) 60%),
+    radial-gradient(900px 600px at 88% 20%, #F9CF7A 0%, rgba(249,207,122,0) 60%),
+    radial-gradient(1100px 800px at 70% 95%, #D9781F 0%, rgba(217,120,31,0) 60%),
+    radial-gradient(800px 500px at 25% 80%, #F3B65A 0%, rgba(243,182,90,0) 60%),
+    linear-gradient(160deg, #FFE9BF 0%, #F6BF5C 45%, #E48A2A 100%);
+}
+body::before{ /* silk sweep */
+  content:""; position:absolute; inset:-20%; pointer-events:none;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.35) 46%, rgba(255,255,255,0) 52%),
+    linear-gradient(105deg, rgba(120,60,10,0) 55%, rgba(120,60,10,.10) 66%, rgba(120,60,10,0) 74%);
+  transform:rotate(-6deg);
+}
+body::after{ /* fine grain */
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.18; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0 0.05 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* menubar */
+.bar{
+  position:absolute; top:0; left:0; right:0; height:40px; z-index:50;
+  display:flex; align-items:center; gap:22px; padding:0 18px;
+  background:rgba(255,248,236,.55); backdrop-filter:blur(18px) saturate(1.3);
+  border-bottom:1px solid rgba(255,255,255,.5); font-size:14px; font-weight:500;
+}
+.bar .brand{font-family:var(--font-d); font-weight:800; font-size:18px; letter-spacing:.02em}
+.bar button{all:unset; cursor:pointer; padding:4px 6px; border-radius:6px}
+.bar button:hover,.bar button:focus-visible{background:rgba(255,255,255,.6); outline:none}
+.bar button:disabled{opacity:.45; cursor:default}
+.bar .right{margin-left:auto; display:flex; gap:16px; color:var(--ink-2)}
+.bar .site-tools{
+  display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:999px;
+  background:rgba(255,255,255,.7); border:1px solid rgba(200,140,60,.35); color:var(--ink); font-size:12.5px;
+}
+.bar .site-tools i{width:7px;height:7px;border-radius:50%;background:#BBB;display:inline-block}
+.bar .site-tools.on i{background:var(--go); box-shadow:0 0 0 3px rgba(47,143,91,.2)}
+
+/* windows */
+.win{
+  position:absolute; z-index:10; min-width:260px;
+  background:var(--glass); backdrop-filter:blur(26px) saturate(1.4);
+  border:1px solid var(--glass-edge); border-radius:18px;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 28px 60px -18px rgba(120,60,10,.45), 0 8px 18px -8px rgba(120,60,10,.25);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.win.focus{box-shadow:0 1px 0 rgba(255,255,255,.8) inset, 0 40px 80px -20px rgba(120,60,10,.55), 0 10px 24px -8px rgba(120,60,10,.3)}
+.win.hidden{display:none}
+.win .head{
+  display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:grab; user-select:none;
+  border-bottom:1px solid rgba(180,130,60,.18); background:rgba(255,255,255,.35);
+}
+.win .head:active{cursor:grabbing}
+.win .head .title{font-family:var(--font-d); font-size:17px; font-weight:700; letter-spacing:.01em}
+.win .head .sub{color:var(--ink-2); font-size:12.5px; margin-left:auto}
+.lights{display:flex; gap:6px}
+.lights button{all:unset; width:12px;height:12px;border-radius:50%; cursor:pointer}
+.lights .x{background:#EE6A5F}.lights .m{background:#F5BF4F}
+.lights button:focus-visible{outline:2px solid var(--ink); outline-offset:1px}
+.win .body{padding:14px; flex:1; min-height:0}
+
+/* rink window */
+#w-rink{left:40px; top:64px; width:min(880px, calc(100vw - 80px))}
+#w-rink .body{padding:10px 14px 14px}
+#rink{width:100%; height:auto; display:block}
+.sheet{fill:url(#iceg); stroke:var(--ice-edge); stroke-width:2}
+.sheet-inner{fill:none; stroke:#fff; stroke-width:3; opacity:.7}
+.line.red{stroke:var(--line-red)} .line.blue{stroke:var(--line-blue)} .line.dash{stroke:#fff}
+.dot{fill:var(--line-blue); opacity:.8}
+.crease{fill:var(--crease); stroke:var(--line-red); stroke-width:2}
+.net{fill:none; stroke:var(--line-red); stroke-width:2}
+
+.legend{display:flex; gap:18px; font-size:12.5px; color:var(--ink-2); margin-top:8px; align-items:center; flex-wrap:wrap}
+.legend .sw{width:26px;height:12px;border-radius:6px;display:inline-block;vertical-align:middle;margin-right:6px;border:1px solid rgba(43,94,158,.25)}
+.legend .gloss{background:linear-gradient(180deg,#fff,#dbeefb)}
+.legend .chew{background:repeating-linear-gradient(135deg,#eaf1f5 0 2px,#b9c9d4 2px 3px)}
+.legend b.warn{color:var(--warn)} .legend b.stream{color:var(--blue)}
+.strips{display:grid; grid-template-columns:1fr auto; gap:10px; margin-top:10px}
+.strip{border-radius:12px; padding:8px 10px; background:rgba(255,255,255,.5); border:1px solid rgba(180,130,60,.18)}
+.strip.ir{border-color:rgba(181,38,44,.45); background:rgba(255,236,236,.6)}
+.strip h4{margin:0 0 6px; font-family:var(--font-d); font-weight:700; font-size:14px; color:var(--ink-2)}
+.chips{display:flex; gap:8px; flex-wrap:wrap}
+.chip{
+  display:inline-flex; align-items:center; gap:7px; padding:4px 9px 4px 5px; border-radius:999px;
+  background:#fff; border:1px solid rgba(43,32,22,.12); font-size:12.5px; cursor:default; color:var(--ink);
+}
+.chip b{font-family:var(--font-d); font-size:15px; background:var(--warn); color:#fff; width:26px; height:22px; border-radius:6px; display:grid; place-items:center}
+.chip small{color:var(--ink-2)}
+.empty{color:var(--ink-2); font-size:13.5px; line-height:1.5}
+
+/* skaters */
+.jersey{cursor:pointer; outline:none}
+.jersey:focus-visible .body{stroke:var(--ink); stroke-width:2.5}
+.jersey .body{fill:var(--c1); stroke:var(--jersey-edge); stroke-width:1.5}
+.jersey .stripe{fill:var(--c2)}
+.jersey .num{font-family:var(--font-d); font-weight:800; font-size:22px; fill:var(--jersey-ink); text-anchor:middle}
+.jersey .nm{font-family:var(--font-b); font-weight:600; font-size:11.5px; fill:var(--ink); text-anchor:middle; letter-spacing:.02em}
+.jersey .day{fill:var(--day-off)} .jersey .day.game{fill:var(--day-game)}
+.jersey .b2b{font-family:var(--font-d); font-weight:800; font-size:10px; fill:var(--warn); dominant-baseline:central}
+.badge-g circle{stroke:#fff; stroke-width:2} .badge-g.warn circle{fill:var(--warn)} .badge-g.stream circle{fill:var(--blue)}
+.badge-g .badge{font-size:12px; font-weight:700; text-anchor:middle; dominant-baseline:central; fill:#fff}
+
+/* spotlight */
+.shade{fill:var(--shade)}
+.callout rect{fill:var(--callout)}
+.callout text{fill:var(--callout-ink); font-family:var(--font-b); font-size:12.5px; font-weight:600}
+
+/* dock */
+.dock{
+  position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:40;
+  display:flex; gap:12px; padding:10px 14px; border-radius:22px;
+  background:rgba(255,248,236,.55); backdrop-filter:blur(20px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.6); box-shadow:0 20px 40px -16px rgba(120,60,10,.4);
+}
+.dock button{
+  all:unset; cursor:pointer; width:58px; height:58px; border-radius:16px; display:grid; place-items:center; position:relative;
+  background:linear-gradient(160deg, #fff 0%, #FDE7C0 100%); box-shadow:0 6px 14px -6px rgba(120,60,10,.5), 0 1px 0 #fff inset;
+  transition:transform .18s ease;
+}
+.dock button:hover,.dock button:focus-visible{transform:translateY(-6px) scale(1.06); outline:none}
+.dock button:disabled{opacity:.5; cursor:default; transform:none}
+.dock button svg{width:32px;height:32px}
+.dock button::after{content:""; position:absolute; bottom:-7px; width:5px; height:5px; border-radius:50%; background:var(--ink); opacity:0}
+.dock button.open::after{opacity:.7}
+.dock button span{position:absolute; top:-30px; font-size:12px; padding:3px 8px; border-radius:6px; background:var(--ink); color:#fff; opacity:0; pointer-events:none; white-space:nowrap}
+.dock button:hover span{opacity:1}
+
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }

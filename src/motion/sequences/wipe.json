@@ -1,0 +1,6 @@
+{
+  "name": "wipe",
+  "steps": [
+    { "at": 0.0, "target": "ice", "do": "fade_in", "duration": 0.35 }
+  ]
+}

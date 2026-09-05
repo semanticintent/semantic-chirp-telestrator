@@ -1,0 +1,8 @@
+{
+  "name": "circle",
+  "steps": [
+    { "at": 0.0, "target": "shade",   "do": "fade_in", "duration": 0.35 },
+    { "at": 0.0, "target": "hole",    "do": "sweep",   "duration": 0.7, "ease": "power3.inOut" },
+    { "at": 0.5, "target": "callout", "do": "fade_in", "duration": 0.3 }
+  ]
+}

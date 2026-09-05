@@ -10,12 +10,13 @@ Last updated 2026-09-04. Decisions referenced as Dn are in `docs/decisions.md`.
 
 - Design docs, pattern, and a visual mockup exist (from a Claude Desktop session that had not seen the CHIRP codebase).
 - The read contract is drafted at `contracts/read.schema.json` v0.1 and two fixtures validate against it.
-- No code, no dependencies, no remote yet.
+- **S1 done 2026-09-04.** Scaffold, contract test, rink/spot/strips/chrome views, `cue_roster` `read_ice` `circle` `wipe`, runner with three sequence files, no-opinions text-node test, three scenarios with screenshots, single-file build. 161 unit tests, 5 scenarios, all green. Runner-as-data held: no sequence needed a value.
+- No GitHub remote yet (D14).
 - CHIRP today returns analysis objects as JSON in a text block. It has no output schemas and no per-skater-per-day schedule shape. Its schedule service is club-level and its lineup analysis checks only today. That gap is the analyst track.
 
 ## Screen track (this repo)
 
-### S1 — Prove every layer once
+### S1 — Prove every layer once — done
 
 Read `CLAUDE.md`, `ARCHITECTURE.md`, `docs/` in that order. Then:
 

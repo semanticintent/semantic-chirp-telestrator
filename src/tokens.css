@@ -1,0 +1,23 @@
+/* Every colour, face, and glass value the telestrator uses. Nothing else defines a colour. */
+:root {
+  /* the warm desktop */
+  --sun: #F7C56A; --amber: #E89A3C; --honey: #FBE7BF; --cream: #FFF8EC; --ember: #C8561E;
+  --ink: #2B2016; --ink-2: #6B5842;
+  --glass: rgba(255, 250, 241, .74); --glass-edge: rgba(255, 255, 255, .65);
+  --go: #2F8F5B; --hold: #C85A2A; --warn: #B5262C; --blue: #2B5E9E;
+
+  /* the ice */
+  --ice: #EEF6FB; --ice-2: #D7E9F4; --ice-edge: #9FB9CC;
+  --line-red: #C8102E; --line-blue: #2B5E9E; --crease: rgba(80, 160, 230, .25);
+  --shade: rgba(60, 35, 10, .5); --callout: #2B2016; --callout-ink: #fff;
+  --day-off: rgba(43, 32, 22, .18); --day-game: #2B5E9E;
+
+  /* jerseys: generic shapes in club colours. --c1 body, --c2 stripe. */
+  --jersey-edge: rgba(0, 0, 0, .3); --jersey-ink: #fff;
+  --club-none-1: #8A8F99; --club-none-2: #E6E8EC;
+  --club-CGY-1: #B5262C; --club-CGY-2: #F7C56A;
+
+  /* type */
+  --font-d: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-b: "Barlow", system-ui, sans-serif;
+}

@@ -170,27 +170,38 @@ Six steps, each in one predictable place.
 telestrator/
   CLAUDE.md
   ARCHITECTURE.md              this file
+  index.html                   the shell: menubar, window frames, static ice sheet, dock
   docs/
     overview.md                what we're after
     pattern.md                 the telestrator pattern
-    grammar.md                 generated from grammar.js
+    decisions.md               what is settled, what is open
+    plan.md                    the two tracks
+    grammar.md                 generated from grammar.js (not yet generated)
   contracts/read.schema.json
   fixtures/*.json
   scenarios/*.txt
   src/
-    copy.js                    every static string the interface shows
+    main.js                    boot; the viewer's touches; window.telestrator
+    dispatch.js                the one path: handler → render(touches) → play → ack
     state.js
     grammar.js
     render.js
-    views/                     rink.js panel.js hand.js replay.js console.js
-    motion/runner.js
-    motion/sequences/*.json
-    webmcp.js
-    tokens.css
+    layout.js                  the formation: where each slot stands
+    fixtures.js                fixtures by name
+    copy.js                    every static string the interface shows
     html.js                    template helper
+    views/                     index.js chrome.js rink.js spot.js strips.js  (S2: replay.js; S3: panel.js hand.js console.js)
+    motion/runner.js
+    motion/sequences/*.json    read_ice circle wipe
+    tokens.css                 colours, type, glass
+    screen.css                 the desktop, windows, dock, rink classes
   test/
+    contract.spec.js views.spec.js no-opinions.spec.js   (vitest)
+    scenarios.spec.js                                    (playwright → test/shots/)
   dist/telestrator.html        single-file build for sharing
 ```
+
+The rink window is three views, not one: `rink` (ice patches and jerseys), `spot` (the spotlight), `strips` (legend, bench, IR), plus `chrome` for the subtitle. `circle` touches only `spot`, so a circle never rebuilds the skaters under it.
 
 ## Boundaries
 
