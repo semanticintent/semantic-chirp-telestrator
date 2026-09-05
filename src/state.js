@@ -1,6 +1,6 @@
 // The whole show as one plain object. Nothing lives in the DOM that is not derivable from here.
 export const WINDOWS = ['rink', 'panel', 'hand', 'replay', 'console'];       // the pen's windows: cut_to can reach these
-export const SHELL_WINDOWS = ['welcome', 'about'];                           // the viewer's: menus and hashes open these
+export const SHELL_WINDOWS = ['welcome', 'about', 'paste'];                           // the viewer's: menus and hashes open these
 
 export function initialState() {
   return {

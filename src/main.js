@@ -41,9 +41,8 @@ document.addEventListener('click', (e) => {
   if (aboutOpener) return showAbout(aboutOpener.dataset.openAbout);
   if (e.target.closest('[data-sample]')) return (async () => { await run('cue_roster cgy-week1'); await run('read_ice'); })();
   if (e.target.closest('[data-paste]')) {
-    touch((s) => open(s, 'console'));
-    const details = document.getElementById('paste'); if (details) details.open = true;
-    document.getElementById('paste-in')?.focus();
+    touch((s) => open(s, 'paste'));
+    document.getElementById('paste-in')?.focus({ preventScroll: true }); // never scroll the desktop
     return;
   }
   const opener = e.target.closest('[data-open]');

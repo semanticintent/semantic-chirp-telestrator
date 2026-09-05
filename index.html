@@ -13,6 +13,7 @@
     <div class="menu-list" role="menu">
       <button role="menuitem" data-open="welcome">Start here</button>
       <button role="menuitem" data-sample>Load a sample week</button>
+      <button role="menuitem" data-paste>Paste a lineup</button>
       <hr>
       <button role="menuitem" data-open-about="about">About Sepiola</button>
       <button role="menuitem" data-open-about="quickStart">Quick start</button>
@@ -152,11 +153,19 @@
       <input id="cmd-in" placeholder="read_ice" aria-label="Move" autocomplete="off" spellcheck="false">
       <button type="submit">Run</button>
     </form>
-    <details class="paste" id="paste">
-      <summary>Paste a lineup</summary>
-      <textarea id="paste-in" rows="5" aria-label="Pasted lineup" placeholder="One player per line, any format." spellcheck="false"></textarea>
-      <button type="button" id="paste-go">Cue it</button>
-    </details>
+    <button type="button" class="paste-open" data-paste>Paste a lineup</button>
+  </div>
+</section>
+
+<!-- PASTE: the live way in; its own window so the console never grows past the screen -->
+<section class="win hidden" id="w-paste" data-name="paste" tabindex="0">
+  <div class="head">
+    <div class="lights"><button class="x" aria-label="Close" data-close="paste"></button><button class="m" aria-label="Minimize" data-close="paste"></button></div>
+    <span class="title">Paste a lineup</span><span class="sub">any platform, one player per line</span>
+  </div>
+  <div class="body paste">
+    <textarea id="paste-in" rows="9" aria-label="Pasted lineup" placeholder="One player per line, any format." spellcheck="false"></textarea>
+    <div class="paste-row"><small>Names resolve against the NHL's public player index. Lines that do not resolve are shown on the panel, never dropped.</small><button type="button" id="paste-go">Cue it</button></div>
   </div>
 </section>
 

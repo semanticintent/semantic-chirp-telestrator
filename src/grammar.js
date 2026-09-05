@@ -19,7 +19,7 @@ export const grammar = [
     prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text }) }),
     handler(state, { read, fixture, text }) {
       const source = fixture ? { mode: 'fixture', fixture } : { mode: 'live', text };
-      return close(open({ ...state, read, source, ice: false, circle: null, replay: null }, 'rink'), 'welcome');
+      return close(close(open({ ...state, read, source, ice: false, circle: null, replay: null }, 'rink'), 'welcome'), 'paste');
     },
     ack: (s) => ({ cued: s.read.analysis_id, skaters: s.read.skaters.length }),
   },
