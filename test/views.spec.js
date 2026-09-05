@@ -14,7 +14,11 @@ export function states(name, read) {
   const circled = findMove('circle').handler(iced, { ids: [onIce(read).id] });
   const worded = findMove('circle').handler(iced, { ids: [onIce(read).id], reason: 'the pen said so' });
   const wiped = findMove('wipe').handler(circled, {});
-  return { empty, cued, iced, circled, worded, wiped };
+  const [a, b] = read.verdicts.find((v) => v.ids.length === 2)?.ids ?? [read.skaters[0].id, read.skaters[1].id];
+  const replayed = findMove('replay').handler(iced, { id: a });
+  const split = findMove('split').handler(iced, { a, b });
+  const unmatched = findMove('split').handler(iced, { a: read.skaters.at(-1).id, b: read.skaters.at(-2).id });
+  return { empty, cued, iced, circled, worded, wiped, replayed, split, unmatched };
 }
 
 describe('views', () => {
@@ -35,6 +39,16 @@ describe('views', () => {
     });
     it(`spot is empty over ${name} after a wipe`, () => {
       expect(String(views.spot(states(name, read).wiped))).toBe('');
+    });
+    it(`replay over ${name} shows the analyst's verdict for a known pair and none for an unknown one`, () => {
+      const { split, unmatched, replayed } = states(name, read);
+      const pair = read.verdicts.find((v) => v.ids.length === 2);
+      if (pair) expect(String(views.replay(split))).toContain(pair.line);
+      expect(String(views.replay(unmatched))).not.toContain('verdict-t');
+      expect(String(views.replay(replayed)).match(/class="row"/g)).toHaveLength(1);
+      expect(String(views.replay(split)).match(/class="row"/g)).toHaveLength(2);
+      expect(String(views.replay(states(name, read).wiped))).toBe('');
+      expect(String(views.replay(split))).toContain('data-seq="tile"'); // the runner's target, unescaped
     });
   }
 

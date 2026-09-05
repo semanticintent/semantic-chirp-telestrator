@@ -2,7 +2,7 @@
 
 *Short records of the choices that shape everything downstream. One entry per decision. Append; do not rewrite history. Status is `decided`, `open`, or `superseded by Dn`.*
 
-Last updated 2026-09-04.
+Last updated 2026-09-04 (evening).
 
 ---
 
@@ -66,10 +66,18 @@ Vanilla ES modules, SVG, GSAP (npm, bundled), Vite, `vite-plugin-singlefile` for
 
 Recommendation: public under `semanticintent/semantic-chirp-telestrator`, MIT, matching the CHIRP repo. Create after task 1 lands so the first public commit already runs. **Needs a yes.**
 
-## D15 — Where the page is hosted — open
+## D15 — Where the page is hosted — decided
 
-Recommendation: Cloudflare Pages (existing infra) as the canonical URL, plus registration with whichever WebMCP hosts are live at task 4. The overview names ChatGPT Sites; verify its current status and publishing model before committing to it. **Needs a decision at task 4, not now.**
+Cloudflare Pages is the canonical URL (existing infra, same as the CHIRP docs site). The single-file `dist/telestrator.html` is what gets deployed. Registration with whichever WebMCP hosts are live happens at S4; the overview's ChatGPT Sites claim is verified then, not assumed.
 
-## D16 — WebMCP API surface — open
+## D16 — WebMCP API surface — verified, closed
 
-The mockup calls `navigator.modelContext.registerTool({ name, description, inputSchema, execute })`. Verify against the current spec and the Chrome origin-trial shape before task 4. Registration is generated from `grammar.js`, so a signature change is one adapter, not a rewrite. **Verify, then close.**
+Checked 2026-09-04 against secondary sources on the W3C Community Group Draft Report (latest publication 23 April 2026). The mockup's shape is current: `navigator.modelContext.registerTool({ name, description, inputSchema, execute })`, with `unregisterTool(name)`. `provideContext()` and `clearContext()` were removed in the March 2026 revision. Chrome 146 stable (10 March 2026) ships WebMCP behind the `enable-webmcp-testing` flag, off by default. So S4 targets that flag for local demos and treats other hosts as verify-at-the-time. `src/webmcp.js` derives registration from `grammar.js`, so a later signature change is one adapter. Re-check the primary spec text at S4 before shipping.
+
+## D17 — Generated docs live in `scripts/` — decided
+
+`scripts/grammar-doc.mjs` writes `docs/grammar.md` from `grammar.js` (via Vite's SSR loader so `import.meta.glob` resolves). `test/grammar.spec.js` fails if the doc drifts. New top-level directory added under the standing "make your best call" on S1 follow-ups.
+
+## D18 — Replay bars are one colour — decided
+
+The mockup coloured the first skater's projected-points bar green and the second grey, which hints at a favourite. Under D6 the screen picks no favourite, so both bars are the same amber. The analyst's verdict line is the only place a call appears.

@@ -11,7 +11,8 @@ Last updated 2026-09-04. Decisions referenced as Dn are in `docs/decisions.md`.
 - Design docs, pattern, and a visual mockup exist (from a Claude Desktop session that had not seen the CHIRP codebase).
 - The read contract is drafted at `contracts/read.schema.json` v0.1 and two fixtures validate against it.
 - **S1 done 2026-09-04.** Scaffold, contract test, rink/spot/strips/chrome views, `cue_roster` `read_ice` `circle` `wipe`, runner with three sequence files, no-opinions text-node test, three scenarios with screenshots, single-file build. 161 unit tests, 5 scenarios, all green. Runner-as-data held: no sequence needed a value.
-- No GitHub remote yet (D14).
+- **S2 done 2026-09-04.** `replay`, `split`, the replay view, `flip`/`drop` verbs, verdict lookup by id set. 298 unit tests, 7 scenarios, green. `docs/grammar.md` now generated and drift-tested.
+- **A1 done 2026-09-04** on a CHIRP branch: vendored schema + README + a test that pins the version and byte-diffs against a sibling checkout.
 - CHIRP today returns analysis objects as JSON in a text block. It has no output schemas and no per-skater-per-day schedule shape. Its schedule service is club-level and its lineup analysis checks only today. That gap is the analyst track.
 
 ## Screen track (this repo)
@@ -32,7 +33,7 @@ Read `CLAUDE.md`, `ARCHITECTURE.md`, `docs/` in that order. Then:
 
 Done when: tests green, both scenarios produce screenshots, and the report describes what the screenshots show. If the runner-as-data idea has a flaw, S1 finds it before five views depend on it.
 
-### S2 — Replay and split
+### S2 — Replay and split — done 2026-09-04
 
 `replay`, `split` in the grammar (D6). `src/views/replay.js`. Sequence verbs `flip`, `count_up`, `fill`, `drop`. Verdict lookup by id set. Scenario with a single replay, a split with a matching pair verdict, and a split with no matching verdict.
 
@@ -46,7 +47,7 @@ Verify the API surface (D16). `src/webmcp.js` derives registration from `grammar
 
 ## Analyst track (CHIRP repo, `semantic-chirp-intelligence-mcp`)
 
-### A1 — Vendor the contract
+### A1 — Vendor the contract — done 2026-09-04 (CHIRP branch `feat/read-contract`, not yet pushed)
 
 Copy `contracts/read.schema.json` into CHIRP and add the byte-diff test (D2). Small PR, no behaviour change.
 

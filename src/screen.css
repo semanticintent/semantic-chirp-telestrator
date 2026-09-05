@@ -110,6 +110,21 @@ body::after{ /* fine grain */
 .callout rect{fill:var(--callout)}
 .callout text{fill:var(--callout-ink); font-family:var(--font-b); font-size:12.5px; font-weight:600}
 
+/* replay window */
+#w-replay{right:40px; top:64px; width:500px}
+#replay{width:100%; height:auto; display:block}
+.who{font-family:var(--font-d); font-weight:800; font-size:18px; fill:var(--ink)}
+.who-num{fill:var(--ink-2); font-size:15px}
+.rp-day{font-family:var(--font-d); font-weight:700; font-size:12px; fill:var(--ink-2); text-anchor:middle}
+.tile{fill:#fff; stroke:rgba(43,32,22,.15)}
+.tile.game{fill:var(--honey); stroke:var(--amber)}
+.tile-t{font-family:var(--font-d); font-weight:800; font-size:14px; fill:var(--ink); text-anchor:middle; dominant-baseline:central}
+.rsn{font-family:var(--font-b); font-size:12px; fill:var(--ink-2)}
+.track{fill:rgba(43,32,22,.08)}
+.bar{fill:var(--amber)}
+.pts{font-family:var(--font-d); font-weight:800; font-size:16px; fill:var(--ink)}
+.verdict-t{font-family:var(--font-d); font-weight:800; font-size:22px; fill:var(--go)}
+
 /* dock */
 .dock{
   position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:40;

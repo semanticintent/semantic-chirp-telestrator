@@ -1,0 +1,4 @@
+cue_roster cgy-week1
+read_ice
+replay gridin
+replay huberdeau

@@ -1,0 +1,11 @@
+{
+  "name": "replay",
+  "steps": [
+    { "at": 0.1, "target": "tile",    "do": "flip",    "duration": 0.3, "stagger": 0.1, "ease": "back.out(1.6)" },
+    { "at": 0.1, "target": "tile_t",  "do": "fade_in", "duration": 0.25, "stagger": 0.1 },
+    { "at": 1.0, "target": "count",   "do": "fade_in", "duration": 0.3, "stagger": 0.4 },
+    { "at": 1.2, "target": "bar",     "do": "fill",    "duration": 0.6, "stagger": 0.4, "ease": "power3.out" },
+    { "at": 1.5, "target": "pts",     "do": "fade_in", "duration": 0.3, "stagger": 0.4 },
+    { "at": 2.6, "target": "verdict", "do": "drop",    "duration": 0.4 }
+  ]
+}

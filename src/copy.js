@@ -21,12 +21,20 @@ export const copy = {
     benchEmpty: 'Nobody on the bench.',
     irEmpty: 'Nobody in the box.',
   },
-  glyph: { warn: '!', stream: '↗', b2b: 'b2b' },
+  glyph: { warn: '!', stream: '↗', b2b: 'b2b', game: 'G' },
+  replay: {
+    title: 'Replay',
+    sub: 'run it back',
+    pts: '{pts} projected pts',
+    empty: 'Run it back on a skater and his week shows up here.',
+  },
   windows: { rink: 'Rink', panel: 'Panel', hand: 'Games in hand', replay: 'Replay', console: 'Console' },
   errors: {
     noRoster: 'Cue a roster first.',
     unknownFixture: 'No fixture called "{name}".',
     unknownSkater: 'No skater on the ice called "{id}".',
+    unknownId: 'No skater in the read called "{id}".',
+    sameSkater: 'Split needs two different skaters.',
     unknownMove: 'Unknown move "{name}".',
   },
 };

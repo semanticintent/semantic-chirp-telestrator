@@ -1,0 +1,39 @@
+// Run it back: one or two skaters' weeks as day tiles, the analyst's line, the projected-points bar, and the analyst's
+// closing verdict if there is one for exactly these ids. Renders into <svg data-view="replay">.
+// Both bars are the same colour on purpose: the screen does not hint at who it favours (D6).
+import { html } from '../html.js';
+import { copy, fill } from '../copy.js';
+import { skater, verdictFor } from '../state.js';
+
+// layout constants only
+const X0 = 10, TILE = 30, STEP = 40, ROW = 92, BAR_X = 380, BAR_W = 150, PTS_FULL = 6;
+
+export function replay(state) {
+  const r = state.replay;
+  if (!r || !state.read) return html``;
+  const read = state.read;
+  const rows = r.ids.map((id) => skater(state, id)).filter(Boolean);
+  const verdict = verdictFor(state);
+
+  const body = rows.map((s, i) => {
+    const y0 = 30 + i * ROW;
+    const w = Math.round(Math.min(BAR_W, (s.projected_pts / PTS_FULL) * BAR_W));
+    return html`<g class="row" data-id="${s.id}">
+      <text class="who" x="${X0}" y="${y0 - 4}"><tspan>${s.name}</tspan> <tspan class="who-num">${s.num ?? ''}</tspan></text>
+      ${read.window.labels.map((label, d) => {
+        const x = X0 + d * STEP;
+        const game = s.games[d];
+        return html`<text class="rp-day" x="${x + TILE / 2}" y="${y0 + 12}">${label}</text>
+          <rect class="tile${game ? ' game' : ''}" data-seq="${game ? 'tile' : ''}" x="${x}" y="${y0 + 18}" width="${TILE}" height="${TILE}" rx="7"/>
+          ${game ? html`<text class="tile-t" data-seq="tile_t" x="${x + TILE / 2}" y="${y0 + 33}">${copy.glyph.game}</text>` : ''}`;
+      })}
+      <text class="rsn" data-seq="count" x="${X0}" y="${y0 + 66}">${s.reason}</text>
+      <rect class="track" x="${BAR_X}" y="${y0 + 22}" width="${BAR_W}" height="20" rx="10"/>
+      <rect class="bar" data-seq="bar" data-to-width="${w}" x="${BAR_X}" y="${y0 + 22}" width="${w}" height="20" rx="10"/>
+      <text class="pts" data-seq="pts" x="${BAR_X}" y="${y0 + 60}">${fill(copy.replay.pts, { pts: s.projected_pts })}</text>
+    </g>`;
+  });
+
+  const vy = 30 + rows.length * ROW + 12;
+  return html`${body}${verdict ? html`<text class="verdict-t" data-seq="verdict" x="${X0}" y="${vy}">${verdict.line}</text>` : ''}`;
+}

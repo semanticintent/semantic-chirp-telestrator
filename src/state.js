@@ -13,6 +13,13 @@ export function initialState() {
 
 export const skater = (state, id) => state.read?.skaters.find((s) => s.id === id) ?? null;
 
+/** The analyst's closing line for the current replay: the verdict whose ids equal replay.ids as a set, or null. */
+export function verdictFor(state) {
+  const ids = state.replay?.ids;
+  if (!ids || !state.read) return null;
+  return state.read.verdicts.find((v) => v.ids.length === ids.length && ids.every((id) => v.ids.includes(id))) ?? null;
+}
+
 export function open(state, name) {
   const z = Math.max(...Object.values(state.windows).map((w) => w.z)) + 1;
   return { ...state, windows: { ...state.windows, [name]: { ...state.windows[name], open: true, z } } };

@@ -27,7 +27,9 @@ for (const file of scenarios) {
       await page.evaluate(() => window.telestrator.settled());
       const state = await page.evaluate(() => window.telestrator.state());
       if (line.startsWith('circle')) expect(state.circle?.id).toBe(line.split(/\s+/)[1]);
-      if (line.startsWith('wipe')) expect(state.circle).toBeNull();
+      if (line.startsWith('wipe')) { expect(state.circle).toBeNull(); expect(state.replay).toBeNull(); }
+      if (line.startsWith('split')) expect(state.replay?.ids).toEqual(line.split(/\s+/).slice(1, 3));
+      if (line.startsWith('replay')) expect(state.replay?.ids).toEqual([line.split(/\s+/)[1]]);
       await page.screenshot({ path: `test/shots/${name}-${String(i + 1).padStart(2, '0')}-${line.split(/\s+/)[0]}.png` });
     }
     expect(errors).toEqual([]);

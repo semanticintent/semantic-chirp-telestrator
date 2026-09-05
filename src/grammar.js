@@ -1,7 +1,7 @@
 // The only place a tool is defined. WebMCP registration, the console, the scenario runner, and docs/grammar.md derive from this array.
 // Handlers are pure: (state, input) → state. They never touch the DOM. They throw MoveError with a line from copy when a move cannot be made.
 import { fixtures } from './fixtures.js';
-import { open, skater } from './state.js';
+import { open, skater, verdictFor } from './state.js';
 import { copy, fill } from './copy.js';
 
 export class MoveError extends Error {}
@@ -58,12 +58,43 @@ export const grammar = [
     ack: (s) => ({ circled: s.circle.id, reason: s.circle.reason ?? skater(s, s.circle.id).reason }),
   },
   {
+    name: 'replay',
+    move: 'Run it back',
+    description: 'Stage the reasoning behind one skater: his week, the analyst\'s line, his projected points, and the call if the analyst made one.',
+    input: { id: 'string' },
+    positional: ['id'],
+    touches: ['replay'],
+    sequence: 'replay',
+    handler(state, { id }) {
+      if (!state.read) refuse(copy.errors.noRoster);
+      if (!skater(state, id)) refuse(copy.errors.unknownId, { id });
+      return open({ ...state, replay: { ids: [id] } }, 'replay');
+    },
+    ack: (s) => ({ replayed: s.replay.ids[0], verdict: verdictFor(s)?.line ?? null }),
+  },
+  {
+    name: 'split',
+    move: 'Split screen',
+    description: 'Two skaters\' weeks side by side, then the analyst\'s call on who gets the start, if the analyst made one.',
+    input: { a: 'string', b: 'string' },
+    positional: ['a', 'b'],
+    touches: ['replay'],
+    sequence: 'replay',
+    handler(state, { a, b }) {
+      if (!state.read) refuse(copy.errors.noRoster);
+      for (const id of [a, b]) if (!skater(state, id)) refuse(copy.errors.unknownId, { id });
+      if (a === b) refuse(copy.errors.sameSkater);
+      return open({ ...state, replay: { ids: [a, b] } }, 'replay');
+    },
+    ack: (s) => ({ split: s.replay.ids, verdict: verdictFor(s)?.line ?? null }),
+  },
+  {
     name: 'wipe',
     move: 'Wipe',
     description: 'Clean the screen. The roster stays cued; the read, the circle, and the replay are cleared.',
     input: {},
     positional: [],
-    touches: ['chrome', 'rink', 'spot', 'strips'],
+    touches: ['chrome', 'rink', 'spot', 'strips', 'replay'],
     sequence: 'wipe',
     handler(state) {
       return { ...state, ice: false, circle: null, replay: null };

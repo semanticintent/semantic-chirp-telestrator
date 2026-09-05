@@ -1,0 +1,7 @@
+cue_roster cgy-week1
+read_ice
+circle zary
+split gridin zary
+split coronato strome
+split bahl miromanov
+wipe

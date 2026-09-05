@@ -13,8 +13,10 @@ export const VERBS = {
   fade_in: (tl, els, s) => tl.fromTo(els, { opacity: 0 }, { opacity: 1, duration: s.duration, ease: s.ease }, s.at),
   fade_out: (tl, els, s) => tl.to(els, { opacity: 0, duration: s.duration, ease: s.ease }, s.at),
   dim: (tl, els, s) => tl.to(els, { opacity: 0.35, duration: s.duration, ease: s.ease }, s.at),
-  sweep: (tl, els, s) => els.forEach((el) => tl.fromTo(el, { attr: { r: 0 } }, { attr: { r: +el.getAttribute('r') }, duration: s.duration, ease: s.ease }, s.at)),
-  fill: (tl, els, s) => els.forEach((el) => tl.fromTo(el, { attr: { width: 0 } }, { attr: { width: +el.dataset.toWidth }, duration: s.duration, ease: s.ease }, s.at)),
+  sweep: (tl, els, s) => tl.fromTo(els, { attr: { r: 0 } }, { attr: { r: (i, el) => +el.getAttribute('r') }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
+  fill: (tl, els, s) => tl.fromTo(els, { attr: { width: 0 } }, { attr: { width: (i, el) => +el.dataset.toWidth }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
+  flip: (tl, els, s) => tl.fromTo(els, { scale: 0.6, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
+  drop: (tl, els, s) => tl.fromTo(els, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
 };
 
 let active = [];
