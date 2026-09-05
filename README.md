@@ -141,9 +141,9 @@ Built and live: the screen at sepiola.semanticintent.dev, the analyst at chirp-m
 - [docs/plan.md](docs/plan.md) — the two tracks, what's done, what's next
 - [CLAUDE.md](CLAUDE.md) — working instructions for a model in this repo
 
-## Paper and citation
+## Essay, paper, and citation
 
-The pattern is written up as a short paper, [docs/paper/telestrator-pattern.md](docs/paper/telestrator-pattern.md): context, forces, the pattern, this worked example, and six things building it taught. Cite the software with [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this repository" button). Archived on Zenodo: concept DOI [10.5281/zenodo.22387039](https://doi.org/10.5281/zenodo.22387039) for all versions, [10.5281/zenodo.22387040](https://doi.org/10.5281/zenodo.22387040) for 0.1.0.
+The story of building it is an essay on semanticintent.dev: [The Screen That Has No Opinions](https://semanticintent.dev/writing/sepiola-screen-has-no-opinions). The pattern is written up as a short paper, [docs/paper/telestrator-pattern.md](docs/paper/telestrator-pattern.md): context, forces, the pattern, this worked example, and six things building it taught. Cite the software with [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this repository" button). Archived on Zenodo: concept DOI [10.5281/zenodo.22387039](https://doi.org/10.5281/zenodo.22387039) for all versions, [10.5281/zenodo.22387040](https://doi.org/10.5281/zenodo.22387040) for 0.1.0.
 
 ## Licence
 
