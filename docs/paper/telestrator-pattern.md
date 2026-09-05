@@ -1,7 +1,8 @@
 # The Telestrator: A WebMCP Pattern Where the Page Is the Screen, Not the Actor
 
 **Michael Shatny** · Semantic Intent · ORCID 0009-0006-2011-3258
-Version 0.1.0 · 5 September 2026 · Reference implementation: Sepiola, https://sepiola.semanticintent.dev
+Version 0.1.0 · 5 September 2026 · DOI https://doi.org/10.5281/zenodo.22387039 (this version: 10.5281/zenodo.22387040)
+Reference implementation: Sepiola, https://sepiola.semanticintent.dev
 
 ## Abstract
 

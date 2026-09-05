@@ -2,6 +2,8 @@
 
 # Sepiola
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22387039.svg)](https://doi.org/10.5281/zenodo.22387039)
+
 **A WebMCP telestrator: a page that draws an analyst's read onto a persistent screen.** The analyst decides. The agent draws. The screen has no opinions.
 
 The first analyst is [CHIRP](https://github.com/semanticintent/semantic-chirp-intelligence-mcp), a fantasy-hockey intelligence MCP server. Its read of your week — who plays, who sits on a back-to-back, who to stream, games in hand — used to arrive as a paragraph in a chat window. Here it arrives as a rink.
@@ -141,7 +143,7 @@ Built and live: the screen at sepiola.semanticintent.dev, the analyst at chirp-m
 
 ## Paper and citation
 
-The pattern is written up as a short paper, [docs/paper/telestrator-pattern.md](docs/paper/telestrator-pattern.md): context, forces, the pattern, this worked example, and six things building it taught. Cite the software with [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this repository" button).
+The pattern is written up as a short paper, [docs/paper/telestrator-pattern.md](docs/paper/telestrator-pattern.md): context, forces, the pattern, this worked example, and six things building it taught. Cite the software with [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this repository" button). Archived on Zenodo: concept DOI [10.5281/zenodo.22387039](https://doi.org/10.5281/zenodo.22387039) for all versions, [10.5281/zenodo.22387040](https://doi.org/10.5281/zenodo.22387040) for 0.1.0.
 
 ## Licence
 

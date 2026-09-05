@@ -20,6 +20,7 @@ authors:
 version: 0.1.0
 date-released: 2026-09-05
 license: MIT
+doi: "10.5281/zenodo.22387040"
 repository-code: "https://github.com/semanticintent/sepiola"
 url: "https://sepiola.semanticintent.dev"
 keywords:

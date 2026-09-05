@@ -46,6 +46,7 @@ Paste a lineup. The ice under each skater shows his schedule. Click a skater and
 
 Try it → sepiola.semanticintent.dev
 Source → github.com/semanticintent/sepiola
+Paper → doi.org/10.5281/zenodo.22387039
 Nth in a series. (First: ForageCast.)
 
 — Michael Shatny
