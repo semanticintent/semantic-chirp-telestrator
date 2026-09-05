@@ -28,6 +28,21 @@ export const copy = {
     pts: '{pts} projected pts',
     empty: 'Run it back on a skater and his week shows up here.',
   },
+  panel: {
+    empty: 'Nothing read yet. Run read_ice, or let your agent call it.',
+    start: 'Start', sit: 'Sit', ir: 'IR', stream: 'Stream',
+    why: 'why',
+  },
+  hand: {
+    empty: 'Run the ice to see the edge.',
+    you: 'You', opp: 'Opp',
+  },
+  console: {
+    ready: 'Talkback ready. One move per line.',
+    hint: 'Moves:',
+    placeholder: 'read_ice',
+    run: 'Run',
+  },
   windows: { rink: 'Rink', panel: 'Panel', hand: 'Games in hand', replay: 'Replay', console: 'Console' },
   errors: {
     noRoster: 'Cue a roster first.',
@@ -35,6 +50,7 @@ export const copy = {
     unknownSkater: 'No skater on the ice called "{id}".',
     unknownId: 'No skater in the read called "{id}".',
     sameSkater: 'Split needs two different skaters.',
+    unknownWindow: 'No window called "{view}". Try rink, panel, hand, replay, or console.',
     unknownMove: 'Unknown move "{name}".',
   },
 };

@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 import { views } from '../src/views/index.js';
 import { fixtures } from '../src/fixtures.js';
 import { leaves } from '../src/copy.js';
-import { states } from './views.spec.js';
+import { states } from './states.js';
 
 const UNESC = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
 const textNodes = (markup) => [...markup.matchAll(/>([^<>]+)</g)]
@@ -27,6 +27,7 @@ describe('no opinions', () => {
     allowed.add('the pen said so'); // the pen's own reason in the `worded` state
     for (const [label, state] of Object.entries(states(name, read))) {
       for (const [view, fn] of Object.entries(views)) {
+        if (view === 'console') continue; // the transcript echoes what was said; test/console.spec.js holds it to exactly that (D19)
         it(`${view} over ${name} when ${label} shows only the read and the copy`, () => {
           for (const text of textNodes(String(fn(state)))) {
             const ok = allowed.has(text) || templates.some((re) => re.test(text));

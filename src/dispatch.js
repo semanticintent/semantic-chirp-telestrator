@@ -9,19 +9,27 @@ import { play } from './motion/runner.js';
 let state = initialState();
 export const getState = () => state;
 
-/** Make a move by name with a structured input. Returns the ack, or { error } with a line from copy. */
-export async function call(name, input = {}) {
+const describe = (name, input) => `${name} ${JSON.stringify(input)}`;
+
+/** Make a move by name with a structured input. Returns the ack, or { error } with a line from copy.
+ *  Every call, from any caller, lands in the transcript (state.log) and re-renders the console. */
+export async function call(name, input = {}, line = describe(name, input)) {
   const move = findMove(name);
-  if (!move) return { error: fill(copy.errors.unknownMove, { name }) };
-  try {
-    state = move.handler(state, input);
-  } catch (e) {
-    if (e instanceof MoveError) return { error: e.message };
-    throw e;
+  let ack = null;
+  if (!move) ack = { error: fill(copy.errors.unknownMove, { name }) };
+  else {
+    try {
+      state = move.handler(state, input);
+    } catch (e) {
+      if (e instanceof MoveError) ack = { error: e.message };
+      else throw e;
+    }
   }
-  render(state, move.touches);
-  if (move.sequence) play(move.sequence);
-  return move.ack(state);
+  ack ??= move.ack(state);
+  state = { ...state, log: [...state.log, { line, ack }].slice(-200) };
+  render(state, [...(ack.error ? [] : move.touches), 'console']);
+  if (!ack.error && move.sequence) play(move.sequence);
+  return ack;
 }
 
 /** Parse one line of a scenario or console script: `circle zary 2 games, back-to-back`. */
@@ -38,7 +46,7 @@ export function parseLine(line) {
   return { name, input };
 }
 
-export const run = (line) => { const { name, input } = parseLine(line); return call(name, input); };
+export const run = (line) => { const { name, input } = parseLine(line); return call(name, input, line.trim()); };
 
 /** A viewer's touch (open, close, drag) is a state change that is not a move. It renders chrome only. */
 export function touch(fn) {

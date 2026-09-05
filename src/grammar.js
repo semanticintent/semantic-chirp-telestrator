@@ -1,7 +1,7 @@
 // The only place a tool is defined. WebMCP registration, the console, the scenario runner, and docs/grammar.md derive from this array.
 // Handlers are pure: (state, input) → state. They never touch the DOM. They throw MoveError with a line from copy when a move cannot be made.
 import { fixtures } from './fixtures.js';
-import { open, skater, verdictFor } from './state.js';
+import { open, skater, verdictFor, WINDOWS } from './state.js';
 import { copy, fill } from './copy.js';
 
 export class MoveError extends Error {}
@@ -29,11 +29,11 @@ export const grammar = [
     description: 'Reveal the read: ice quality under the skates, badges, the calls, games in hand.',
     input: { look_ahead_days: 'number?' },
     positional: ['look_ahead_days'],
-    touches: ['chrome', 'rink', 'strips'],
+    touches: ['chrome', 'rink', 'strips', 'panel', 'hand'],
     sequence: 'read_ice',
     handler(state) {
       if (!state.read) refuse(copy.errors.noRoster);
-      return open({ ...state, ice: true }, 'rink');
+      return open(open(open({ ...state, ice: true }, 'hand'), 'panel'), 'rink');
     },
     ack: (s) => ({
       read: s.read.analysis_id,
@@ -45,7 +45,7 @@ export const grammar = [
     name: 'circle',
     move: 'Circle him',
     description: 'Spotlight one skater with the reason pinned above. Without a reason, the analyst\'s own line is used.',
-    input: { ids: 'string[]', reason: 'string?' },
+    input: { ids: 'id[]', reason: 'string?' },
     positional: ['ids[]', 'reason...'],
     touches: ['spot'],
     sequence: 'circle',
@@ -61,7 +61,7 @@ export const grammar = [
     name: 'replay',
     move: 'Run it back',
     description: 'Stage the reasoning behind one skater: his week, the analyst\'s line, his projected points, and the call if the analyst made one.',
-    input: { id: 'string' },
+    input: { id: 'id' },
     positional: ['id'],
     touches: ['replay'],
     sequence: 'replay',
@@ -76,7 +76,7 @@ export const grammar = [
     name: 'split',
     move: 'Split screen',
     description: 'Two skaters\' weeks side by side, then the analyst\'s call on who gets the start, if the analyst made one.',
-    input: { a: 'string', b: 'string' },
+    input: { a: 'id', b: 'id' },
     positional: ['a', 'b'],
     touches: ['replay'],
     sequence: 'replay',
@@ -89,12 +89,26 @@ export const grammar = [
     ack: (s) => ({ split: s.replay.ids, verdict: verdictFor(s)?.line ?? null }),
   },
   {
+    name: 'cut_to',
+    move: 'Cut to',
+    description: 'Bring a window forward: rink, panel, hand, replay, or console.',
+    input: { view: 'string' },
+    positional: ['view'],
+    touches: [],
+    sequence: null,
+    handler(state, { view }) {
+      if (!WINDOWS.includes(view)) refuse(copy.errors.unknownWindow, { view });
+      return open(state, view);
+    },
+    ack: (s) => ({ cut_to: Object.entries(s.windows).sort((a, b) => b[1].z - a[1].z)[0][0] }),
+  },
+  {
     name: 'wipe',
     move: 'Wipe',
     description: 'Clean the screen. The roster stays cued; the read, the circle, and the replay are cleared.',
     input: {},
     positional: [],
-    touches: ['chrome', 'rink', 'spot', 'strips', 'replay'],
+    touches: ['chrome', 'rink', 'spot', 'strips', 'replay', 'panel', 'hand'],
     sequence: 'wipe',
     handler(state) {
       return { ...state, ice: false, circle: null, replay: null };

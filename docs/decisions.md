@@ -81,3 +81,15 @@ Checked 2026-09-04 against secondary sources on the W3C Community Group Draft Re
 ## D18 — Replay bars are one colour — decided
 
 The mockup coloured the first skater's projected-points bar green and the second grey, which hints at a favourite. Under D6 the screen picks no favourite, so both bars are the same amber. The analyst's verdict line is the only place a call appears.
+
+## D19 — The console echoes, and is the one view exempt from the no-opinions test — decided
+
+The talkback console shows the transcript: every move made on this screen by anyone, and its ack. Those strings are not in the read and not in copy; they are what was said. So `test/no-opinions.spec.js` skips the console view, and `test/console.spec.js` holds it to exactly the transcript, the grammar-derived hints, and copy. Nothing else may appear there either.
+
+## D20 — The transcript lives in state — decided
+
+`state.log` is appended by `dispatch.call` after every move, from any caller (scenario runner, talkback, later WebMCP), never by a handler. `wipe` and `cue_roster` leave it alone. The console re-renders on every call regardless of the move's `touches`. Capped at 200 entries. Reload with the same state and the same transcript is on screen, which is what the pattern doc's screen-memory idea needs.
+
+## D21 — Talkback surnames are a console convenience, not a tool — decided
+
+Grammar inputs now have an `id` type (`id`, `id[]`). `src/talkback.js` swaps a typed surname for an id only where the grammar expects an id, only when it names exactly one skater in the read, and only on the console path. `run()` and `call()` never do this, so an agent must use ids (D3).

@@ -108,7 +108,7 @@
       "b2b": false,
       "schedule_value": 14,
       "flag": "warn",
-      "reason": "1 games this week",
+      "reason": "1 game this week",
       "ppg": 0.68,
       "projected_pts": 0.7,
       "note": null
@@ -326,7 +326,7 @@
       "ids": [
         "frost"
       ],
-      "line": "1 games. That's the whole argument."
+      "line": "1 game. That's the whole argument."
     },
     {
       "ids": [

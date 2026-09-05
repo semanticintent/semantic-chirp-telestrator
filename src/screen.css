@@ -87,8 +87,9 @@ body::after{ /* fine grain */
 .chips{display:flex; gap:8px; flex-wrap:wrap}
 .chip{
   display:inline-flex; align-items:center; gap:7px; padding:4px 9px 4px 5px; border-radius:999px;
-  background:#fff; border:1px solid rgba(43,32,22,.12); font-size:12.5px; cursor:default; color:var(--ink);
+  background:#fff; border:1px solid rgba(43,32,22,.12); font-size:12.5px; cursor:pointer; color:var(--ink);
 }
+.chip:hover{border-color:var(--amber)}
 .chip b{font-family:var(--font-d); font-size:15px; background:var(--warn); color:#fff; width:26px; height:22px; border-radius:6px; display:grid; place-items:center}
 .chip small{color:var(--ink-2)}
 .empty{color:var(--ink-2); font-size:13.5px; line-height:1.5}
@@ -111,7 +112,7 @@ body::after{ /* fine grain */
 .callout text{fill:var(--callout-ink); font-family:var(--font-b); font-size:12.5px; font-weight:600}
 
 /* replay window */
-#w-replay{right:40px; top:64px; width:500px}
+#w-replay{left:120px; top:420px; width:560px}
 #replay{width:100%; height:auto; display:block}
 .who{font-family:var(--font-d); font-weight:800; font-size:18px; fill:var(--ink)}
 .who-num{fill:var(--ink-2); font-size:15px}
@@ -124,6 +125,50 @@ body::after{ /* fine grain */
 .bar{fill:var(--amber)}
 .pts{font-family:var(--font-d); font-weight:800; font-size:16px; fill:var(--ink)}
 .verdict-t{font-family:var(--font-d); font-weight:800; font-size:22px; fill:var(--go)}
+
+/* panel */
+#w-panel{right:40px; top:64px; width:320px}
+.row{display:grid; grid-template-columns:64px 1fr auto; align-items:center; gap:10px; padding:8px 4px; border-bottom:1px solid rgba(180,130,60,.16); font-size:13.5px}
+.row:last-of-type{border-bottom:0}
+.row small{color:var(--ink-2)}
+.row .tag{font-family:var(--font-d); font-weight:800; font-size:15px; letter-spacing:.03em; padding:2px 8px; border-radius:6px; color:#fff; text-align:center}
+.tag.start{background:var(--go)}.tag.sit{background:var(--hold)}.tag.ir{background:var(--warn)}.tag.stream{background:var(--blue)}
+.row .why{all:unset; cursor:pointer; color:var(--blue); font-weight:600; font-size:12.5px; padding:3px 6px; border-radius:6px}
+.row .why:hover,.row .why:focus-visible{background:rgba(43,94,158,.1)}
+.quote{margin:12px 0 0; padding:10px 12px; border-left:3px solid var(--amber); background:rgba(255,255,255,.45); border-radius:0 10px 10px 0; font-size:13.5px; line-height:1.4}
+.source{margin:10px 0 0; font-size:11px; color:var(--ink-2); line-height:1.5}
+.source span+span::before{content:" · "}
+
+/* games in hand */
+#w-hand{right:40px; top:398px; width:320px}
+.gih{width:100%; height:auto; display:block; overflow:visible}
+.gih .lbl{font-family:var(--font-b); font-size:13.5px; fill:var(--ink)}
+.gih .track{fill:rgba(43,32,22,.08)}
+.gih .fill.you{fill:var(--bar-you)} .gih .fill.opp{fill:var(--bar-opp)}
+.gih .n{font-family:var(--font-d); font-weight:800; font-size:18px; fill:var(--ink); text-anchor:end}
+.edge{margin:10px 0 0; font-size:13.5px; color:var(--ink-2); line-height:1.4}
+
+/* console */
+#w-console{left:720px; top:452px; width:400px}
+.log{
+  font:13px/1.45 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color:var(--ink);
+  background:rgba(43,32,22,.06); border-radius:10px; padding:10px; height:150px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere;
+}
+.log .in{color:var(--ink-2)}
+.log .ok{color:var(--go)}
+.log .err{color:var(--warn)}
+.cmd{display:flex; gap:8px; margin-top:8px}
+.cmd input{
+  flex:1; font:13.5px ui-monospace, Menlo, Consolas, monospace; padding:8px 10px; border-radius:10px;
+  border:1px solid rgba(43,32,22,.18); background:#fff; color:var(--ink)
+}
+.cmd input:focus{outline:2px solid var(--amber); outline-offset:1px}
+.cmd button{
+  font-family:var(--font-d); font-weight:700; font-size:15px; letter-spacing:.02em; padding:0 14px;
+  border-radius:10px; border:0; background:var(--ink); color:#fff; cursor:pointer
+}
+.hint{font-size:12px; color:var(--ink-2); margin-top:8px; line-height:1.7}
+.hint code{font-family:ui-monospace, Menlo, monospace; background:rgba(255,255,255,.7); padding:1px 5px; border-radius:4px; margin-right:4px}
 
 /* dock */
 .dock{

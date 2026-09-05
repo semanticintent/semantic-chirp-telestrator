@@ -12,6 +12,7 @@ Last updated 2026-09-04. Decisions referenced as Dn are in `docs/decisions.md`.
 - The read contract is drafted at `contracts/read.schema.json` v0.1 and two fixtures validate against it.
 - **S1 done 2026-09-04.** Scaffold, contract test, rink/spot/strips/chrome views, `cue_roster` `read_ice` `circle` `wipe`, runner with three sequence files, no-opinions text-node test, three scenarios with screenshots, single-file build. 161 unit tests, 5 scenarios, all green. Runner-as-data held: no sequence needed a value.
 - **S2 done 2026-09-04.** `replay`, `split`, the replay view, `flip`/`drop` verbs, verdict lookup by id set. 298 unit tests, 7 scenarios, green. `docs/grammar.md` now generated and drift-tested.
+- **S3 done 2026-09-04.** Panel (calls in the analyst's order, take, source footer), games in hand (one bar when no opponent), `cut_to`, talkback console with the transcript in state and surname convenience. 7 moves, 8 views, 9 scenarios.
 - **A1 done 2026-09-04** on a CHIRP branch: vendored schema + README + a test that pins the version and byte-diffs against a sibling checkout.
 - CHIRP today returns analysis objects as JSON in a text block. It has no output schemas and no per-skater-per-day schedule shape. Its schedule service is club-level and its lineup analysis checks only today. That gap is the analyst track.
 
@@ -37,7 +38,7 @@ Done when: tests green, both scenarios produce screenshots, and the report descr
 
 `replay`, `split` in the grammar (D6). `src/views/replay.js`. Sequence verbs `flip`, `count_up`, `fill`, `drop`. Verdict lookup by id set. Scenario with a single replay, a split with a matching pair verdict, and a split with no matching verdict.
 
-### S3 — Panel, games in hand, cut_to, console
+### S3 — Panel, games in hand, cut_to, console — done 2026-09-04
 
 `src/views/panel.js`, `src/views/hand.js`, `src/views/console.js`. `cut_to`. Panel footer shows `source`. `games_in_hand.opp === null` draws one bar and the analyst's take. Console parses one move per line and offers name-to-id convenience (D3). Draggable windows write to `state.windows`.
 

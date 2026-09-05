@@ -16,6 +16,10 @@ export const VERBS = {
   sweep: (tl, els, s) => tl.fromTo(els, { attr: { r: 0 } }, { attr: { r: (i, el) => +el.getAttribute('r') }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
   fill: (tl, els, s) => tl.fromTo(els, { attr: { width: 0 } }, { attr: { width: (i, el) => +el.dataset.toWidth }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
   flip: (tl, els, s) => tl.fromTo(els, { scale: 0.6, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
+  count_up: (tl, els, s) => els.forEach((el, i) => {
+    const to = +el.textContent; const o = { v: 0 };
+    tl.to(o, { v: to, duration: s.duration, ease: s.ease, onUpdate: () => { el.textContent = String(Math.round(o.v)); } }, s.at + i * s.stagger);
+  }),
   drop: (tl, els, s) => tl.fromTo(els, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
 };
 

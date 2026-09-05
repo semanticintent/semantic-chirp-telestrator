@@ -2,24 +2,9 @@
 import { describe, it, expect } from 'vitest';
 import { views } from '../src/views/index.js';
 import { fixtures } from '../src/fixtures.js';
-import { initialState } from '../src/state.js';
-import { grammar, findMove } from '../src/grammar.js';
-
-const onIce = (read) => read.skaters.find((s) => !['BN', 'IR'].includes(s.slot));
-
-export function states(name, read) {
-  const empty = initialState();
-  const cued = findMove('cue_roster').handler(empty, { fixture: name });
-  const iced = findMove('read_ice').handler(cued, {});
-  const circled = findMove('circle').handler(iced, { ids: [onIce(read).id] });
-  const worded = findMove('circle').handler(iced, { ids: [onIce(read).id], reason: 'the pen said so' });
-  const wiped = findMove('wipe').handler(circled, {});
-  const [a, b] = read.verdicts.find((v) => v.ids.length === 2)?.ids ?? [read.skaters[0].id, read.skaters[1].id];
-  const replayed = findMove('replay').handler(iced, { id: a });
-  const split = findMove('split').handler(iced, { a, b });
-  const unmatched = findMove('split').handler(iced, { a: read.skaters.at(-1).id, b: read.skaters.at(-2).id });
-  return { empty, cued, iced, circled, worded, wiped, replayed, split, unmatched };
-}
+import { grammar } from '../src/grammar.js';
+import { esc } from '../src/html.js';
+import { states, onIce } from './states.js';
 
 describe('views', () => {
   for (const [name, read] of Object.entries(fixtures)) {
@@ -49,6 +34,23 @@ describe('views', () => {
       expect(String(views.replay(split)).match(/class="row"/g)).toHaveLength(2);
       expect(String(views.replay(states(name, read).wiped))).toBe('');
       expect(String(views.replay(split))).toContain('data-seq="tile"'); // the runner's target, unescaped
+    });
+  }
+
+  for (const [name, read] of Object.entries(fixtures)) {
+    it(`panel over ${name} lists every call in the analyst's order and shows the take and the source`, () => {
+      const out = String(views.panel(states(name, read).iced));
+      const ids = ['start', 'sit', 'ir', 'stream'].flatMap((k) => read.calls[k]);
+      const seen = [...out.matchAll(/data-replay="([^"]+)"/g)].map((m) => m[1]);
+      expect(seen).toEqual(ids);
+      expect(out).toContain(esc(read.take));
+      for (const d of read.source.data) expect(out).toContain(d);
+      expect(String(views.panel(states(name, read).cued))).not.toContain('data-replay');
+    });
+    it(`hand over ${name} draws one bar per known side`, () => {
+      const out = String(views.hand(states(name, read).iced));
+      expect(out.match(/data-seq="gih_bar"/g)).toHaveLength(read.games_in_hand.opp == null ? 1 : 2);
+      expect(out).toContain(esc(read.games_in_hand.take));
     });
   }
 

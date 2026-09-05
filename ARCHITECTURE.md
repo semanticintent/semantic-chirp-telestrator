@@ -86,11 +86,12 @@ WebMCP registration, the producer console, and the docs table all derive from th
 
 ```
 state
-  roster        from cue_roster
-  read          the last Read, or null
-  windows       { rink: {open, x, y, z}, panel: {...}, ... }
-  circle        { id, reason } | null
-  replay        { id, versus } | null
+  read          the last Read, or null (cue_roster loads it; read_ice reveals it)
+  ice           has read_ice revealed the read
+  windows       { rink: {open, x, y, z}, panel: {...}, hand, replay, console }
+  circle        { id, reason | null } | null      persists until wipe() or the next circle()
+  replay        { ids: [a] | [a, b] } | null
+  log           [{ line, ack }]                    the transcript, appended by dispatch (D20)
   layer         active layer name (future)
 ```
 
@@ -182,7 +183,8 @@ telestrator/
   scenarios/*.txt
   src/
     main.js                    boot; the viewer's touches; window.telestrator
-    dispatch.js                the one path: handler → render(touches) → play → ack
+    dispatch.js                the one path: handler → ack → transcript → render(touches + console) → play
+    talkback.js                console convenience: surname → id (D21). Not a tool.
     state.js
     grammar.js
     render.js
@@ -190,13 +192,14 @@ telestrator/
     fixtures.js                fixtures by name
     copy.js                    every static string the interface shows
     html.js                    template helper
-    views/                     index.js chrome.js rink.js spot.js strips.js  (S2: replay.js; S3: panel.js hand.js console.js)
+    views/                     index.js chrome.js rink.js spot.js strips.js replay.js panel.js hand.js console.js
     motion/runner.js
-    motion/sequences/*.json    read_ice circle wipe
+    motion/sequences/*.json    read_ice circle replay wipe
     tokens.css                 colours, type, glass
     screen.css                 the desktop, windows, dock, rink classes
   test/
-    contract.spec.js views.spec.js no-opinions.spec.js   (vitest)
+    states.js                                            every state a view can render, from the fixtures
+    contract.spec.js views.spec.js no-opinions.spec.js console.spec.js grammar.spec.js   (vitest)
     scenarios.spec.js                                    (playwright → test/shots/)
   dist/telestrator.html        single-file build for sharing
 ```

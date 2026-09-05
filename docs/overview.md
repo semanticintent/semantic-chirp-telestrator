@@ -18,7 +18,7 @@ The result we want a first-time viewer to feel: *I saw the call before I read it
 
 ## Why now
 
-- OpenAI's ChatGPT desktop browser and ChatGPT Sites support WebMCP today; Chrome is in origin trial; Claude in Chrome follows once Chrome ships it broadly. A single page reaches all of them.
+- WebMCP is a W3C Community Group draft (April 2026). Chrome 146 ships it behind a flag. Which agent hosts consume it in practice is verified at publish time, not assumed here (see `docs/decisions.md` D15, D16). A single page reaches whichever hosts do.
 - Every WebMCP example so far makes the page the actor (book, buy, submit). Making the page the *screen* is unclaimed ground, and fantasy hockey is a domain where the visuals are the argument.
 - CHIRP's roster paste mode means no Yahoo approval wait. Anyone can paste a lineup and see it drawn. That's the demo path, and the season starts in October.
 
@@ -79,14 +79,14 @@ The seven verbs are the **analyst's** moves. A real broadcast has two more layer
 1. **Read contract.** Add output schemas to CHIRP's analyses so every read is drawable. Ship it on the MCP side too; it makes the text answers better.
 2. **HTTP transport.** Expose the same core to the page. Roster paste, no auth.
 3. **Wire the page.** Replace mock data with live reads. Keep the producer console; it's the rehearsal room.
-4. **Publish.** ChatGPT Sites for the working demo; Chrome origin trial registration so it also runs there.
+4. **Publish.** Cloudflare Pages as the canonical URL; a local Chrome with the WebMCP flag for the working demo; other hosts as they prove out.
 5. **Producer layer.** Only when a second intelligence source is real. Not before.
 
 ## What it is not
 
 - Not a dashboard. Nothing is on screen until someone draws it.
 - Not a replacement for the MCP server. Same brain, second face.
-- Not a general web standard bet. WebMCP is early; this is built for ChatGPT desktop and Chrome now and lets the rest catch up.
+- Not a general web standard bet. WebMCP is early; this is built against the draft and Chrome's flagged implementation now and lets the rest catch up.
 - Not a place for the page to think. If the screen ever has an opinion, something has leaked.
 
 ---

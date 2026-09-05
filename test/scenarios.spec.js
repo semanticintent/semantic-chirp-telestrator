@@ -30,6 +30,13 @@ for (const file of scenarios) {
       if (line.startsWith('wipe')) { expect(state.circle).toBeNull(); expect(state.replay).toBeNull(); }
       if (line.startsWith('split')) expect(state.replay?.ids).toEqual(line.split(/\s+/).slice(1, 3));
       if (line.startsWith('replay')) expect(state.replay?.ids).toEqual([line.split(/\s+/)[1]]);
+      if (line.startsWith('cut_to')) {
+        const view = line.split(/\s+/)[1];
+        expect(state.windows[view].open).toBe(true);
+        expect(await page.locator(`.win[data-name="${view}"].focus`).count()).toBe(1);
+      }
+      if (line.startsWith('read_ice')) { expect(state.windows.panel.open).toBe(true); expect(state.windows.hand.open).toBe(true); }
+      expect(state.log.at(-1)).toEqual({ line, ack });
       await page.screenshot({ path: `test/shots/${name}-${String(i + 1).padStart(2, '0')}-${line.split(/\s+/)[0]}.png` });
     }
     expect(errors).toEqual([]);
@@ -40,6 +47,14 @@ test('a move the grammar does not know is refused, not thrown', async ({ page })
   await boot(page);
   const ack = await page.evaluate(() => window.telestrator.run('rank gridin'));
   expect(ack).toHaveProperty('error');
+});
+
+test('talkback resolves a surname to an id, and the transcript shows what was typed', async ({ page }) => {
+  await boot(page);
+  for (const l of ['cue_roster cgy-week1', 'read_ice']) await page.evaluate((x) => window.telestrator.run(x), l);
+  const ack = await page.evaluate(() => window.telestrator.submit('circle Zary'));
+  expect(ack.circled).toBe('zary');
+  await expect(page.locator('[data-view="console"] .log')).toContainText('> circle zary');
 });
 
 test('a circle persists until wiped', async ({ page }) => {

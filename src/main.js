@@ -1,20 +1,25 @@
-// Boot. Wires the viewer's touches (open, close, drag, click a skater) and exposes the one dispatch path as window.telestrator
-// for the scenario runner, and later the console and WebMCP.
+// Boot. Wires the viewer's touches (open, close, drag, click a skater, press why, type a move) and exposes the one dispatch
+// path as window.telestrator for the scenario runner and, later, WebMCP.
 import './tokens.css';
 import './screen.css';
 import { run, call, getState, touch, moves } from './dispatch.js';
 import { render } from './render.js';
 import { settled } from './motion/runner.js';
 import { open, close, move } from './state.js';
+import { submit } from './talkback.js';
 
 render(getState());
 
-// Viewer touches: a click on a skater is the viewer circling him. Dock and lights open and close windows.
+// Viewer touches. A click on a skater on the ice circles him; a bench or IR chip, or a panel's "why", runs it back.
 document.addEventListener('click', (e) => {
   const opener = e.target.closest('[data-open]');
   if (opener) return touch((s) => open(s, opener.dataset.open));
   const closer = e.target.closest('[data-close]');
   if (closer) return touch((s) => close(s, closer.dataset.close));
+  const why = e.target.closest('[data-replay]');
+  if (why) return run(`replay ${why.dataset.replay}`);
+  const chip = e.target.closest('.chip[data-id]');
+  if (chip) return run(`replay ${chip.dataset.id}`);
   const skater = e.target.closest('svg [data-id]');
   if (skater) run(`circle ${skater.dataset.id}`);
 });
@@ -23,6 +28,17 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     run(`circle ${e.target.dataset.id}`);
   }
+});
+
+// Talkback: one move per line, surnames allowed where an id is expected.
+const cmd = document.getElementById('cmd');
+const cmdIn = document.getElementById('cmd-in');
+cmd?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const line = cmdIn.value.trim();
+  if (!line) return;
+  cmdIn.value = '';
+  submit(line);
 });
 
 // Windows: raise on pointerdown, drag by the head. Positions live in state.windows.
@@ -43,4 +59,4 @@ for (const win of document.querySelectorAll('.win')) {
   head.addEventListener('pointerup', () => { dragging = false; });
 }
 
-window.telestrator = { ready: true, run, call, state: getState, settled, moves: moves() };
+window.telestrator = { ready: true, run, call, submit, state: getState, settled, moves: moves() };

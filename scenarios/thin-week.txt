@@ -1,3 +1,4 @@
 cue_roster thin-week-no-opp
 read_ice
 circle wolf
+cut_to hand

@@ -1,0 +1,6 @@
+cue_roster cgy-week1
+read_ice
+cut_to panel
+replay strome
+cut_to hand
+cut_to console

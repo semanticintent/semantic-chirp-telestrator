@@ -6,8 +6,9 @@ export function initialState() {
     read: null,      // the last Read (contracts/read.schema.json), or null
     ice: false,      // has read_ice revealed it
     circle: null,    // { id, reason|null } | null — persists until wipe() or the next circle()
-    replay: null,    // { ids } | null (S2)
-    windows: Object.fromEntries(WINDOWS.map((name, i) => [name, { open: name === 'rink', x: null, y: null, z: i }])),
+    replay: null,    // { ids } | null
+    log: [],         // the talkback transcript: [{ line, ack }], appended by dispatch, never by a handler
+    windows: Object.fromEntries(WINDOWS.map((name, i) => [name, { open: name === 'rink' || name === 'console', x: null, y: null, z: i }])),
   };
 }
 
