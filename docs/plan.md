@@ -71,9 +71,9 @@ Expose it as an MCP tool too, so the text clients get the same read. Validate ou
 
 A second entry point, same core: `POST /read` with `{ roster_text, look_ahead_days, opponent_text? }`, stateless, CORS for the page origin, localhost by default (D11). The screen already speaks this: open it with `?analyst=http://localhost:<port>` and paste a lineup in the console.
 
-### S5 — First deploy
+### S5 — First deploy — deployed 2026-09-04, two items open
 
-After A3 answers on localhost end to end: `npm run deploy` (D24), flip the repo public, publish the single file to a Site for the Codex embedded browser (D26).
+Live at https://chirp-telestrator.pages.dev in fixture mode. Open: flip the repo public once the analyst is live; publish the single file to a ChatGPT Site for the Codex embedded browser (D26); optionally a custom domain in the `semanticintent.dev` zone.
 
 ## Sequence
 

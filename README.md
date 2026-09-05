@@ -2,7 +2,18 @@
 
 The telestrator: a WebMCP page that draws CHIRP's fantasy-hockey reads onto a persistent visual surface. CHIRP is the analyst. Any WebMCP agent is the pen. This page is the screen.
 
-Status: design complete, contract drafted, no code yet. Start with `CLAUDE.md`, then `ARCHITECTURE.md`, then `docs/`.
+Live at https://chirp-telestrator.pages.dev (fixture mode until the analyst's `read_ice` ships). Start with `CLAUDE.md`, then `ARCHITECTURE.md`, then `docs/`.
+
+```
+npm install
+npm run dev          # then open http://localhost:5173 and type read_ice in the talkback
+npm test             # contract, views, no-opinions, console, grammar, webmcp
+npm run scenarios    # plays scenarios/*.txt through Playwright, screenshots to test/shots/
+npm run build        # dist/telestrator.html, one file, fonts inlined
+npm run deploy       # Cloudflare Pages
+```
+
+With an analyst running: `http://localhost:5173/?analyst=http://localhost:3100`, then paste a lineup in the talkback.
 
 - `docs/overview.md` — what we're after
 - `docs/pattern.md` — the telestrator pattern
