@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sepiola">
+  <!-- The bobtail squid as a crest: flat fills, one bold outline, the passing cloud across the mantle. -->
+  <defs>
+    <clipPath id="mantle"><path d="M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z"/></clipPath>
+  </defs>
+  <!-- fins: two lobes low on the mantle -->
+  <path d="M13 30 C2 28 2 46 14 44 Z" fill="#E89A3C" stroke="#2B2016" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M51 30 C62 28 62 46 50 44 Z" fill="#E89A3C" stroke="#2B2016" stroke-width="3" stroke-linejoin="round"/>
+  <!-- arms: four, heavy, tapering -->
+  <g fill="#2B2016">
+    <path d="M22 47 C19 52 15 56 13 60 C16 59 20 55 25 49 Z"/>
+    <path d="M29 50 C28 54 27 58 27 62 C30 59 31 55 33 50 Z"/>
+    <path d="M35 50 C37 55 38 59 37 62 C40 58 39 54 39 50 Z"/>
+    <path d="M42 47 C45 52 49 56 51 60 C48 59 44 55 39 49 Z"/>
+  </g>
+  <!-- mantle -->
+  <path d="M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z" fill="#F7C56A"/>
+  <!-- passing cloud: the dark band travelling across the skin -->
+  <path clip-path="url(#mantle)" d="M6 12 C14 8 20 20 30 16 C40 12 46 22 58 17 L58 27 C46 32 40 22 30 26 C20 30 14 18 6 22 Z" fill="#C8561E"/>
+  <!-- eyes -->
+  <circle cx="24.5" cy="35" r="5" fill="#2B2016"/>
+  <circle cx="39.5" cy="35" r="5" fill="#2B2016"/>
+  <circle cx="26.2" cy="33.3" r="1.8" fill="#FFF8EC"/>
+  <circle cx="41.2" cy="33.3" r="1.8" fill="#FFF8EC"/>
+  <!-- outline on top so the band sits inside the line -->
+  <path d="M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z" fill="none" stroke="#2B2016" stroke-width="3"/>
+</svg>

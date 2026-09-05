@@ -4,12 +4,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sepiola</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22 role=%22img%22 aria-label=%22Sepiola%22%3E%3Cdefs%3E %3CclipPath id=%22mantle%22%3E%3Cpath d=%22M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z%22/%3E%3C/clipPath%3E %3C/defs%3E%3Cpath d=%22M13 30 C2 28 2 46 14 44 Z%22 fill=%22#E89A3C%22 stroke=%22#2B2016%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E %3Cpath d=%22M51 30 C62 28 62 46 50 44 Z%22 fill=%22#E89A3C%22 stroke=%22#2B2016%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E%3Cg fill=%22#2B2016%22%3E %3Cpath d=%22M22 47 C19 52 15 56 13 60 C16 59 20 55 25 49 Z%22/%3E %3Cpath d=%22M29 50 C28 54 27 58 27 62 C30 59 31 55 33 50 Z%22/%3E %3Cpath d=%22M35 50 C37 55 38 59 37 62 C40 58 39 54 39 50 Z%22/%3E %3Cpath d=%22M42 47 C45 52 49 56 51 60 C48 59 44 55 39 49 Z%22/%3E %3C/g%3E%3Cpath d=%22M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z%22 fill=%22#F7C56A%22/%3E%3Cpath clip-path=%22url(#mantle)%22 d=%22M6 12 C14 8 20 20 30 16 C40 12 46 22 58 17 L58 27 C46 32 40 22 30 26 C20 30 14 18 6 22 Z%22 fill=%22#C8561E%22/%3E%3Ccircle cx=%2224.5%22 cy=%2235%22 r=%225%22 fill=%22#2B2016%22/%3E %3Ccircle cx=%2239.5%22 cy=%2235%22 r=%225%22 fill=%22#2B2016%22/%3E %3Ccircle cx=%2226.2%22 cy=%2233.3%22 r=%221.8%22 fill=%22#FFF8EC%22/%3E %3Ccircle cx=%2241.2%22 cy=%2233.3%22 r=%221.8%22 fill=%22#FFF8EC%22/%3E%3Cpath d=%22M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z%22 fill=%22none%22 stroke=%22#2B2016%22 stroke-width=%223%22/%3E %3C/svg%3E" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F7C56A">
 </head>
 <body>
 
+<!-- The mark, once, for the menubar and the welcome card -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <clipPath id="mark-mantle"><path d="M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z"/></clipPath>
+  <symbol id="mark" viewBox="0 0 64 64">
+  
+  <path d="M13 30 C2 28 2 46 14 44 Z" fill="#E89A3C" stroke="#2B2016" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M51 30 C62 28 62 46 50 44 Z" fill="#E89A3C" stroke="#2B2016" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#2B2016">
+    <path d="M22 47 C19 52 15 56 13 60 C16 59 20 55 25 49 Z"/>
+    <path d="M29 50 C28 54 27 58 27 62 C30 59 31 55 33 50 Z"/>
+    <path d="M35 50 C37 55 38 59 37 62 C40 58 39 54 39 50 Z"/>
+    <path d="M42 47 C45 52 49 56 51 60 C48 59 44 55 39 49 Z"/>
+  </g>
+  <path d="M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z" fill="#F7C56A"/>
+  <path clip-path="url(#mark-mantle)" d="M6 12 C14 8 20 20 30 16 C40 12 46 22 58 17 L58 27 C46 32 40 22 30 26 C20 30 14 18 6 22 Z" fill="#C8561E"/>
+  <circle cx="24.5" cy="35" r="5" fill="#2B2016"/>
+  <circle cx="39.5" cy="35" r="5" fill="#2B2016"/>
+  <circle cx="26.2" cy="33.3" r="1.8" fill="#FFF8EC"/>
+  <circle cx="41.2" cy="33.3" r="1.8" fill="#FFF8EC"/>
+  <path d="M32 6 C46 6 52 18 52 31 C52 44 44 51 32 51 C20 51 12 44 12 31 C12 18 18 6 32 6 Z" fill="none" stroke="#2B2016" stroke-width="3"/>
+</symbol></defs></svg>
+
 <div class="bar" role="menubar">
   <details class="menu">
-    <summary class="brand">Sepiola</summary>
+    <summary class="brand"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg>Sepiola</summary>
     <div class="menu-list" role="menu">
       <button role="menuitem" data-open="welcome">Start here</button>
       <button role="menuitem" data-sample>Load a sample week</button>
@@ -52,7 +79,7 @@
 <section class="win" id="w-welcome" data-name="welcome" tabindex="0">
   <div class="head">
     <div class="lights"><button class="x" aria-label="Close" data-close="welcome"></button><button class="m" aria-label="Minimize" data-close="welcome"></button></div>
-    <span class="title">Sepiola</span><span class="sub">a screen for an analyst's read</span>
+    <span class="title"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg>Sepiola</span><span class="sub">a screen for an analyst's read</span>
   </div>
   <div class="body" data-view="welcome"></div>
 </section>

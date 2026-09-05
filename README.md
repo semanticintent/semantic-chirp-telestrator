@@ -1,3 +1,5 @@
+<img src="public/sepiola.svg" width="88" align="right" alt="">
+
 # Sepiola
 
 **A WebMCP telestrator: a page that draws an analyst's read onto a persistent screen.** The analyst decides. The agent draws. The screen has no opinions.

@@ -166,6 +166,7 @@ export const copy = {
         heading: 'Credits',
         paras: [
           'Barlow and Barlow Condensed by Jeremy Tribby, under the SIL Open Font License 1.1. Motion by GSAP. Schedule and statistics from the NHL\'s public API. The original mockup and pattern were drafted with Claude; the code was built with Claude Code.',
+          'The mark is a bobtail squid drawn as a crest: flat fills, one bold line, and the passing cloud across its mantle. It is the project\'s own and carries no team\'s colours.',
         ],
       },
     },
