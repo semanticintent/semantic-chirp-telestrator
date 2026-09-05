@@ -70,9 +70,9 @@ Recommendation: public under `semanticintent/semantic-chirp-telestrator`, MIT, m
 
 Cloudflare Pages is the canonical URL (existing infra, same as the CHIRP docs site). The single-file `dist/telestrator.html` is what gets deployed. Registration with whichever WebMCP hosts are live happens at S4; the overview's ChatGPT Sites claim is verified then, not assumed.
 
-## D16 — WebMCP API surface — verified, closed
+## D16 — WebMCP API surface — verified against the primary spec, closed
 
-Checked 2026-09-04 against secondary sources on the W3C Community Group Draft Report (latest publication 23 April 2026). The mockup's shape is current: `navigator.modelContext.registerTool({ name, description, inputSchema, execute })`, with `unregisterTool(name)`. `provideContext()` and `clearContext()` were removed in the March 2026 revision. Chrome 146 stable (10 March 2026) ships WebMCP behind the `enable-webmcp-testing` flag, off by default. So S4 targets that flag for local demos and treats other hosts as verify-at-the-time. `src/webmcp.js` derives registration from `grammar.js`, so a later signature change is one adapter. Re-check the primary spec text at S4 before shipping.
+**Re-checked 2026-09-04 against the W3C Community Group Draft Report itself (dated 4 September 2026).** Three corrections to the mockup's assumptions: `execute(input, { signal })` resolves to any JSON-serializable value, not MCP content blocks, so the ack goes back as-is; there is no `unregisterTool`, registration is undone by aborting the `signal` passed in the options; and descriptors carry optional `title` and `annotations` (`readOnlyHint`, `consequentialHint`, `untrustedContentHint`), which `src/webmcp.js` fills. The API needs a secure context. The adapter looks for `navigator.modelContext` and falls back to `document.modelContext`, since the draft's prose and the ecosystem's examples disagree on the attachment point. Earlier note, from secondary sources: checked 2026-09-04 against secondary sources on the W3C Community Group Draft Report (latest publication 23 April 2026). The mockup's shape is current: `navigator.modelContext.registerTool({ name, description, inputSchema, execute })`, with `unregisterTool(name)`. `provideContext()` and `clearContext()` were removed in the March 2026 revision. Chrome 146 stable (10 March 2026) ships WebMCP behind the `enable-webmcp-testing` flag, off by default. So S4 targets that flag for local demos and treats other hosts as verify-at-the-time. `src/webmcp.js` derives registration from `grammar.js`, so a later signature change is one adapter. Re-check the primary spec text at S4 before shipping.
 
 ## D17 — Generated docs live in `scripts/` — decided
 
@@ -93,3 +93,23 @@ The talkback console shows the transcript: every move made on this screen by any
 ## D21 — Talkback surnames are a console convenience, not a tool — decided
 
 Grammar inputs now have an `id` type (`id`, `id[]`). `src/talkback.js` swaps a typed surname for an id only where the grammar expects an id, only when it names exactly one skater in the read, and only on the console path. `run()` and `call()` never do this, so an agent must use ids (D3).
+
+## D22 — `prepare` is the one impure step, and it lives beside the handler — decided
+
+Live reads need a network call, and handlers are pure. A grammar entry may declare `prepare(input, state) → Promise<input>`, run by dispatch before the handler. It fetches from the analyst through `src/analyst.js` and puts the Read into the input; the handler then does what it always did. Only `cue_roster` and `read_ice` have one. Fixture mode and live mode meet at the same handler with the same input shape.
+
+## D23 — The screen validates live reads with a validator that walks the schema file — decided
+
+`src/contract.js` implements the JSON Schema subset the contract uses (type, required, enum, const, properties, additionalProperties, items, min/max, minLength, pattern, format for date and date-time, uniqueItems) plus the cross-field rules (bits per day, ids resolve). It reads `contracts/read.schema.json` directly, so there is still one source of truth. `test/contract.spec.js` holds it to agreement with Ajv on the fixtures and a dozen mutations. Ajv stays a dev dependency; it does not ship in the page.
+
+## D24 — Deploy scaffold now, deploy when the analyst is live — decided
+
+`wrangler.jsonc` declares a Pages project `chirp-telestrator` with `pages_build_output_dir: dist` (the lesson from the CHIRP docs site: a Worker-shaped config against a Pages project deploys nowhere). `npm run deploy` builds and deploys. The build emits `dist/index.html` for Pages and the identical `dist/telestrator.html` for sharing. Not deployed yet: the repo is private until ready, and a page with no live analyst behind it is not ready. First deploy follows A3.
+
+## D25 — Fonts are inlined — decided
+
+Barlow and Barlow Condensed (latin subset, six faces, 104 kB, SIL OFL 1.1 with the licence in `src/fonts/`) are bundled as data URIs into the single file. No request leaves the page for type. The single file is 250 kB.
+
+## D26 — What the agent hosts actually are — recorded
+
+The Codex / ChatGPT desktop app has an embedded browser that can call WebMCP tools; ChatGPT Sites (`*.chatgpt.site`) is its hosting and test environment, where the user has published before (Orbweaver). So the demo path is: page on Cloudflare Pages (canonical) and, when useful, the same single file on a Site; Chrome with the flag for local checks. Corrects the Desktop session's overview, which had this half right.

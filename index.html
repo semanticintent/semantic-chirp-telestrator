@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CHIRP telestrator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -17,7 +15,8 @@
   <button data-open="replay">Replay</button>
   <button data-open="console">Console</button>
   <div class="right">
-    <span class="site-tools" id="site-tools"><i></i><span id="site-tools-label">Site tools: fixtures</span></span>
+    <span class="site-tools" id="site-tools"><i></i><span id="site-tools-label">Site tools: checking</span></span>
+    <span id="mode-label">fixtures</span>
   </div>
 </div>
 
@@ -111,6 +110,11 @@
       <input id="cmd-in" placeholder="read_ice" aria-label="Move" autocomplete="off" spellcheck="false">
       <button type="submit">Run</button>
     </form>
+    <details class="paste" id="paste">
+      <summary>Paste a lineup</summary>
+      <textarea id="paste-in" rows="5" aria-label="Pasted lineup" placeholder="One player per line, any format." spellcheck="false"></textarea>
+      <button type="button" id="paste-go">Cue it</button>
+    </details>
   </div>
 </section>
 

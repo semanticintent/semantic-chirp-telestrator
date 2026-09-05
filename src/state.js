@@ -4,6 +4,7 @@ export const WINDOWS = ['rink', 'panel', 'hand', 'replay', 'console'];
 export function initialState() {
   return {
     read: null,      // the last Read (contracts/read.schema.json), or null
+    source: null,    // { mode: 'fixture', fixture } | { mode: 'live', text } — where the read came from, so read_ice can re-read
     ice: false,      // has read_ice revealed it
     circle: null,    // { id, reason|null } | null — persists until wipe() or the next circle()
     replay: null,    // { ids } | null

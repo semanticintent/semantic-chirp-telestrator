@@ -2,6 +2,7 @@
 // This is the single path every caller uses: the scenario runner, the console (S3), WebMCP (S4), and the viewer's own touches.
 import { initialState } from './state.js';
 import { grammar, findMove, MoveError } from './grammar.js';
+import { AnalystError } from './analyst.js';
 import { copy, fill } from './copy.js';
 import { render } from './render.js';
 import { play } from './motion/runner.js';
@@ -9,7 +10,7 @@ import { play } from './motion/runner.js';
 let state = initialState();
 export const getState = () => state;
 
-const describe = (name, input) => `${name} ${JSON.stringify(input)}`;
+const describe = (name, input) => `${name} ${JSON.stringify(input)}`.slice(0, 160);
 
 /** Make a move by name with a structured input. Returns the ack, or { error } with a line from copy.
  *  Every call, from any caller, lands in the transcript (state.log) and re-renders the console. */
@@ -19,9 +20,10 @@ export async function call(name, input = {}, line = describe(name, input)) {
   if (!move) ack = { error: fill(copy.errors.unknownMove, { name }) };
   else {
     try {
+      if (move.prepare) input = await move.prepare(input, state); // the one impure step: fetch from the analyst (D22)
       state = move.handler(state, input);
     } catch (e) {
-      if (e instanceof MoveError) ack = { error: e.message };
+      if (e instanceof MoveError || e instanceof AnalystError) ack = { error: e.message };
       else throw e;
     }
   }

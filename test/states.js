@@ -6,7 +6,7 @@ export const onIce = (read) => read.skaters.find((s) => !['BN', 'IR'].includes(s
 
 export function states(name, read) {
   const empty = initialState();
-  const cued = findMove('cue_roster').handler(empty, { fixture: name });
+  const cued = findMove('cue_roster').handler(empty, { fixture: name, read }); // prepare() supplies read at runtime
   const iced = findMove('read_ice').handler(cued, {});
   const circled = findMove('circle').handler(iced, { ids: [onIce(read).id] });
   const worded = findMove('circle').handler(iced, { ids: [onIce(read).id], reason: 'the pen said so' });

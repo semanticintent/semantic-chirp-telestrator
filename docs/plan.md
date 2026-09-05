@@ -13,6 +13,7 @@ Last updated 2026-09-04. Decisions referenced as Dn are in `docs/decisions.md`.
 - **S1 done 2026-09-04.** Scaffold, contract test, rink/spot/strips/chrome views, `cue_roster` `read_ice` `circle` `wipe`, runner with three sequence files, no-opinions text-node test, three scenarios with screenshots, single-file build. 161 unit tests, 5 scenarios, all green. Runner-as-data held: no sequence needed a value.
 - **S2 done 2026-09-04.** `replay`, `split`, the replay view, `flip`/`drop` verbs, verdict lookup by id set. 298 unit tests, 7 scenarios, green. `docs/grammar.md` now generated and drift-tested.
 - **S3 done 2026-09-04.** Panel (calls in the analyst's order, take, source footer), games in hand (one bar when no opponent), `cut_to`, talkback console with the transcript in state and surname convenience. 7 moves, 8 views, 9 scenarios.
+- **S4 built 2026-09-04.** `src/webmcp.js` registers the grammar with the draft-spec descriptor shape; `?analyst=<url>` switches `cue_roster`/`read_ice` to `POST /read` with a runtime contract check; fonts inlined; Pages deploy scaffold. 13 scenarios incl. a fake modelContext and a mocked analyst. **Not deployed** (D24).
 - **A1 done 2026-09-04** on a CHIRP branch: vendored schema + README + a test that pins the version and byte-diffs against a sibling checkout.
 - CHIRP today returns analysis objects as JSON in a text block. It has no output schemas and no per-skater-per-day schedule shape. Its schedule service is club-level and its lineup analysis checks only today. That gap is the analyst track.
 
@@ -42,7 +43,7 @@ Done when: tests green, both scenarios produce screenshots, and the report descr
 
 `src/views/panel.js`, `src/views/hand.js`, `src/views/console.js`. `cut_to`. Panel footer shows `source`. `games_in_hand.opp === null` draws one bar and the analyst's take. Console parses one move per line and offers name-to-id convenience (D3). Draggable windows write to `state.windows`.
 
-### S4 — WebMCP, live transport, publish
+### S4 — WebMCP, live transport, publish — built 2026-09-04; deploy waits on A3
 
 Verify the API surface (D16). `src/webmcp.js` derives registration from `grammar.js`. `read_ice` and `cue_roster` switch from fixtures to `POST /read` when an analyst URL is configured (D11). Single-file build. Host (D15). Record the demo.
 
@@ -68,7 +69,11 @@ Expose it as an MCP tool too, so the text clients get the same read. Validate ou
 
 ### A3 — `chirp-http`
 
-A second entry point, same core: `POST /read` with `{ roster_text, look_ahead_days, opponent_text? }`, stateless, CORS for the page origin, localhost by default (D11).
+A second entry point, same core: `POST /read` with `{ roster_text, look_ahead_days, opponent_text? }`, stateless, CORS for the page origin, localhost by default (D11). The screen already speaks this: open it with `?analyst=http://localhost:<port>` and paste a lineup in the console.
+
+### S5 — First deploy
+
+After A3 answers on localhost end to end: `npm run deploy` (D24), flip the repo public, publish the single file to a Site for the Codex embedded browser (D26).
 
 ## Sequence
 

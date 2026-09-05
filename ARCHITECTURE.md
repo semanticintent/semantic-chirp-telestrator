@@ -135,8 +135,10 @@ Views are pure functions of state that return markup. They are idempotent: calli
 Tools flow one way:
 
 ```
-input → grammar.handler(state, input) → new state → render(state) → runner.play(sequence) → ack
+input → [grammar.prepare(input, state)] → grammar.handler(state, input) → new state → ack → transcript → render(touches + console) → runner.play(sequence)
 ```
+
+`prepare` is optional and is the one impure step: it asks the analyst (a fixture, or `POST /read`) and puts the Read into the input (D22). Handlers stay pure.
 
 ## Verification a model can run
 
@@ -185,6 +187,10 @@ telestrator/
     main.js                    boot; the viewer's touches; window.telestrator
     dispatch.js                the one path: handler → ack → transcript → render(touches + console) → play
     talkback.js                console convenience: surname → id (D21). Not a tool.
+    analyst.js                 the only line to the analyst: fixtures, or POST /read when ?analyst= is set (D22)
+    contract.js                validates a live Read against the schema file before a handler sees it (D23)
+    webmcp.js                  registration derived from grammar.js (D16)
+    fonts.css, fonts/          Barlow, inlined into the single file (D25)
     state.js
     grammar.js
     render.js
@@ -208,7 +214,7 @@ The rink window is three views, not one: `rink` (ice patches and jerseys), `spot
 
 ## Boundaries
 
-- The screen never imports from CHIRP. It reads over HTTP or from fixtures. Same shape either way. The contract lives here; CHIRP vendors a copy and diffs it in its tests (D2).
+- The screen never imports from CHIRP. It reads over HTTP or from fixtures. Same shape either way, and every live read is checked against the contract before it is drawn (D23). The contract lives here; CHIRP vendors a copy and diffs it in its tests (D2).
 - Ids are opaque. The screen never parses, slugifies, or name-matches them (D3).
 - A circle persists in state until `wipe()` or the next `circle()`. Motion may dim it; state does not forget it (D5).
 - `replay(id)` shows one row; `split(a, b)` shows two. The screen never picks a comparator (D6).

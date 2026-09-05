@@ -18,7 +18,7 @@ The result we want a first-time viewer to feel: *I saw the call before I read it
 
 ## Why now
 
-- WebMCP is a W3C Community Group draft (April 2026). Chrome 146 ships it behind a flag. Which agent hosts consume it in practice is verified at publish time, not assumed here (see `docs/decisions.md` D15, D16). A single page reaches whichever hosts do.
+- WebMCP is a W3C Community Group draft. Chrome 146 ships it behind a flag, and the Codex / ChatGPT desktop app's embedded browser consumes it, with ChatGPT Sites as that app's hosting and test environment (see `docs/decisions.md` D16, D26). A single page reaches whichever hosts do.
 - Every WebMCP example so far makes the page the actor (book, buy, submit). Making the page the *screen* is unclaimed ground, and fantasy hockey is a domain where the visuals are the argument.
 - CHIRP's roster paste mode means no Yahoo approval wait. Anyone can paste a lineup and see it drawn. That's the demo path, and the season starts in October.
 
@@ -79,7 +79,7 @@ The seven verbs are the **analyst's** moves. A real broadcast has two more layer
 1. **Read contract.** Add output schemas to CHIRP's analyses so every read is drawable. Ship it on the MCP side too; it makes the text answers better.
 2. **HTTP transport.** Expose the same core to the page. Roster paste, no auth.
 3. **Wire the page.** Replace mock data with live reads. Keep the producer console; it's the rehearsal room.
-4. **Publish.** Cloudflare Pages as the canonical URL; a local Chrome with the WebMCP flag for the working demo; other hosts as they prove out.
+4. **Publish.** Cloudflare Pages as the canonical URL; the same single file on a ChatGPT Site for the Codex embedded browser; a local Chrome with the WebMCP flag for checks.
 5. **Producer layer.** Only when a second intelligence source is real. Not before.
 
 ## What it is not

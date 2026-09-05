@@ -37,7 +37,16 @@ export const copy = {
     empty: 'Run the ice to see the edge.',
     you: 'You', opp: 'Opp',
   },
+  siteTools: {
+    none: 'Site tools: not available in this browser',
+    on: 'Site tools: {n} registered',
+    fixture: 'fixtures',
+    live: 'live · {url}',
+  },
   console: {
+    paste: 'Paste a lineup',
+    pasteGo: 'Cue it',
+    pasted: 'cue_roster (pasted lineup)',
     ready: 'Talkback ready. One move per line.',
     hint: 'Moves:',
     placeholder: 'read_ice',
@@ -51,6 +60,10 @@ export const copy = {
     unknownId: 'No skater in the read called "{id}".',
     sameSkater: 'Split needs two different skaters.',
     unknownWindow: 'No window called "{view}". Try rink, panel, hand, replay, or console.',
+    needsRoster: 'Give cue_roster a fixture name, or a pasted lineup when an analyst is configured.',
+    noAnalyst: 'No analyst is configured. Load a fixture with cue_roster <fixture>, or open the page with ?analyst=<url>.',
+    analystDown: 'The analyst did not answer at {url}.',
+    badRead: 'The analyst returned something the screen cannot draw: {why}.',
     unknownMove: 'Unknown move "{name}".',
   },
 };

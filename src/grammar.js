@@ -1,6 +1,6 @@
 // The only place a tool is defined. WebMCP registration, the console, the scenario runner, and docs/grammar.md derive from this array.
 // Handlers are pure: (state, input) → state. They never touch the DOM. They throw MoveError with a line from copy when a move cannot be made.
-import { fixtures } from './fixtures.js';
+import * as analyst from './analyst.js';
 import { open, skater, verdictFor, WINDOWS } from './state.js';
 import { copy, fill } from './copy.js';
 
@@ -11,15 +11,15 @@ export const grammar = [
   {
     name: 'cue_roster',
     move: 'Load the board',
-    description: 'Load a roster onto the rink. Fixture mode takes a fixture name; live mode will take the pasted lineup.',
-    input: { fixture: 'string' },
+    description: 'Load a roster onto the rink. Give `text`, the pasted lineup (any format, one player per line), when an analyst is configured; or `fixture`, the name of a read in fixtures/.',
+    input: { text: 'string?', fixture: 'string?' },
     positional: ['fixture'],
-    touches: ['chrome', 'rink', 'spot', 'strips'],
+    touches: ['chrome', 'rink', 'spot', 'strips', 'panel', 'hand'],
     sequence: null,
-    handler(state, { fixture }) {
-      const read = fixtures[fixture];
-      if (!read) refuse(copy.errors.unknownFixture, { name: fixture });
-      return open({ ...state, read, ice: false, circle: null, replay: null }, 'rink');
+    prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text }) }),
+    handler(state, { read, fixture, text }) {
+      const source = fixture ? { mode: 'fixture', fixture } : { mode: 'live', text };
+      return open({ ...state, read, source, ice: false, circle: null, replay: null }, 'rink');
     },
     ack: (s) => ({ cued: s.read.analysis_id, skaters: s.read.skaters.length }),
   },
@@ -31,9 +31,12 @@ export const grammar = [
     positional: ['look_ahead_days'],
     touches: ['chrome', 'rink', 'strips', 'panel', 'hand'],
     sequence: 'read_ice',
-    handler(state) {
+    prepare: async (input, state) => (state.source?.mode === 'live'
+      ? { ...input, read: await analyst.read({ text: state.source.text, look_ahead_days: input.look_ahead_days ?? 7 }) }
+      : input),
+    handler(state, { read }) {
       if (!state.read) refuse(copy.errors.noRoster);
-      return open(open(open({ ...state, ice: true }, 'hand'), 'panel'), 'rink');
+      return open(open(open({ ...state, read: read ?? state.read, ice: true }, 'hand'), 'panel'), 'rink');
     },
     ack: (s) => ({
       read: s.read.analysis_id,
@@ -92,7 +95,7 @@ export const grammar = [
     name: 'cut_to',
     move: 'Cut to',
     description: 'Bring a window forward: rink, panel, hand, replay, or console.',
-    input: { view: 'string' },
+    input: { view: 'view' },
     positional: ['view'],
     touches: [],
     sequence: null,

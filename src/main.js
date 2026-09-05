@@ -1,5 +1,6 @@
 // Boot. Wires the viewer's touches (open, close, drag, click a skater, press why, type a move) and exposes the one dispatch
 // path as window.telestrator for the scenario runner and, later, WebMCP.
+import './fonts.css';
 import './tokens.css';
 import './screen.css';
 import { run, call, getState, touch, moves } from './dispatch.js';
@@ -7,6 +8,9 @@ import { render } from './render.js';
 import { settled } from './motion/runner.js';
 import { open, close, move } from './state.js';
 import { submit } from './talkback.js';
+import { register } from './webmcp.js';
+import { mode, analystUrl } from './analyst.js';
+import { copy, fill } from './copy.js';
 
 render(getState());
 
@@ -59,4 +63,20 @@ for (const win of document.querySelectorAll('.win')) {
   head.addEventListener('pointerup', () => { dragging = false; });
 }
 
-window.telestrator = { ready: true, run, call, submit, state: getState, settled, moves: moves() };
+// Paste a lineup: the live path to cue_roster. In fixture mode the analyst line says what to do instead.
+document.getElementById('paste-go')?.addEventListener('click', () => {
+  const text = document.getElementById('paste-in').value.trim();
+  if (text) call('cue_roster', { text }, copy.console.pasted);
+});
+
+// Where the reads come from, and whether an agent can reach the moves.
+document.getElementById('mode-label').textContent = mode() === 'live' ? fill(copy.siteTools.live, { url: analystUrl() }) : copy.siteTools.fixture;
+const pill = document.getElementById('site-tools');
+const pillLabel = document.getElementById('site-tools-label');
+const webmcp = register().then((r) => {
+  pillLabel.textContent = r.available ? fill(copy.siteTools.on, { n: r.registered }) : copy.siteTools.none;
+  pill.classList.toggle('on', r.available && r.registered > 0);
+  return r;
+});
+
+window.telestrator = { ready: true, run, call, submit, state: getState, settled, moves: moves(), webmcp };
