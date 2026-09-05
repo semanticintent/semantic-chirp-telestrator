@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHIRP telestrator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  :root{
+    --sun:#F7C56A; --amber:#E89A3C; --honey:#FBE7BF; --cream:#FFF8EC; --ember:#C8561E;
+    --ink:#2B2016; --ink-2:#6B5842; --line:#B5262C; --blue:#2B5E9E; --ice:#EEF6FB; --ice-2:#D7E9F4;
+    --glass:rgba(255,250,241,.74); --glass-edge:rgba(255,255,255,.65);
+    --go:#2F8F5B; --hold:#C85A2A; --warn:#B5262C;
+    --font-d:"Barlow Condensed", "Arial Narrow", sans-serif;
+    --font-b:"Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family:var(--font-b); color:var(--ink); overflow:hidden; position:relative;
+    background:
+      radial-gradient(1200px 700px at 12% 8%, #FFF4DC 0%, rgba(255,244,220,0) 60%),
+      radial-gradient(900px 600px at 88% 20%, #F9CF7A 0%, rgba(249,207,122,0) 60%),
+      radial-gradient(1100px 800px at 70% 95%, #D9781F 0%, rgba(217,120,31,0) 60%),
+      radial-gradient(800px 500px at 25% 80%, #F3B65A 0%, rgba(243,182,90,0) 60%),
+      linear-gradient(160deg, #FFE9BF 0%, #F6BF5C 45%, #E48A2A 100%);
+  }
+  body::before{ /* silk sweep */
+    content:""; position:absolute; inset:-20%; pointer-events:none;
+    background:
+      linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.35) 46%, rgba(255,255,255,0) 52%),
+      linear-gradient(105deg, rgba(120,60,10,0) 55%, rgba(120,60,10,.10) 66%, rgba(120,60,10,0) 74%);
+    transform:rotate(-6deg);
+  }
+  body::after{ /* fine grain */
+    content:""; position:absolute; inset:0; pointer-events:none; opacity:.18; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0 0.05 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* menubar */
+  .bar{
+    position:absolute; top:0; left:0; right:0; height:40px; z-index:50;
+    display:flex; align-items:center; gap:22px; padding:0 18px;
+    background:rgba(255,248,236,.55); backdrop-filter:blur(18px) saturate(1.3);
+    border-bottom:1px solid rgba(255,255,255,.5); font-size:14px; font-weight:500;
+  }
+  .bar .brand{font-family:var(--font-d); font-weight:800; font-size:18px; letter-spacing:.02em}
+  .bar button{all:unset; cursor:pointer; padding:4px 6px; border-radius:6px}
+  .bar button:hover,.bar button:focus-visible{background:rgba(255,255,255,.6); outline:none}
+  .bar .right{margin-left:auto; display:flex; gap:16px; color:var(--ink-2)}
+  .bar .site-tools{
+    display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:999px;
+    background:rgba(255,255,255,.7); border:1px solid rgba(200,140,60,.35); color:var(--ink); font-size:12.5px;
+  }
+  .bar .site-tools i{width:7px;height:7px;border-radius:50%;background:#BBB;display:inline-block}
+  .bar .site-tools.on i{background:var(--go); box-shadow:0 0 0 3px rgba(47,143,91,.2)}
+
+  /* windows */
+  .win{
+    position:absolute; z-index:10; min-width:260px;
+    background:var(--glass); backdrop-filter:blur(26px) saturate(1.4);
+    border:1px solid var(--glass-edge); border-radius:18px;
+    box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 28px 60px -18px rgba(120,60,10,.45), 0 8px 18px -8px rgba(120,60,10,.25);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .win.focus{z-index:30; box-shadow:0 1px 0 rgba(255,255,255,.8) inset, 0 40px 80px -20px rgba(120,60,10,.55), 0 10px 24px -8px rgba(120,60,10,.3)}
+  .win.hidden{display:none}
+  .win .head{
+    display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:grab; user-select:none;
+    border-bottom:1px solid rgba(180,130,60,.18); background:rgba(255,255,255,.35);
+  }
+  .win .head:active{cursor:grabbing}
+  .win .head .title{font-family:var(--font-d); font-size:17px; font-weight:700; letter-spacing:.01em}
+  .win .head .sub{color:var(--ink-2); font-size:12.5px; margin-left:auto}
+  .lights{display:flex; gap:6px}
+  .lights button{all:unset; width:12px;height:12px;border-radius:50%; cursor:pointer}
+  .lights .x{background:#EE6A5F}.lights .m{background:#F5BF4F}
+  .lights button:focus-visible{outline:2px solid var(--ink); outline-offset:1px}
+  .win .body{padding:14px; flex:1; min-height:0}
+
+  /* rink window */
+  #w-rink{left:40px; top:64px; width:min(880px, calc(100vw - 80px))}
+  #w-rink .body{padding:10px 14px 14px}
+  #rink{width:100%; height:auto; display:block}
+  .legend{display:flex; gap:18px; font-size:12.5px; color:var(--ink-2); margin-top:8px; align-items:center; flex-wrap:wrap}
+  .legend .sw{width:26px;height:12px;border-radius:6px;display:inline-block;vertical-align:middle;margin-right:6px;border:1px solid rgba(43,94,158,.25)}
+  .legend .gloss{background:linear-gradient(180deg,#fff,#dbeefb)}
+  .legend .chew{background:repeating-linear-gradient(135deg,#eaf1f5 0 2px,#b9c9d4 2px 3px)}
+  .strips{display:grid; grid-template-columns:1fr auto; gap:10px; margin-top:10px}
+  .strip{border-radius:12px; padding:8px 10px; background:rgba(255,255,255,.5); border:1px solid rgba(180,130,60,.18)}
+  .strip.ir{border-color:rgba(181,38,44,.45); background:rgba(255,236,236,.6)}
+  .strip h4{margin:0 0 6px; font-family:var(--font-d); font-weight:700; font-size:14px; color:var(--ink-2)}
+  .chips{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{
+    display:inline-flex; align-items:center; gap:7px; padding:4px 9px 4px 5px; border-radius:999px;
+    background:#fff; border:1px solid rgba(43,32,22,.12); font-size:12.5px; cursor:pointer;
+  }
+  .chip b{font-family:var(--font-d); font-size:15px; background:var(--line); color:#fff; width:26px; height:22px; border-radius:6px; display:grid; place-items:center}
+  .chip:hover{border-color:var(--amber)}
+
+  /* svg bits */
+  .jersey{cursor:pointer}
+  .jersey .num{font-family:var(--font-d); font-weight:800; font-size:22px; fill:#fff; text-anchor:middle}
+  .jersey .nm{font-family:var(--font-b); font-weight:600; font-size:11.5px; fill:var(--ink); text-anchor:middle; letter-spacing:.02em}
+  .jersey .gp{font-family:var(--font-d); font-weight:700; font-size:12px; fill:var(--ink-2); text-anchor:middle}
+  .jersey .badge{font-size:12px; font-weight:700; text-anchor:middle; dominant-baseline:central}
+  .patch{opacity:0}
+  .callout{font-family:var(--font-b); font-size:12.5px; font-weight:600}
+
+  /* verdict window */
+  #w-verdict{right:40px; top:64px; width:320px}
+  .row{display:grid; grid-template-columns:64px 1fr auto; align-items:center; gap:10px; padding:8px 4px; border-bottom:1px solid rgba(180,130,60,.16); font-size:13.5px}
+  .row:last-child{border-bottom:0}
+  .row .tag{font-family:var(--font-d); font-weight:800; font-size:15px; letter-spacing:.03em; padding:2px 8px; border-radius:6px; color:#fff; text-align:center}
+  .tag.start{background:var(--go)}.tag.sit{background:var(--hold)}.tag.ir{background:var(--warn)}.tag.stream{background:var(--blue)}
+  .row .why{all:unset; cursor:pointer; color:var(--blue); font-weight:600; font-size:12.5px; padding:3px 6px; border-radius:6px}
+  .row .why:hover,.row .why:focus-visible{background:rgba(43,94,158,.1)}
+  .quote{margin:12px 0 0; padding:10px 12px; border-left:3px solid var(--amber); background:rgba(255,255,255,.45); border-radius:0 10px 10px 0; font-size:13.5px; line-height:1.4}
+  .empty{color:var(--ink-2); font-size:13.5px; line-height:1.5}
+  .empty code{font-family:var(--font-d); font-weight:700; font-size:14px; background:rgba(255,255,255,.7); padding:1px 6px; border-radius:5px}
+
+  /* games in hand */
+  #w-hand{right:40px; top:398px; width:320px}
+  .bars{display:grid; gap:10px}
+  .bar-row{display:grid; grid-template-columns:44px 1fr 34px; align-items:center; gap:10px; font-size:13.5px}
+  .track{height:16px; border-radius:8px; background:rgba(43,32,22,.08); overflow:hidden}
+  .fill{height:100%; width:0; border-radius:8px}
+  .fill.you{background:linear-gradient(90deg,#2F8F5B,#5FBF8A)}
+  .fill.opp{background:linear-gradient(90deg,#8A7A66,#B8AA98)}
+  .bar-row .n{font-family:var(--font-d); font-weight:800; font-size:18px; text-align:right}
+  .edge{margin-top:10px; font-size:13.5px; color:var(--ink-2)}
+  .edge b{font-family:var(--font-d); font-size:20px; color:var(--go)}
+
+  /* why window */
+  #w-why{left:120px; top:420px; width:560px}
+  #why{width:100%; height:auto; display:block}
+  .day{font-family:var(--font-d); font-weight:700; font-size:12px; fill:var(--ink-2); text-anchor:middle}
+  .tile{fill:#fff; stroke:rgba(43,32,22,.15)}
+  .tile.game{fill:var(--honey); stroke:var(--amber)}
+  .tile-t{font-family:var(--font-d); font-weight:800; font-size:14px; fill:var(--ink); text-anchor:middle; dominant-baseline:central}
+  .who{font-family:var(--font-d); font-weight:800; font-size:18px; fill:var(--ink)}
+  .cnt{font-family:var(--font-d); font-weight:800; font-size:30px; fill:var(--ink); text-anchor:middle; dominant-baseline:central}
+  .lbl{font-family:var(--font-b); font-size:12px; fill:var(--ink-2)}
+  .pts{font-family:var(--font-d); font-weight:800; font-size:16px; fill:var(--ink)}
+  .verdict-t{font-family:var(--font-d); font-weight:800; font-size:22px; fill:var(--go)}
+
+  /* console */
+  #w-console{left:720px; top:452px; width:400px}
+  .log{
+    font:13px/1.45 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color:var(--ink);
+    background:rgba(43,32,22,.06); border-radius:10px; padding:10px; height:150px; overflow:auto; white-space:pre-wrap;
+  }
+  .log .in{color:var(--ink-2)}
+  .log .tool{color:var(--blue)}
+  .log .ok{color:var(--go)}
+  .log .err{color:var(--warn)}
+  .cmd{display:flex; gap:8px; margin-top:8px}
+  .cmd input{
+    flex:1; font:13.5px ui-monospace, Menlo, Consolas, monospace; padding:8px 10px; border-radius:10px;
+    border:1px solid rgba(43,32,22,.18); background:#fff; color:var(--ink)
+  }
+  .cmd input:focus{outline:2px solid var(--amber); outline-offset:1px}
+  .cmd button{
+    font-family:var(--font-d); font-weight:700; font-size:15px; letter-spacing:.02em; padding:0 14px;
+    border-radius:10px; border:0; background:var(--ink); color:#fff; cursor:pointer
+  }
+  .hint{font-size:12px; color:var(--ink-2); margin-top:8px; line-height:1.5}
+  .hint code{font-family:ui-monospace, Menlo, monospace; background:rgba(255,255,255,.7); padding:1px 5px; border-radius:4px}
+
+  /* dock */
+  .dock{
+    position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:40;
+    display:flex; gap:12px; padding:10px 14px; border-radius:22px;
+    background:rgba(255,248,236,.55); backdrop-filter:blur(20px) saturate(1.3);
+    border:1px solid rgba(255,255,255,.6); box-shadow:0 20px 40px -16px rgba(120,60,10,.4);
+  }
+  .dock button{
+    all:unset; cursor:pointer; width:58px; height:58px; border-radius:16px; display:grid; place-items:center; position:relative;
+    background:linear-gradient(160deg, #fff 0%, #FDE7C0 100%); box-shadow:0 6px 14px -6px rgba(120,60,10,.5), 0 1px 0 #fff inset;
+    transition:transform .18s ease;
+  }
+  .dock button:hover,.dock button:focus-visible{transform:translateY(-6px) scale(1.06); outline:none}
+  .dock button svg{width:32px;height:32px}
+  .dock button::after{content:""; position:absolute; bottom:-7px; width:5px; height:5px; border-radius:50%; background:var(--ink); opacity:0}
+  .dock button.open::after{opacity:.7}
+  .dock button span{position:absolute; top:-30px; font-size:12px; padding:3px 8px; border-radius:6px; background:var(--ink); color:#fff; opacity:0; pointer-events:none; white-space:nowrap}
+  .dock button:hover span{opacity:1}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+  @media (max-width: 900px){
+    #w-verdict{right:12px; top:auto; bottom:110px; width:280px}
+    #w-hand,#w-why{display:none}
+    #w-console{left:12px; top:auto; bottom:110px; width:300px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar" role="menubar">
+  <span class="brand">CHIRP</span>
+  <button onclick="ui.open('rink')">Rink</button>
+  <button onclick="ui.open('verdict')">Panel</button>
+  <button onclick="ui.open('hand')">Games in hand</button>
+  <button onclick="ui.open('why')">Replay</button>
+  <button onclick="ui.open('console')">Console</button>
+  <div class="right">
+    <span class="site-tools" id="site-tools"><i></i><span id="site-tools-label">Site tools: checking</span></span>
+    <span>Week 1</span><span>Fri Sep 4</span>
+  </div>
+</div>
+
+<!-- RINK -->
+<section class="win" id="w-rink" data-name="rink" tabindex="0">
+  <div class="head">
+    <div class="lights"><button class="x" aria-label="Close" onclick="ui.close('rink')"></button><button class="m" aria-label="Minimize" onclick="ui.close('rink')"></button></div>
+    <span class="title">My rink</span>
+    <span class="sub" id="rink-sub">Lineup before the ice is read</span>
+  </div>
+  <div class="body">
+    <svg id="rink" viewBox="0 0 1000 470" xmlns="http://www.w3.org/2000/svg" aria-label="Top-down rink with lineup">
+      <defs>
+        <linearGradient id="iceg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F6FBFE"/><stop offset="1" stop-color="#DCEBF5"/>
+        </linearGradient>
+        <radialGradient id="gloss" cx="50%" cy="40%" r="60%">
+          <stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".55" stop-color="#EAF6FF" stop-opacity=".9"/><stop offset="1" stop-color="#BBDDF3" stop-opacity="0"/>
+        </radialGradient>
+        <pattern id="chewed" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+          <rect width="8" height="8" fill="#E8EEF2"/><rect width="8" height="1.6" fill="#A9BAC6"/><rect y="4" width="5" height="1.2" fill="#C4D0D8"/>
+        </pattern>
+        <mask id="spot-mask">
+          <rect x="0" y="0" width="1000" height="470" fill="#fff"/>
+          <circle id="spot-hole" cx="500" cy="235" r="0" fill="#000"/>
+        </mask>
+        <filter id="soft"><feGaussianBlur stdDeviation="1.2"/></filter>
+      </defs>
+
+      <!-- ice sheet -->
+      <rect x="10" y="10" width="980" height="450" rx="130" fill="url(#iceg)" stroke="#9FB9CC" stroke-width="2"/>
+      <rect x="18" y="18" width="964" height="434" rx="122" fill="none" stroke="#fff" stroke-width="3" opacity=".7"/>
+      <!-- lines -->
+      <line x1="500" y1="12" x2="500" y2="458" stroke="#C8102E" stroke-width="5" opacity=".85"/>
+      <line x1="500" y1="12" x2="500" y2="458" stroke="#fff" stroke-width="1.2" stroke-dasharray="10 8" opacity=".8"/>
+      <line x1="372" y1="12" x2="372" y2="458" stroke="#2B5E9E" stroke-width="6" opacity=".8"/>
+      <line x1="628" y1="12" x2="628" y2="458" stroke="#2B5E9E" stroke-width="6" opacity=".8"/>
+      <line x1="72" y1="20" x2="72" y2="450" stroke="#C8102E" stroke-width="2" opacity=".8"/>
+      <line x1="928" y1="20" x2="928" y2="450" stroke="#C8102E" stroke-width="2" opacity=".8"/>
+      <circle cx="500" cy="235" r="60" fill="none" stroke="#2B5E9E" stroke-width="2" opacity=".7"/>
+      <circle cx="500" cy="235" r="5" fill="#2B5E9E" opacity=".8"/>
+      <circle cx="205" cy="130" r="60" fill="none" stroke="#C8102E" stroke-width="2" opacity=".55"/>
+      <circle cx="205" cy="340" r="60" fill="none" stroke="#C8102E" stroke-width="2" opacity=".55"/>
+      <circle cx="795" cy="130" r="60" fill="none" stroke="#C8102E" stroke-width="2" opacity=".55"/>
+      <circle cx="795" cy="340" r="60" fill="none" stroke="#C8102E" stroke-width="2" opacity=".55"/>
+      <!-- creases -->
+      <path d="M72 195 a45 45 0 0 1 0 80" fill="rgba(80,160,230,.25)" stroke="#C8102E" stroke-width="2"/>
+      <path d="M928 195 a45 45 0 0 0 0 80" fill="rgba(80,160,230,.25)" stroke="#C8102E" stroke-width="2"/>
+      <rect x="58" y="215" width="14" height="40" fill="none" stroke="#C8102E" stroke-width="2"/>
+      <rect x="928" y="215" width="14" height="40" fill="none" stroke="#C8102E" stroke-width="2"/>
+
+      <g id="patches"></g>
+      <g id="players"></g>
+
+      <!-- spotlight overlay -->
+      <rect id="spot" x="0" y="0" width="1000" height="470" rx="130" fill="rgba(60,35,10,.5)" mask="url(#spot-mask)" opacity="0" pointer-events="none"/>
+      <g id="callout" opacity="0" pointer-events="none">
+        <rect id="callout-bg" rx="8" fill="#2B2016"/>
+        <text id="callout-t" class="callout" fill="#fff"></text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span><span class="sw gloss"></span>fresh ice: 4 games this week</span>
+      <span><span class="sw chew"></span>chewed up: 2 games, back-to-back</span>
+      <span>Badges: <b style="color:#B5262C">!</b> flag <b style="color:#2B5E9E">↗</b> stream candidate</span>
+    </div>
+    <div class="strips">
+      <div class="strip"><h4>Bench</h4><div class="chips" id="bench"></div></div>
+      <div class="strip ir"><h4>Injured reserve</h4><div class="chips" id="ir"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section class="win" id="w-verdict" data-name="verdict" tabindex="0">
+  <div class="head">
+    <div class="lights"><button class="x" aria-label="Close" onclick="ui.close('verdict')"></button><button class="m" aria-label="Minimize" onclick="ui.close('verdict')"></button></div>
+    <span class="title">The panel</span><span class="sub" id="verdict-sub">savage</span>
+  </div>
+  <div class="body" id="verdict-body">
+    <p class="empty">Nothing read yet. Run <code>read_ice</code> from the console, or let your agent call it.</p>
+  </div>
+</section>
+
+<!-- GAMES IN HAND -->
+<section class="win" id="w-hand" data-name="hand" tabindex="0">
+  <div class="head">
+    <div class="lights"><button class="x" aria-label="Close" onclick="ui.close('hand')"></button><button class="m" aria-label="Minimize" onclick="ui.close('hand')"></button></div>
+    <span class="title">Games in hand</span><span class="sub">this week</span>
+  </div>
+  <div class="body">
+    <div class="bars">
+      <div class="bar-row"><span>You</span><div class="track"><div class="fill you" id="bar-you"></div></div><span class="n" id="n-you">–</span></div>
+      <div class="bar-row"><span>Opp</span><div class="track"><div class="fill opp" id="bar-opp"></div></div><span class="n" id="n-opp">–</span></div>
+    </div>
+    <div class="edge" id="edge">Run the ice to see the edge.</div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="win hidden" id="w-why" data-name="why" tabindex="0">
+  <div class="head">
+    <div class="lights"><button class="x" aria-label="Close" onclick="ui.close('why')"></button><button class="m" aria-label="Minimize" onclick="ui.close('why')"></button></div>
+    <span class="title" id="why-title">Replay</span><span class="sub">run it back</span>
+  </div>
+  <div class="body">
+    <svg id="why" viewBox="0 0 540 230" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</section>
+
+<!-- CONSOLE -->
+<section class="win" id="w-console" data-name="console" tabindex="0">
+  <div class="head">
+    <div class="lights"><button class="x" aria-label="Close" onclick="ui.close('console')"></button><button class="m" aria-label="Minimize" onclick="ui.close('console')"></button></div>
+    <span class="title">Agent console</span><span class="sub">producer talkback: the same tools the agent calls</span>
+  </div>
+  <div class="body">
+    <div class="log" id="log" aria-live="polite"></div>
+    <div class="cmd">
+      <input id="cmd" placeholder="read_ice" aria-label="Command" autocomplete="off">
+      <button onclick="consoleRun()">Run</button>
+    </div>
+    <div class="hint">Try <code>read_ice</code>, <code>circle zary</code>, <code>replay gridin</code>, <code>split gridin zary</code>, <code>cut_to hand</code>, <code>wipe</code>. Click any player to circle him.</div>
+  </div>
+</section>
+
+<div class="dock" role="toolbar" aria-label="Windows">
+  <button onclick="ui.open('rink')" data-dock="rink"><span>Rink</span>
+    <svg viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="18" rx="8" fill="#EAF4FA" stroke="#2B5E9E" stroke-width="1.5"/><line x1="16" y1="8" x2="16" y2="24" stroke="#C8102E" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="none" stroke="#2B5E9E" stroke-width="1.2"/></svg></button>
+  <button onclick="ui.open('verdict')" data-dock="verdict"><span>Panel</span>
+    <svg viewBox="0 0 32 32"><rect x="5" y="5" width="22" height="22" rx="6" fill="#2F8F5B"/><path d="M10 16.5l4 4 8-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button onclick="ui.open('hand')" data-dock="hand"><span>Games in hand</span>
+    <svg viewBox="0 0 32 32"><rect x="5" y="9" width="22" height="5" rx="2.5" fill="#2F8F5B"/><rect x="5" y="18" width="15" height="5" rx="2.5" fill="#B8AA98"/></svg></button>
+  <button onclick="ui.open('why')" data-dock="why"><span>Replay</span>
+    <svg viewBox="0 0 32 32"><circle cx="9" cy="16" r="4" fill="#E89A3C"/><circle cx="23" cy="9" r="4" fill="#2B5E9E"/><circle cx="23" cy="23" r="4" fill="#2F8F5B"/><path d="M12.5 14.5 19.5 10.5M12.5 17.5 19.5 21.5" stroke="#2B2016" stroke-width="1.6"/></svg></button>
+  <button onclick="ui.open('console')" data-dock="console"><span>Console</span>
+    <svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="20" rx="5" fill="#2B2016"/><path d="M9 12l4 4-4 4" fill="none" stroke="#F7C56A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="15" y1="20" x2="22" y2="20" stroke="#F7C56A" stroke-width="2" stroke-linecap="round"/></svg></button>
+</div>
+
+<script>
+/* ============ mock data: the contract chirp should return ============ */
+const week = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+let roster = [
+  {id:'gridin',   name:'Gridin',      num:92, pos:'LW', slot:'L1', games:[0,1,0,1,0,1,1], b2b:false, value:92, flag:null,     ppg:0.72},
+  {id:'frost',    name:'Frost',       num:16, pos:'C',  slot:'L1', games:[0,1,0,1,0,1,0], b2b:false, value:70, flag:null,     ppg:0.68},
+  {id:'coronato', name:'Coronato',    num:27, pos:'RW', slot:'L1', games:[0,1,0,1,0,1,1], b2b:false, value:88, flag:'stream', ppg:0.61},
+  {id:'zary',     name:'Zary',        num:47, pos:'LW', slot:'L2', games:[0,0,0,0,1,1,0], b2b:true,  value:28, flag:'warn',   ppg:0.58},
+  {id:'backlund', name:'Backlund',    num:11, pos:'C',  slot:'L2', games:[0,1,0,1,0,1,0], b2b:false, value:66, flag:null,     ppg:0.52},
+  {id:'farabee',  name:'Farabee',     num:86, pos:'RW', slot:'L2', games:[0,1,0,0,1,1,0], b2b:true,  value:48, flag:null,     ppg:0.55},
+  {id:'weegar',   name:'Weegar',      num:52, pos:'D',  slot:'D1', games:[0,1,0,1,0,1,1], b2b:false, value:86, flag:null,     ppg:0.60},
+  {id:'andersson',name:'Andersson',   num:4,  pos:'D',  slot:'D1', games:[0,1,0,1,0,1,0], b2b:false, value:70, flag:null,     ppg:0.54},
+  {id:'bahl',     name:'Bahl',        num:7,  pos:'D',  slot:'D2', games:[0,0,1,0,1,1,0], b2b:true,  value:40, flag:null,     ppg:0.30},
+  {id:'miromanov',name:'Miromanov',   num:62, pos:'D',  slot:'D2', games:[0,1,0,1,0,1,1], b2b:false, value:80, flag:null,     ppg:0.35},
+  {id:'wolf',     name:'Wolf',        num:32, pos:'G',  slot:'G',  games:[0,1,0,1,0,1,0], b2b:false, value:74, flag:null,     ppg:0},
+  {id:'strome',   name:'Strome',      num:22, pos:'C',  slot:'BN', games:[0,1,0,1,0,1,1], b2b:false, value:84, flag:'stream', ppg:0.49},
+  {id:'sharangovich',name:'Sharangovich',num:17,pos:'RW',slot:'BN',games:[0,1,0,1,0,1,0], b2b:false, value:64, flag:null,     ppg:0.50},
+  {id:'tsyplakov',name:'Tsyplakov',   num:72, pos:'LW', slot:'BN', games:[0,0,0,1,0,1,0], b2b:false, value:36, flag:null,     ppg:0.40},
+  {id:'huberdeau',name:'Huberdeau',   num:10, pos:'LW', slot:'IR', games:[0,0,0,0,0,0,0], b2b:false, value:0,  flag:'ir',     ppg:0.90, note:'day-to-day, upper body'},
+];
+const opp = { games: 39 };
+
+/* ============ rink layout ============ */
+const positions = {
+  'L1-LW':[700,120],'L1-C':[700,235],'L1-RW':[700,350],
+  'L2-LW':[560,120],'L2-C':[560,235],'L2-RW':[560,350],
+  'D1-a':[400,165],'D1-b':[400,305],'D2-a':[270,165],'D2-b':[270,305],
+  'G':[110,235]
+};
+const gp = p => p.games.reduce((a,b)=>a+b,0);
+const byId = id => roster.find(p=>p.id===id);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const G = window.gsap;
+function anim(target, vars){ // gsap if present, snap otherwise
+  if(G && !RM) return G.to(target, vars);
+  const {duration, delay, ease, stagger, onComplete, ...rest} = vars;
+  const list = typeof target==='string' ? document.querySelectorAll(target) : (target instanceof NodeList || Array.isArray(target) ? target : [target]);
+  list.forEach(el => Object.entries(rest).forEach(([k,v]) => {
+    if(k==='attr') Object.entries(v).forEach(([a,val])=>el.setAttribute(a,val));
+    else if(el.style && k in el.style) el.style[k] = typeof v==='number' && k!=='opacity' ? v+'px' : v;
+    else el.setAttribute(k, v);
+  }));
+  onComplete && onComplete();
+  return {then:f=>f&&f()};
+}
+const svgNS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs={}, parent) => { const e=document.createElementNS(svgNS, tag); for(const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; };
+
+function buildRink(){
+  const P = document.getElementById('players'), Q = document.getElementById('patches');
+  P.innerHTML=''; Q.innerHTML='';
+  const dSeen = {D1:0, D2:0};
+  roster.forEach(p=>{
+    let key;
+    if(p.pos==='G') key='G';
+    else if(p.pos==='D'){ key = p.slot+'-'+(dSeen[p.slot]++===0?'a':'b'); }
+    else key = p.slot+'-'+p.pos;
+    const xy = positions[key]; if(!xy) return;
+    const [x,y]=xy; p.x=x; p.y=y;
+    // ice patch (gloss + chewed, blended by value)
+    const pg = el('g',{class:'patch','data-id':p.id, transform:`translate(${x} ${y+26})`}, Q);
+    el('ellipse',{rx:52,ry:20,fill:'url(#chewed)',opacity:(1-p.value/100).toFixed(2)}, pg);
+    el('ellipse',{rx:56,ry:22,fill:'url(#gloss)',opacity:(p.value/100).toFixed(2)}, pg);
+    // player
+    const g = el('g',{class:'jersey','data-id':p.id, transform:`translate(${x} ${y})`, tabindex:0, role:'button','aria-label':`${p.name} ${p.pos}`}, P);
+    el('path',{d:'M-22,-16 l 7,-8 h 30 l 7,8 v 30 q 0,6 -6,6 h -32 q -6,0 -6,-6 z', fill:'#B5262C', stroke:'#7A151A','stroke-width':1.5}, g);
+    el('path',{d:'M-8,-24 h 16 v 5 h -16 z', fill:'#F7C56A'}, g);
+    const t = el('text',{class:'num', y:9}, g); t.textContent = p.num;
+    const n = el('text',{class:'nm', y:38}, g); n.textContent = p.name;
+    const gpT = el('text',{class:'gp', y:52, opacity:0}, g); gpT.textContent = gp(p)+' gp'+(p.b2b?' · b2b':'');
+    if(p.flag){
+      const bg = el('g',{class:'badge-g', transform:'translate(24 -18)', opacity:0}, g);
+      el('circle',{r:9, fill:p.flag==='stream'?'#2B5E9E':'#B5262C', stroke:'#fff','stroke-width':2}, bg);
+      const bt = el('text',{class:'badge', fill:'#fff'}, bg); bt.textContent = p.flag==='stream'?'↗':'!';
+    }
+    g.addEventListener('click', ()=>tools.circle({ids:[p.id], reason: p.b2b ? `${gp(p)} games, back-to-back` : `${gp(p)} games this week`}));
+    g.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault(); g.click();} });
+  });
+  // bench + IR strips
+  const bench = document.getElementById('bench'), ir = document.getElementById('ir');
+  bench.innerHTML=''; ir.innerHTML='';
+  roster.filter(p=>p.slot==='BN').forEach(p=>bench.appendChild(chip(p)));
+  roster.filter(p=>p.slot==='IR').forEach(p=>ir.appendChild(chip(p)));
+  if(!ir.children.length) ir.innerHTML='<span class="empty">Nobody in the box.</span>';
+}
+function chip(p){
+  const c=document.createElement('button'); c.className='chip'; c.innerHTML=`<b>${p.num}</b>${p.name} <small style="color:var(--ink-2)">${p.pos}</small>`;
+  c.onclick=()=>tools.replay(p.id); c.title='Show why'; return c;
+}
+
+/* ============ the tools (what WebMCP exposes) ============ */
+let iceRead = false;
+const tools = {
+  async cue_roster({text}){
+    const lines = String(text||'').split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    const parsed = []; let i=0;
+    for(const line of lines){
+      const pos = (line.match(/\b(LW|RW|C|D|G)\b/i)||[])[1]; const num = (line.match(/\b(\d{1,2})\b/)||[])[1];
+      const name = line.replace(/\b(LW|RW|C|D|G|BN|IR)\b/ig,'').replace(/\b\d{1,2}\b/,'').replace(/[,\-]/g,' ').trim().split(/\s+/).pop();
+      if(!pos||!name) continue;
+      const games = week.map(()=>Math.random()<0.5?1:0); const g=games.reduce((a,b)=>a+b,0);
+      parsed.push({id:name.toLowerCase()+i++, name, num:+num||Math.floor(Math.random()*90+2), pos:pos.toUpperCase(), slot:'BN', games, b2b:games.some((v,k)=>v&&games[k+1]), value:Math.min(100,g*25), flag:null, ppg:+(Math.random()*.5+.3).toFixed(2)});
+    }
+    if(!parsed.length) return log('No players found. One per line, with a position (LW, C, RW, D, G).', 'err');
+    // auto-slot
+    const need = {L1:['LW','C','RW'],L2:['LW','C','RW'],D1:['D','D'],D2:['D','D'],G:['G']};
+    for(const slot in need) for(const pos of need[slot]){ const p=parsed.find(q=>q.slot==='BN'&&q.pos===pos); if(p) p.slot=slot; }
+    roster = parsed; iceRead=false; buildRink(); ui.open('rink');
+    document.getElementById('rink-sub').textContent = `${parsed.length} players resolved`;
+    return {resolved: parsed.length};
+  },
+  async read_ice({look_ahead_days=7}={}){
+    ui.open('rink'); iceRead = true;
+    document.getElementById('rink-sub').textContent = `Ice read for the next ${look_ahead_days} days`;
+    const patches = document.querySelectorAll('#patches .patch');
+    anim(patches, {opacity:1, duration:.9, stagger:.06, ease:'power2.out'});
+    anim(document.querySelectorAll('#players .gp'), {opacity:1, duration:.5, delay:.5, stagger:.05});
+    anim(document.querySelectorAll('#players .badge-g'), {opacity:1, duration:.4, delay:1.1, stagger:.1});
+    // verdict
+    const active = roster.filter(p=>!['BN','IR'].includes(p.slot) && p.pos!=='G');
+    const start = [...active].sort((a,b)=>b.value-a.value).slice(0,2);
+    const sit = [...active].sort((a,b)=>a.value-b.value).slice(0,1);
+    const stream = roster.filter(p=>p.flag==='stream'&&p.slot==='BN');
+    const irs = roster.filter(p=>p.slot==='IR');
+    const rows = [
+      ...start.map(p=>row('start','Start',p,`${gp(p)} games, ${p.b2b?'one back-to-back':'no back-to-back'}`)),
+      ...sit.map(p=>row('sit','Sit',p,`${gp(p)} games${p.b2b?', back-to-back':''}`)),
+      ...irs.map(p=>row('ir','IR',p,p.note||'out')),
+      ...stream.map(p=>row('stream','Stream',p,`${gp(p)} games, real role`)),
+    ].join('');
+    const benchGames = roster.filter(p=>p.slot==='BN').reduce((a,p)=>a+gp(p),0);
+    const lineGames  = active.reduce((a,p)=>a+gp(p),0);
+    const quote = benchGames*2 > lineGames
+      ? `Your bench has ${benchGames} games and your second line has a back-to-back. Fix it before puck drop.`
+      : `Lineup's carrying ${lineGames} games. Keep it, and stop tinkering.`;
+    document.getElementById('verdict-body').innerHTML = rows + `<p class="quote">${quote}</p>`;
+    ui.open('verdict');
+    // games in hand
+    const you = roster.filter(p=>p.slot!=='IR').reduce((a,p)=>a+gp(p),0);
+    setTimeout(()=>{
+      anim('#bar-you',{width:(you/50*100)+'%', duration:1, ease:'power3.out'});
+      anim('#bar-opp',{width:(opp.games/50*100)+'%', duration:1, ease:'power3.out', delay:.15});
+      count('#n-you', you); count('#n-opp', opp.games);
+      const e = you-opp.games;
+      document.getElementById('edge').innerHTML = `Edge <b>${e>0?'+':''}${e}</b> — ${e>0?'Thursday and Saturday do the work':'they out-schedule you this week'}.`;
+      ui.open('hand');
+    }, 600);
+    return {start:start.map(p=>p.id), sit:sit.map(p=>p.id), stream:stream.map(p=>p.id), games_in_hand:{you, opp:opp.games}};
+  },
+  async circle({ids, reason}){
+    ui.open('rink');
+    const id = (Array.isArray(ids)?ids:[ids])[0]; const p = byId(id);
+    if(!p||!p.x) return log(`No skater on the ice called "${id}".`,'err');
+    const spot = document.getElementById('spot'), hole = document.getElementById('spot-hole');
+    const co = document.getElementById('callout'), ct = document.getElementById('callout-t'), cb = document.getElementById('callout-bg');
+    ct.textContent = reason || p.name;
+    ct.setAttribute('x', 14); ct.setAttribute('y', 19);
+    const w = ct.getComputedTextLength()+28;
+    cb.setAttribute('width', w); cb.setAttribute('height', 28);
+    const cx = Math.min(1000-w-10, Math.max(10, p.x - w/2)); const cy = p.y - 86;
+    co.setAttribute('transform', `translate(${cx} ${cy})`);
+    anim(spot,{opacity:1,duration:.35});
+    anim(hole,{attr:{cx:p.x, cy:p.y+8, r:95}, duration:.7, ease:'power3.inOut'});
+    anim(co,{opacity:1, duration:.3, delay:.5});
+    clearTimeout(tools._spotT);
+    tools._spotT = setTimeout(()=>{ anim(spot,{opacity:0,duration:.6}); anim(co,{opacity:0,duration:.4}); anim(hole,{attr:{r:0},duration:.6,delay:.2}); }, 4200);
+    return {highlighted:p.id};
+  },
+  async cut_to({name}){ ui.open(name); return {opened:name}; },
+  async replay({id, versus}){
+    const p = byId(id); if(!p) return log(`Unknown player "${id}".`,'err');
+    const alt = byId(versus) || roster.filter(q=>q.pos===p.pos && q.id!==p.id && q.slot!=='IR').sort((a,b)=>a.value-b.value)[0] || roster.find(q=>q.id!==p.id);
+    document.getElementById('why-title').textContent = `Why ${p.name}${alt?' over '+alt.name:''}`;
+    ui.open('why'); drawWhy(p, alt);
+    return {explained:p.id, versus:alt&&alt.id};
+  },
+  async split({a,b}){ return tools.replay({id:a, versus:b}); },
+  async wipe(){
+    iceRead=false; buildRink();
+    anim('#spot',{opacity:0,duration:.3}); anim('#callout',{opacity:0,duration:.3});
+    document.getElementById('verdict-body').innerHTML='<p class="empty">Cleared. Run <code>read_ice</code> again when you are ready.</p>';
+    ['#bar-you','#bar-opp'].forEach(s=>anim(s,{width:'0%',duration:.4}));
+    document.getElementById('n-you').textContent='–'; document.getElementById('n-opp').textContent='–';
+    document.getElementById('edge').textContent='Run the ice to see the edge.';
+    document.getElementById('rink-sub').textContent='Lineup before the ice is read';
+    return {cleared:true};
+  }
+};
+function row(cls,label,p,why){ return `<div class="row"><span class="tag ${cls}">${label}</span><span><b>${p.name}</b><br><small style="color:var(--ink-2)">${why}</small></span><button class="why" onclick="tools.replay({id:'${p.id}'})">why</button></div>`; }
+function count(sel, to){ const e=document.querySelector(sel); if(G&&!RM){ const o={v:0}; G.to(o,{v:to,duration:1,ease:'power3.out',onUpdate:()=>e.textContent=Math.round(o.v)}); } else e.textContent=to; }
+
+/* ============ the "why" replay ============ */
+function drawWhy(p, alt){
+  const s = document.getElementById('why'); s.innerHTML='';
+  const rowsData = alt ? [p, alt] : [p];
+  const tl = (G&&!RM) ? G.timeline() : null;
+  rowsData.forEach((q, r)=>{
+    const y0 = 30 + r*95;
+    const who = el('text',{class:'who', x:10, y:y0-4}, s); who.textContent = `${q.name}  ${q.num}`;
+    // 7 day tiles
+    const tiles = [];
+    week.forEach((d,i)=>{
+      const x = 10 + i*40;
+      const dt = el('text',{class:'day', x:x+15, y:y0+12}, s); dt.textContent=d;
+      const t = el('rect',{class:'tile', x, y:y0+18, width:30, height:30, rx:7}, s);
+      const tt = el('text',{class:'tile-t', x:x+15, y:y0+33, opacity:0}, s); tt.textContent='G';
+      tiles.push({t,tt,game:q.games[i]});
+    });
+    // count
+    const c = el('text',{class:'cnt', x:335, y:y0+33, opacity:0}, s); c.textContent = gp(q);
+    const cl = el('text',{class:'lbl', x:335, y:y0+58, 'text-anchor':'middle'}, s); cl.textContent = q.b2b ? 'games, back-to-back' : 'games, rested';
+    // points bar
+    const pts = +(gp(q)*q.ppg).toFixed(1);
+    el('rect',{x:380, y:y0+22, width:150, height:20, rx:10, fill:'rgba(43,32,22,.08)'}, s);
+    const bar = el('rect',{x:380, y:y0+22, width:0, height:20, rx:10, fill: r===0 ? '#2F8F5B' : '#B8AA98'}, s);
+    const pt = el('text',{class:'pts', x:380, y:y0+60, opacity:0}, s); pt.textContent = `${pts} projected pts`;
+    // choreography
+    if(tl){
+      const base = r*1.6;
+      tiles.forEach((tile,i)=>{ if(tile.game){ tl.call(()=>tile.t.classList.add('game'), null, base+.1+i*.12); tl.to(tile.tt,{opacity:1,duration:.25}, base+.1+i*.12); } });
+      tl.to(c,{opacity:1,duration:.3}, base+1.0);
+      tl.to(bar,{attr:{width: Math.min(150, pts/4*150)},duration:.6,ease:'power3.out'}, base+1.2);
+      tl.to(pt,{opacity:1,duration:.3}, base+1.5);
+    } else {
+      tiles.forEach(tile=>{ if(tile.game){ tile.t.setAttribute('class','tile game'); tile.tt.setAttribute('opacity',1);} });
+      c.setAttribute('opacity',1); bar.setAttribute('width', Math.min(150, pts/4*150)); pt.setAttribute('opacity',1);
+    }
+  });
+  const v = el('text',{class:'verdict-t', x:10, y:218, opacity:0}, s);
+  const diff = alt ? gp(p)-gp(alt) : gp(p);
+  v.textContent = alt ? (diff>0 ? `${p.name} skates ${diff} more. Start him.` : diff<0 ? `${alt.name} actually has more games. Flip it.` : `Even on games. Go with the hotter stick.`) : `${gp(p)} games. That's the whole argument.`;
+  if(tl) tl.to(v,{opacity:1,duration:.4}, '+=.2'); else v.setAttribute('opacity',1);
+}
+
+/* ============ window manager ============ */
+const ui = {
+  open(name){ name={panel:'verdict',replay:'why'}[name]||name; const w=document.querySelector(`.win[data-name="${name}"]`); if(!w) return; w.classList.remove('hidden'); ui.focus(w); if(G&&!RM){ G.fromTo(w,{scale:.96,opacity:.6},{scale:1,opacity:1,duration:.25,ease:'power2.out'}); } ui.dock(); },
+  close(name){ const w=document.querySelector(`.win[data-name="${name}"]`); if(!w) return; if(G&&!RM){ G.to(w,{scale:.96,opacity:0,duration:.18,onComplete:()=>{w.classList.add('hidden'); G.set(w,{clearProps:'all'}); ui.dock();}}); } else { w.classList.add('hidden'); ui.dock(); } },
+  focus(w){ document.querySelectorAll('.win').forEach(x=>x.classList.remove('focus')); w.classList.add('focus'); },
+  dock(){ document.querySelectorAll('.dock [data-dock]').forEach(b=>{ const w=document.querySelector(`.win[data-name="${b.dataset.dock}"]`); b.classList.toggle('open', w && !w.classList.contains('hidden')); }); }
+};
+document.querySelectorAll('.win').forEach(w=>{
+  w.addEventListener('pointerdown', ()=>ui.focus(w));
+  const head = w.querySelector('.head'); let sx,sy,ox,oy,drag=false;
+  head.addEventListener('pointerdown', e=>{ if(e.target.closest('button')) return; drag=true; sx=e.clientX; sy=e.clientY; const r=w.getBoundingClientRect(); ox=r.left; oy=r.top; w.style.right='auto'; w.style.bottom='auto'; head.setPointerCapture(e.pointerId); });
+  head.addEventListener('pointermove', e=>{ if(!drag) return; w.style.left=(ox+e.clientX-sx)+'px'; w.style.top=Math.max(44, oy+e.clientY-sy)+'px'; });
+  head.addEventListener('pointerup', ()=>drag=false);
+});
+
+/* ============ console ============ */
+const logEl = document.getElementById('log');
+function log(msg, cls=''){ const d=document.createElement('div'); if(cls) d.className=cls; d.textContent=msg; logEl.appendChild(d); logEl.scrollTop=logEl.scrollHeight; }
+async function consoleRun(){
+  const inp=document.getElementById('cmd'); const raw=inp.value.trim(); if(!raw) return; inp.value='';
+  log('> '+raw,'in');
+  const m = raw.match(/^([a-z_]+)\s*\(?(.*?)\)?$/i); if(!m) return log('Could not parse that.','err');
+  const name=m[1].toLowerCase(); const args=m[2].split(/[\s,]+/).filter(Boolean);
+  const map = {
+    read_ice: ()=>tools.read_ice({look_ahead_days:+args[0]||7}),
+    circle: ()=>tools.circle({ids:[args[0]], reason:args.slice(1).join(' ')||undefined}),
+    split: ()=>tools.split({a:args[0], b:args[1]}), why: ()=>tools.replay({id:args[0], versus:args[1]}), replay: ()=>tools.replay({id:args[0], versus:args[1]}),
+    open: ()=>tools.cut_to({name:args[0]}), cut_to: ()=>tools.cut_to({name:args[0]}),
+    wipe: ()=>tools.wipe(), clear: ()=>tools.wipe(), help: ()=>log('read_ice · circle <id> [reason] · replay <id> · split <a> <b> · cut_to <rink|panel|hand|replay|console> · wipe'),
+    cue_roster: ()=>tools.cue_roster({text:args.join('\n')}),
+  };
+  if(!map[name]) return log(`Unknown tool "${name}". Type help.`,'err');
+  log(`→ ${name}(${args.join(', ')})`,'tool');
+  try{ const r = await map[name](); if(r) log('✓ '+JSON.stringify(r),'ok'); }catch(e){ log('✗ '+e.message,'err'); }
+}
+document.getElementById('cmd').addEventListener('keydown', e=>{ if(e.key==='Enter') consoleRun(); });
+
+/* ============ WebMCP registration (real when the API exists) ============ */
+(function registerWebMCP(){
+  const st = document.getElementById('site-tools'), lbl=document.getElementById('site-tools-label');
+  const defs = [
+    {name:'cue_roster', description:'Teach the war room which players you own. One per line, any format.', inputSchema:{type:'object',properties:{text:{type:'string'}},required:['text']}, fn:tools.cue_roster},
+    {name:'read_ice', description:'Read the ice: schedule value per skater, start/sit verdicts, games in hand.', inputSchema:{type:'object',properties:{look_ahead_days:{type:'number'}}}, fn:tools.read_ice},
+    {name:'circle', description:'Circle one skater on the telestrator with a short reason.', inputSchema:{type:'object',properties:{ids:{type:'array',items:{type:'string'}},reason:{type:'string'}},required:['ids']}, fn:tools.circle},
+    {name:'replay', description:'Run it back: replay the reasoning behind a call for one player, optionally split-screen against another.', inputSchema:{type:'object',properties:{id:{type:'string'},versus:{type:'string'}},required:['id']}, fn:tools.replay},
+    {name:'split', description:'Split-screen two skaters and replay who gets the start.', inputSchema:{type:'object',properties:{a:{type:'string'},b:{type:'string'}},required:['a','b']}, fn:tools.split},
+    {name:'cut_to', description:'Cut to a window: rink, panel, hand, replay or console.', inputSchema:{type:'object',properties:{name:{type:'string'}},required:['name']}, fn:tools.cut_to},
+  ];
+  const mc = navigator.modelContext;
+  if(mc && typeof mc.registerTool==='function'){
+    defs.forEach(d=>{ try{ mc.registerTool({name:d.name, description:d.description, inputSchema:d.inputSchema, execute: async (input)=>{ log(`agent → ${d.name}(${JSON.stringify(input)})`,'tool'); const r = await d.fn(input||{}); return {content:[{type:'text', text: JSON.stringify(r)}]}; }}); }catch(e){ console.warn(e); } });
+    st.classList.add('on'); lbl.textContent=`Site tools: ${defs.length} registered`;
+    log(`WebMCP: ${defs.length} tools registered with navigator.modelContext.`,'ok');
+  } else {
+    lbl.textContent='Site tools: not available in this browser';
+    log('WebMCP not detected here; the console calls the same tools an agent would.','in');
+  }
+})();
+
+buildRink(); ui.dock(); ui.focus(document.getElementById('w-rink'));
+log('War room ready. Type read_ice to read the ice.');
+</script>
+</body>
+</html>

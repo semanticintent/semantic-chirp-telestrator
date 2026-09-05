@@ -1,0 +1,396 @@
+{
+  "contract_version": "0.1",
+  "analysis_id": "fx-thin-week",
+  "generated_at": "2026-11-09T12:00:00Z",
+  "window": {
+    "start": "2026-11-09",
+    "end": "2026-11-15",
+    "days": 7,
+    "labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ]
+  },
+  "skaters": [
+    {
+      "id": "kadri",
+      "name": "Kadri",
+      "num": 91,
+      "pos": "C",
+      "slot": "L1",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 42,
+      "flag": null,
+      "reason": "2 games this week",
+      "ppg": 0.7,
+      "projected_pts": 1.4,
+      "note": null
+    },
+    {
+      "id": "zary",
+      "name": "Zary",
+      "num": 47,
+      "pos": "LW",
+      "slot": "L1",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 42,
+      "flag": null,
+      "reason": "2 games this week",
+      "ppg": 0.58,
+      "projected_pts": 1.2,
+      "note": null
+    },
+    {
+      "id": "coronato",
+      "name": "Coronato",
+      "num": 27,
+      "pos": "RW",
+      "slot": "L1",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 42,
+      "flag": null,
+      "reason": "2 games this week",
+      "ppg": 0.61,
+      "projected_pts": 1.2,
+      "note": null
+    },
+    {
+      "id": "frost",
+      "name": "Frost",
+      "num": 16,
+      "pos": "C",
+      "slot": "L2",
+      "club": "CGY",
+      "games": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 14,
+      "flag": "warn",
+      "reason": "1 games this week",
+      "ppg": 0.68,
+      "projected_pts": 0.7,
+      "note": null
+    },
+    {
+      "id": "weegar",
+      "name": "Weegar",
+      "num": 52,
+      "pos": "D",
+      "slot": "D1",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 42,
+      "flag": null,
+      "reason": "2 games this week",
+      "ppg": 0.6,
+      "projected_pts": 1.2,
+      "note": null
+    },
+    {
+      "id": "andersson",
+      "name": "Andersson",
+      "num": 4,
+      "pos": "D",
+      "slot": "D1",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 42,
+      "flag": null,
+      "reason": "2 games this week",
+      "ppg": 0.54,
+      "projected_pts": 1.1,
+      "note": null
+    },
+    {
+      "id": "bahl",
+      "name": "Bahl",
+      "num": 7,
+      "pos": "D",
+      "slot": "D2",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 42,
+      "flag": null,
+      "reason": "2 games this week",
+      "ppg": 0.3,
+      "projected_pts": 0.6,
+      "note": null
+    },
+    {
+      "id": "wolf",
+      "name": "Wolf",
+      "num": 32,
+      "pos": "G",
+      "slot": "G",
+      "club": "CGY",
+      "games": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "b2b": true,
+      "schedule_value": 30,
+      "flag": "warn",
+      "reason": "2 games, back-to-back",
+      "ppg": 0,
+      "projected_pts": 0,
+      "note": null
+    },
+    {
+      "id": "strome",
+      "name": "Strome",
+      "num": 22,
+      "pos": "C",
+      "slot": "BN",
+      "club": "CGY",
+      "games": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 64,
+      "flag": "stream",
+      "reason": "3 games this week",
+      "ppg": 0.49,
+      "projected_pts": 1.5,
+      "note": null
+    },
+    {
+      "id": "huberdeau",
+      "name": "Huberdeau",
+      "num": 10,
+      "pos": "LW",
+      "slot": "IR",
+      "club": "CGY",
+      "games": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 0,
+      "flag": "ir",
+      "reason": "day-to-day, upper body",
+      "ppg": 0.9,
+      "projected_pts": 0,
+      "note": "day-to-day, upper body"
+    },
+    {
+      "id": "sharangovich",
+      "name": "Sharangovich",
+      "num": 17,
+      "pos": "RW",
+      "slot": "IR",
+      "club": "CGY",
+      "games": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "b2b": false,
+      "schedule_value": 0,
+      "flag": "ir",
+      "reason": "week-to-week, lower body",
+      "ppg": 0.5,
+      "projected_pts": 0,
+      "note": "week-to-week, lower body"
+    }
+  ],
+  "calls": {
+    "start": [
+      "kadri",
+      "zary"
+    ],
+    "sit": [
+      "frost"
+    ],
+    "stream": [
+      "strome"
+    ],
+    "ir": [
+      "huberdeau",
+      "sharangovich"
+    ]
+  },
+  "games_in_hand": {
+    "you": 18,
+    "opp": null,
+    "take": "18 games on the board. Paste the other guy's roster and I'll tell you the edge."
+  },
+  "verdicts": [
+    {
+      "ids": [
+        "kadri"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "zary"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "coronato"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "frost"
+      ],
+      "line": "1 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "weegar"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "andersson"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "bahl"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "wolf"
+      ],
+      "line": "2 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "strome"
+      ],
+      "line": "3 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "huberdeau"
+      ],
+      "line": "0 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "sharangovich"
+      ],
+      "line": "0 games. That's the whole argument."
+    },
+    {
+      "ids": [
+        "kadri",
+        "frost"
+      ],
+      "line": "Kadri skates 1 more. Start him."
+    },
+    {
+      "ids": [
+        "zary",
+        "strome"
+      ],
+      "line": "Strome actually has more games. Flip it."
+    }
+  ],
+  "take": "Lineup's carrying 13 games. Keep it, and stop tinkering.",
+  "source": {
+    "analyst": "fixture",
+    "data": [
+      "fixture: authored from reference/telestrator-v0.html mock data",
+      "schedule bits are illustrative, not the 2026-27 NHL schedule"
+    ]
+  }
+}

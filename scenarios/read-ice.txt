@@ -1,0 +1,2 @@
+cue_roster cgy-week1
+read_ice

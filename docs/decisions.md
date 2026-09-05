@@ -1,0 +1,75 @@
+# Decisions
+
+*Short records of the choices that shape everything downstream. One entry per decision. Append; do not rewrite history. Status is `decided`, `open`, or `superseded by Dn`.*
+
+Last updated 2026-09-04.
+
+---
+
+## D1 — Separate repo, never imports CHIRP — decided
+
+`semantic-chirp-telestrator` is its own repo. The screen reaches the analyst over HTTP or from `fixtures/`; the shape is identical either way. No import, no shared build. A separate repo enforces the boundary for free and keeps the page's dependencies out of the MCP server's.
+
+## D2 — The read contract lives here, CHIRP vendors it — decided
+
+`contracts/read.schema.json` is owned by the consumer: the screen defines what it can draw. CHIRP keeps a vendored copy under its own `contracts/` and runs a test that diffs the two files byte for byte. Publishing the schema as an npm package is deferred until a second consumer exists.
+
+Why here and not in CHIRP: the schema is the list of things the screen knows how to draw, and it changes when a view changes. The analyst adapts to the screen's vocabulary, not the other way round.
+
+## D3 — Ids are opaque strings — decided
+
+`skater.id` is whatever the analyst assigns. Live CHIRP uses the NHL player id. Fixtures use slugs (`zary`, `gridin`) so scenarios stay readable. The screen never parses, slugifies, or matches names against ids. The producer console may offer name-to-id convenience for humans typing; that convenience is not a tool and is not registered with WebMCP.
+
+## D4 — The screen computes nothing; the contract carries every line — decided
+
+The v0 mockup computed start/sit by sorting, projected points by multiplication, replay verdict lines, the games-in-hand caption, and an automatic replay comparator. None of that is ported. The contract now carries `projected_pts`, `verdicts[]`, `games_in_hand.take`, `take`, `reason`, and `window.labels` so that views only lay out what they are given. Layout math on read values (scaling a 0–100 to a bar width) is allowed. Deriving a new fact (a comparison, a sum, a sort across skaters, a sentence) is not.
+
+Test that enforces it: every rendered text node must appear either in the fixture or in `src/copy.js` (static interface copy). See ARCHITECTURE.md → Verification.
+
+## D5 — A circle persists until wiped or replaced — decided
+
+The pattern doc says the screen remembers; the mockup faded the circle after 4.2 s. State wins. `state.circle` stays until `wipe()` or the next `circle()`. Motion may dim the spotlight to a ring after a few seconds; the callout stays. Only one circle at a time in v1 (`ids[0]`); multi-circle waits for layers.
+
+## D6 — `replay(id)` shows one; `split(a, b)` shows two; no auto-comparator — decided
+
+Choosing the foil is the pen's move or the analyst's call, never the screen's. `replay` with one id draws one row and the matching single-id verdict, if any. `split` draws two rows and the matching pair verdict. No verdict match means the sequence runs without a closing line.
+
+## D7 — `cue_roster` under fixtures loads a fixture; live, it posts text to the analyst — decided
+
+Roster resolution (names → players, ambiguity reporting) is CHIRP's job and already exists there (`RosterStore`). The screen never parses roster text. In fixture mode `cue_roster` takes a fixture name. In live mode it posts the pasted text and receives `skaters[]` with slots.
+
+## D8 — Views emit end values; sequences own only time — decided
+
+A view renders every element in its final state, with `data-*` attributes for anything a sequence needs (`data-to-width`, `data-cx`, `data-cy`, `data-r`). A sequence step is `{ at, target, do, duration?, ease?, stagger? }` and never contains a computed value. The runner reads the end value from the element. This keeps sequence JSON free of expressions and keeps meaning out of motion.
+
+## D9 — Partial re-render driven by `touches` — decided
+
+`render(state)` rebuilds only the views named in the last move's `touches`. A full rebuild on every move would destroy in-flight tweens and spotlight targets. Idempotency is tested by rendering the same state twice and comparing markup per view.
+
+## D10 — Fixtures first; the analyst track runs in parallel — decided
+
+Screen tasks 1–3 run entirely on fixtures. The CHIRP-side `read_ice` (a new analysis emitting this contract, plus an HTTP entry point) is a separate track in the CHIRP repo and is the true critical path. Wiring happens in screen task 4. See `docs/plan.md`.
+
+## D11 — Live transport is stateless HTTP, local first — decided
+
+CHIRP v4 is stdio and keeps the roster on disk. The screen path needs neither. A small `chirp-http` entry in the CHIRP repo exposes `POST /read` taking `{ roster_text, look_ahead_days, opponent_text? }` and returning a Read. No stored roster, no auth, CORS open to the page's origin. Runs on localhost for the demo. Remote hosting behind Signet is a later decision, not a blocker.
+
+## D12 — Team colours come from `skater.club` via a token map — decided
+
+The mockup hardcoded one club's jersey colours inline. `tokens.css` carries a `--club-XXX` pair per NHL tricode and a neutral pair. Generic jersey shapes only; no logos, wordmarks, or jersey designs.
+
+## D13 — Stack — decided
+
+Vanilla ES modules, SVG, GSAP (npm, bundled), Vite, `vite-plugin-singlefile` for `dist/telestrator.html`, Vitest for unit and contract tests, Playwright for scenarios, Ajv for schema validation. Barlow is inlined into the single-file build; the dev server may load it from Google Fonts. Check each package against the rules in the user's global CLAUDE.md before installing; report weekly downloads and last publish date for anything not already in the ecosystem.
+
+## D14 — GitHub repo — open
+
+Recommendation: public under `semanticintent/semantic-chirp-telestrator`, MIT, matching the CHIRP repo. Create after task 1 lands so the first public commit already runs. **Needs a yes.**
+
+## D15 — Where the page is hosted — open
+
+Recommendation: Cloudflare Pages (existing infra) as the canonical URL, plus registration with whichever WebMCP hosts are live at task 4. The overview names ChatGPT Sites; verify its current status and publishing model before committing to it. **Needs a decision at task 4, not now.**
+
+## D16 — WebMCP API surface — open
+
+The mockup calls `navigator.modelContext.registerTool({ name, description, inputSchema, execute })`. Verify against the current spec and the Chrome origin-trial shape before task 4. Registration is generated from `grammar.js`, so a signature change is one adapter, not a rewrite. **Verify, then close.**
