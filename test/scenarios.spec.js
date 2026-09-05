@@ -116,10 +116,16 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   expect(state0.log.at(-1)).toEqual({ line: 'cue_roster (pasted lineup)', ack: { cued: 'fx-cgy-week1', skaters: 15 } });
   expect(state0.windows.paste.open).toBe(false);
   expect(state0.windows.welcome.open).toBe(false);
+  await page.evaluate(() => window.sepiola.run('read_ice'));
+  expect(await page.locator('[data-view="hand"] [data-seq="gih_bar"]').count()).toBe(2); // cgy-week1 carries an opponent
   const read = await page.evaluate(() => window.sepiola.run('read_ice 3 2026-10-05'));
   expect(read.read).toBe('fx-thin-week');
-  expect(posts.map((p) => [p.roster_text, p.opponent_text, p.look_ahead_days, p.start])).toEqual([['Zary LW\nGridin LW', 'Auston Matthews C', 7, undefined], ['Zary LW\nGridin LW', 'Auston Matthews C', 3, '2026-10-05']]);
-  expect(await page.locator('[data-view="hand"] [data-seq="gih_bar"]').count()).toBe(2); // fixture cgy-week1 carries an opponent
+  expect(posts.map((p) => [p.roster_text, p.opponent_text, p.look_ahead_days, p.start])).toEqual([
+    ['Zary LW\nGridin LW', 'Auston Matthews C', 7, undefined],
+    ['Zary LW\nGridin LW', 'Auston Matthews C', 7, undefined],
+    ['Zary LW\nGridin LW', 'Auston Matthews C', 3, '2026-10-05'],
+  ]);
+  expect(await page.locator('[data-view="hand"] [data-seq="gih_bar"]').count()).toBe(1); // thin-week has no opponent
   const state = await page.evaluate(() => window.sepiola.state());
   expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW', opponent_text: 'Auston Matthews C' });
   await page.click('.signal summary');
