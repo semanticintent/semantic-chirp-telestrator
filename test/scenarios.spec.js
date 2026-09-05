@@ -173,3 +173,15 @@ test('the menubar menus open windows and the about sections answer to hashes', a
   expect(await page.evaluate(() => window.sepiola.state().windows.about.open)).toBe(true);
   await page.screenshot({ path: 'test/shots/about-terms.png' });
 });
+
+test('the paste window explains the formats and can fill itself with the sample lineup', async ({ page }) => {
+  await boot(page);
+  await page.click('.win[data-name="welcome"] [data-paste]');
+  await page.click('.formats summary');
+  expect(await page.locator('.formats-table tr').count()).toBe(6);
+  await expect(page.locator('.formats-body')).toContainText('Matthews, Auston');
+  await page.click('[data-paste-sample]');
+  expect(await page.inputValue('#paste-in')).toMatch(/^Connor McDavid C\n/);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await page.screenshot({ path: 'test/shots/paste-formats.png' });
+});

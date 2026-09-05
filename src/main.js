@@ -46,6 +46,11 @@ document.addEventListener('click', (e) => {
     document.getElementById('paste-in')?.focus({ preventScroll: true }); // never scroll the desktop
     return;
   }
+  if (e.target.closest('[data-paste-sample]')) {
+    const box = document.getElementById('paste-in');
+    box.value = copy.paste.sample; box.focus({ preventScroll: true });
+    return;
+  }
   const opener = e.target.closest('[data-open]');
   if (opener) return touch((s) => open(s, opener.dataset.open));
   const closer = e.target.closest('[data-close]');

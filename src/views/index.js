@@ -2,6 +2,7 @@
 import { about } from './about.js';
 import { chrome } from './chrome.js';
 import { consoleView } from './console.js';
+import { formats } from './formats.js';
 import { hand } from './hand.js';
 import { panel } from './panel.js';
 import { replay } from './replay.js';
@@ -10,4 +11,4 @@ import { spot } from './spot.js';
 import { strips } from './strips.js';
 import { welcome } from './welcome.js';
 
-export const views = { chrome, rink, spot, strips, replay, panel, hand, console: consoleView, welcome, about };
+export const views = { chrome, rink, spot, strips, replay, panel, hand, console: consoleView, welcome, about, formats };

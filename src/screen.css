@@ -220,6 +220,19 @@ body::after{ /* fine grain */
 .paste-row small{flex:1; color:var(--ink-2); font-size:12px; line-height:1.4}
 .paste-row button,.paste-open{font-family:var(--font-d); font-weight:700; font-size:15px; padding:6px 14px; border-radius:10px; border:0; background:var(--ink); color:#fff; cursor:pointer}
 .paste-open{margin-top:8px; width:100%; background:rgba(255,255,255,.6); color:var(--ink); border:1px solid rgba(180,130,60,.25)}
+.formats{margin-top:10px; font-size:12.5px; color:var(--ink-2)}
+.formats summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px; padding:4px 8px 4px 4px; border-radius:999px; user-select:none}
+.formats summary::-webkit-details-marker{display:none}
+.formats summary:hover{background:rgba(255,255,255,.6); color:var(--ink)}
+.info{width:18px; height:18px; border-radius:50%; display:inline-grid; place-items:center; background:var(--blue); color:#fff; font-family:var(--font-d); font-weight:800; font-size:12px; font-style:normal}
+.formats-body{margin-top:8px; padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.55); border:1px solid rgba(180,130,60,.22); color:var(--ink)}
+.formats-body p{margin:0 0 8px; color:var(--ink-2)}
+.formats-table{border-collapse:collapse; width:100%}
+.formats-table td{padding:3px 8px 3px 0; vertical-align:top; font-size:12.5px}
+.formats-table td:first-child{color:var(--ink-2); white-space:nowrap; width:45%}
+.formats-table code{font-family:ui-monospace, Menlo, monospace; font-size:12px; background:#fff; border:1px solid rgba(43,32,22,.1); padding:1px 6px; border-radius:5px; white-space:pre}
+.paste-sample{margin-top:10px; font-family:var(--font-d); font-weight:700; font-size:14px; padding:5px 12px; border-radius:8px; border:1px solid rgba(180,130,60,.3); background:rgba(255,255,255,.7); color:var(--ink); cursor:pointer}
+.paste-sample:hover{border-color:var(--amber)}
 .paste-open:hover{border-color:var(--amber)}
 
 /* welcome */

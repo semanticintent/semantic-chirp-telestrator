@@ -19,7 +19,7 @@ function scalars(node, out = new Set()) {
   return out;
 }
 
-const templates = leaves().map((s) => new RegExp('^' + s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\\\{\w+\\\}/g, '.+?') + '$'));
+const templates = leaves().map((s) => s.replace(/\s+/g, ' ')).map((s) => new RegExp('^' + s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\\\{\w+\\\}/g, '.+?') + '$'));
 
 describe('no opinions', () => {
   for (const [name, read] of Object.entries(fixtures)) {

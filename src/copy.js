@@ -52,6 +52,20 @@ export const copy = {
     placeholder: 'read_ice',
     run: 'Run',
   },
+  paste: {
+    formats: 'What "one player per line" means',
+    lead: 'Any of these, mixed freely. Names are matched against the NHL\'s player index; a surname alone works when it is unique.',
+    examples: [
+      ['Name and position', 'Connor McDavid C'],
+      ['Bench or injured reserve first', 'BN Ryan Strome C'],
+      ['Last name, first name', 'Matthews, Auston'],
+      ['A ranked list', '1. Nathan MacKinnon COL - C'],
+      ['A row copied from a fantasy site', 'D    Cale Makar    COL - D    Q'],
+      ['Just a surname', 'Nylander'],
+    ],
+    useSample: 'Use the sample lineup',
+    sample: 'Connor McDavid C\nMatvei Gridin LW\nMatt Coronato RW\nMorgan Frost C\nConnor Zary LW\nJoel Farabee RW\nCale Makar D\nRasmus Andersson D\nMacKenzie Weegar D\nKevin Bahl D\nDustin Wolf G\nBN Ryan Strome C\nBN Mikael Backlund C\nIR Jonathan Huberdeau LW',
+  },
   signal: {
     title: 'Two sides of one screen',
     line: 'The analyst decides. The pen draws. The screen has no opinions.',
