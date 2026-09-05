@@ -10,7 +10,7 @@ import { open, close, move } from './state.js';
 import { submit } from './talkback.js';
 import { register } from './webmcp.js';
 import { mode, analystUrl } from './analyst.js';
-import { copy, fill } from './copy.js';
+import { mountSignal } from './signal.js';
 
 render(getState());
 
@@ -34,7 +34,7 @@ openFromHash();
 document.addEventListener('click', (e) => {
   const menu = e.target.closest('details.menu');
   closeMenus(e.target.closest('summary') ? menu : null);
-  if (e.target.closest('.menu-list')) menu?.removeAttribute('open');
+  if (e.target.closest('.menu-list') && !e.target.closest('.signal-panel')) menu?.removeAttribute('open');
   const aboutLink = e.target.closest('.about-nav a');
   if (aboutLink) { e.preventDefault(); return showAbout(aboutLink.getAttribute('href').slice(1)); }
   const aboutOpener = e.target.closest('[data-open-about]');
@@ -98,14 +98,8 @@ document.getElementById('paste-go')?.addEventListener('click', () => {
   if (text) call('cue_roster', { text }, copy.console.pasted);
 });
 
-// Where the reads come from, and whether an agent can reach the moves.
-document.getElementById('mode-label').textContent = mode() === 'live' ? fill(copy.siteTools.live, { url: analystUrl() }) : copy.siteTools.fixture;
-const pill = document.getElementById('site-tools');
-const pillLabel = document.getElementById('site-tools-label');
-const webmcp = register().then((r) => {
-  pillLabel.textContent = r.available ? fill(copy.siteTools.on, { n: r.registered }) : copy.siteTools.none;
-  pill.classList.toggle('on', r.available && r.registered > 0);
-  return r;
-});
+// The signal: whether an agent can reach the moves (WebMCP), and where the reads come from (the analyst).
+const webmcp = register();
+mountSignal({ webmcp, mode: mode(), url: analystUrl() });
 
 window.sepiola = { ready: true, run, call, submit, state: getState, settled, moves: moves(), webmcp, showAbout };

@@ -76,7 +76,10 @@ test('an agent with WebMCP sees every move and can make one', async ({ page }) =
   });
   await boot(page);
   await page.evaluate(() => window.sepiola.webmcp);
-  await expect(page.locator('#site-tools-label')).toHaveText(/7 registered/);
+  await expect(page.locator('#pill-webmcp')).toHaveText(/WebMCP · 7 tools/);
+  await page.click('.signal summary');
+  await expect(page.locator('#signal-panel')).toContainText('7 tools registered with navigator.modelContext');
+  expect(await page.locator('#signal-panel .chips-row code').count()).toBe(7);
   const names = await page.evaluate(() => navigator.modelContext.tools.map((t) => t.name));
   expect(names).toEqual(await page.evaluate(() => window.sepiola.moves));
   const ack = await page.evaluate(async () => {
@@ -94,6 +97,7 @@ test('an agent with WebMCP sees every move and can make one', async ({ page }) =
 
 test('with an analyst configured, cue_roster posts the lineup and read_ice re-reads with the window', async ({ page }) => {
   const posts = [];
+  await page.route('**/health', (route) => route.fulfill({ status: 200, headers: CORS, body: JSON.stringify({ ok: true, analyst: 'chirp', season: '20262027' }) }));
   await page.route('**/read', async (route) => {
     const body = JSON.parse(route.request().postData());
     posts.push(body);
@@ -101,7 +105,7 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   });
   await page.goto('/?analyst=http://analyst.test');
   await page.waitForFunction(() => window.sepiola?.ready === true);
-  await expect(page.locator('#mode-label')).toHaveText(/live/);
+  await expect(page.locator('#pill-analyst')).toHaveText(/Analyst · live/);
   const cued = await page.evaluate(() => window.sepiola.call('cue_roster', { text: 'Zary LW\nGridin LW' }));
   expect(cued).toEqual({ cued: 'fx-cgy-week1', skaters: 15 });
   const read = await page.evaluate(() => window.sepiola.run('read_ice 3 2026-10-05'));
@@ -109,6 +113,9 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   expect(posts.map((p) => [p.roster_text, p.look_ahead_days, p.start])).toEqual([['Zary LW\nGridin LW', 7, undefined], ['Zary LW\nGridin LW', 3, '2026-10-05']]);
   const state = await page.evaluate(() => window.sepiola.state());
   expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW' });
+  await page.click('.signal summary');
+  await expect(page.locator('#signal-panel')).toContainText(/chirp · season 20262027 · answered in \d+ ms/);
+  await page.screenshot({ path: 'test/shots/signal-live.png' });
 });
 
 test('a read the screen cannot draw is refused in the transcript, not drawn', async ({ page }) => {
