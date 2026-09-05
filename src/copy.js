@@ -90,8 +90,8 @@ export const copy = {
       quickStart: {
         heading: 'Quick start',
         steps: [
-          'Open the Talkback window (bottom right). It speaks the same seven moves an agent would.',
-          'Expand Paste a lineup, paste your roster in any format, one player per line, and press Cue it. Or use Load a sample week from the Sepiola menu.',
+          'The Talkback window (top right) speaks the same seven moves an agent would.',
+          'Press Paste a lineup, paste your roster in any format, one player per line, and press Cue it. Or pick Load a sample week from the Sepiola menu.',
           'Type read_ice and press Run. Before opening night, add a date to read a real week: read_ice 7 2026-10-12.',
           'Click a skater to circle him. Press why on a panel row to run it back. Type split with two ids for two weeks side by side.',
           'With WebMCP in your browser, an agent can make every one of these moves for you, and you will see each one land in the transcript.',

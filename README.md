@@ -12,8 +12,8 @@ The first analyst is [CHIRP](https://github.com/semanticintent/semantic-chirp-in
 
 ## Try it in a minute
 
-1. Open the live page. The **Talkback** window at the bottom right is the producer console: it speaks the same moves an agent would.
-2. Expand **Paste a lineup**, paste any roster (one player per line, any format), press **Cue it**. Names resolve against the NHL's player index.
+1. Open the live page. The **Talkback** window at the top right is the producer console: it speaks the same moves an agent would. The welcome card offers a sample week if you would rather look first.
+2. Press **Paste a lineup**, paste any roster (one player per line, any format), press **Cue it**. Names resolve against the NHL's player index.
 3. Type `read_ice 7 2026-10-12` and press Run. The ice reveals itself under each skater, the panel puts up the calls, games in hand fills. Before opening night, the date is how you read a real week; once the season is on, `read_ice` alone reads this one.
 4. Click a skater to circle him. Press **why** on a panel row to run it back. Type `split <id> <id>` for two weeks side by side.
 
