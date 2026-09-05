@@ -10,11 +10,15 @@ const nameTheBuild = {
   },
 };
 
-export default defineConfig({
+// The production build defaults to the hosted analyst (D29); dev and tests stay in fixture mode unless ?analyst= says otherwise.
+const HOSTED_ANALYST = 'https://chirp-edge.michshat.workers.dev';
+
+export default defineConfig(({ mode }) => ({
+  define: { __DEFAULT_ANALYST__: JSON.stringify(mode === 'production' ? (process.env.ANALYST_URL ?? HOSTED_ANALYST) : '') },
   plugins: [viteSingleFile(), nameTheBuild],
   build: { outDir: 'dist', cssCodeSplit: false, assetsInlineLimit: 100_000_000 },
   test: {
     include: ['test/**/*.spec.js'],
     exclude: ['test/scenarios.spec.js', 'node_modules/**'],
   },
-});
+}));

@@ -125,3 +125,7 @@ The analyst defaults the window to today, and today in September is preseason. `
 ## D28 — Where the analyst's opinions live now — recorded
 
 All of them are in CHIRP's `src/services/ReadIceService.ts`: schedule value (games in the window against four, less twenty for a back-to-back), flags (`warn` at two games or a back-to-back, `stream` for a four-game bench skater), the calls (Start needs at least half value; nothing is called when nobody plays), the verdict lines, the take, the games-in-hand take. Change a sentence there and every screen changes; change nothing here.
+
+## D29 — The production build defaults to the hosted analyst — decided
+
+The analyst has a hosted face: `chirp-edge` on Cloudflare Workers (KV-cached NHL data, CORS, per-address rate limit, anonymous). `vite build` in production mode bakes its URL in as the default, so https://chirp-telestrator.pages.dev reads live. Precedence: `?analyst=<url>`, then `?analyst=fixtures` to force fixture mode, then `window.TELESTRATOR_ANALYST`, then the build default. Dev and tests have no default and stay on fixtures. Override the baked URL with `ANALYST_URL=... npm run build`.

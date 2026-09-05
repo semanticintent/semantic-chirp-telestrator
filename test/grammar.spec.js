@@ -28,6 +28,19 @@ describe('grammar', () => {
     const ri = grammar.find((g) => g.name === 'read_ice');
     expect(await ri.prepare({ look_ahead_days: 3, start: '2026-10-05' }, { source: { mode: 'fixture', fixture: 'cgy-week1' } })).toEqual({ look_ahead_days: 3, start: '2026-10-05' });
   });
+  it('analystUrl: ?analyst= wins, fixtures forces fixture mode, nothing configured means fixtures', async () => {
+    const { analystUrl } = await import('../src/analyst.js');
+    globalThis.location = { search: '?analyst=http://a.test/' };
+    expect(analystUrl()).toBe('http://a.test');
+    globalThis.location = { search: '?analyst=fixtures' };
+    globalThis.TELESTRATOR_ANALYST = 'http://b.test';
+    expect(analystUrl()).toBeNull();
+    globalThis.location = { search: '' };
+    expect(analystUrl()).toBe('http://b.test');
+    delete globalThis.TELESTRATOR_ANALYST;
+    expect(analystUrl()).toBeNull(); // tests run without a build default
+    delete globalThis.location;
+  });
   it('docs/grammar.md is up to date (npm run docs:grammar)', () => {
     expect(existsSync('docs/grammar.md')).toBe(true);
     expect(readFileSync('docs/grammar.md', 'utf8')).toBe(grammarDoc(grammar));
