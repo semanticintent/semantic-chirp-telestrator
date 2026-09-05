@@ -114,9 +114,9 @@ The user asked for the deploy ahead of the analyst. Pages project `chirp-telestr
 
 Barlow and Barlow Condensed (latin subset, six faces, 104 kB, SIL OFL 1.1 with the licence in `src/fonts/`) are bundled as data URIs into the single file. No request leaves the page for type. The single file is 250 kB.
 
-## D26 — What the agent hosts actually are — recorded
+## D26 — What the agent hosts actually are — recorded (corrected 2026-09-05: no Site needed)
 
-The Codex / ChatGPT desktop app has an embedded browser that can call WebMCP tools; ChatGPT Sites (`*.chatgpt.site`) is its hosting and test environment, where the user has published before (Orbweaver). So the demo path is: page on Cloudflare Pages (canonical) and, when useful, the same single file on a Site; Chrome with the flag for local checks. Corrects the Desktop session's overview, which had this half right.
+The Codex / ChatGPT desktop app has an embedded browser that can call WebMCP tools; ChatGPT Sites (`*.chatgpt.site`) is its hosting and test environment, where the user has published before (Orbweaver). So the demo path is: page on Cloudflare Pages (canonical); Chrome with the flag for local checks. **Correction:** a ChatGPT Site is not needed. Sites is part of Codex's own dev-and-test workflow and would only matter if the page were being developed inside Codex. Corrects the Desktop session's overview, which had this half right.
 
 ## D27 — `read_ice` takes a `start` date — decided
 
@@ -129,3 +129,11 @@ All of them are in CHIRP's `src/services/ReadIceService.ts`: schedule value (gam
 ## D29 — The production build defaults to the hosted analyst — decided
 
 The analyst has a hosted face: `chirp-edge` on Cloudflare Workers (KV-cached NHL data, CORS, per-address rate limit, anonymous). `vite build` in production mode bakes its URL in as the default, so https://chirp-telestrator.pages.dev reads live. Precedence: `?analyst=<url>`, then `?analyst=fixtures` to force fixture mode, then `window.TELESTRATOR_ANALYST`, then the build default. Dev and tests have no default and stay on fixtures. Override the baked URL with `ANALYST_URL=... npm run build`.
+
+## D30 — The brand is Telestrator; the repo keeps its ecosystem name — decided
+
+The product and the pattern are called **Telestrator**. The page title, the menubar, and the README say so. CHIRP is the first analyst behind it and is named where an analyst belongs: in the panel's source line and in the docs. The repository stays `semantic-chirp-telestrator`, matching the `semantic-*` naming of the ecosystem and saying which analyst it was built for. If a second rink appears for a different analyst, the grammar and runner move to a `telestrator` core repo and this one becomes the CHIRP screen. Not before.
+
+## D31 — Domain — open, with a recommendation
+
+`telestrator.dev` is available (first year on promotion). Two honest options. **Canonical:** register it, add it as the Pages custom domain, keep it renewed; the brand and the URL are one word. **Redirect:** point it at a durable canonical and let it lapse later; not recommended, because a lapsed brand domain breaks every link that used it and hands the name to whoever registers it next. The durable canonical in either case is `telestrator.semanticintent.dev` in the zone already used by the ecosystem. Recommendation: register `telestrator.dev` only if it will be kept; otherwise use the subdomain and skip the promo. Registration and DNS are the user's; Pages custom-domain wiring follows.
