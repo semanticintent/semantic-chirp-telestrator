@@ -74,7 +74,7 @@ A second entry point, same core: `POST /read` with `{ roster_text, look_ahead_da
 
 ### S5 — First deploy — deployed 2026-09-04; reading live since 2026-09-05
 
-Live at https://chirp-telestrator.pages.dev, defaulting to the hosted analyst `chirp-edge` (https://chirp-edge.michshat.workers.dev, CHIRP PR `feat/chirp-edge`). Paste a lineup in the talkback and `read_ice 7 2026-10-12`. `?analyst=fixtures` for fixture mode. Open: flip the repo public; publish the single file to a ChatGPT Site for the Codex embedded browser (D26); a custom domain in the `semanticintent.dev` zone; `npm publish` of CHIRP 4.2.0 (needs `npm login`).
+Live at https://chirp-telestrator.pages.dev, defaulting to the hosted analyst `chirp-edge` (https://chirp-edge.michshat.workers.dev, CHIRP PR `feat/chirp-edge`). Paste a lineup in the talkback and `read_ice 7 2026-10-12`. `?analyst=fixtures` for fixture mode. Repo public since 2026-09-05 (MIT). CHIRP 4.2.0 on npm; the analyst's CORS allowlist names the Pages origin and localhost. Open: publish the single file to a ChatGPT Site for the Codex embedded browser (D26) and add that origin to the analyst's `CORS_ORIGIN`; a custom domain in the `semanticintent.dev` zone.
 
 ## Sequence
 
