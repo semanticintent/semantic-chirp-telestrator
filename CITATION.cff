@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use or reference this work, please cite it as below."
+title: "Sepiola: A WebMCP Telestrator — the page is the screen, not the actor"
+abstract: >
+  WebMCP lets a web page register tools an in-browser agent can call; nearly every
+  example makes the page the actor. Sepiola demonstrates the complementary pattern,
+  the telestrator: a page that exposes tools which show rather than do, so an agent
+  whose intelligence lives elsewhere can draw it onto a persistent surface the human
+  is also looking at. Three roles are kept apart — an analyst (the CHIRP MCP server)
+  that decides, a pen (any WebMCP agent) that draws, and a screen (this page) that
+  has no opinions, enforced by a test in which every rendered text node must come
+  from the analyst's read or the interface copy. The seven broadcast moves are
+  registered against Chromium's real WebMCP implementation; the analyst is hosted
+  on Cloudflare Workers and the screen on Cloudflare Pages.
+authors:
+  - family-names: "Shatny"
+    given-names: "Michael"
+    orcid: "https://orcid.org/0009-0006-2011-3258"
+    affiliation: "Semantic Intent"
+version: 0.1.0
+date-released: 2026-09-05
+license: MIT
+repository-code: "https://github.com/semanticintent/sepiola"
+url: "https://sepiola.semanticintent.dev"
+keywords:
+  - webmcp
+  - model-context-protocol
+  - ai-agents
+  - telestrator
+  - human-ai-collaboration
+  - fantasy-hockey
+  - nhl
+  - semantic-intent
+  - cloudflare-workers
+  - svg
+references:
+  - type: software
+    authors:
+      - family-names: "Shatny"
+        given-names: "Michael"
+        orcid: "https://orcid.org/0009-0006-2011-3258"
+    title: "ChirpIQX: semantic-chirp-intelligence-mcp — NHL fantasy-hockey intelligence MCP server"
+    year: 2026
+    url: "https://github.com/semanticintent/semantic-chirp-intelligence-mcp"
+  - type: article
+    authors:
+      - family-names: "Shatny"
+        given-names: "Michael"
+        orcid: "https://orcid.org/0009-0006-2011-3258"
+    title: "Semantic Intent as Governance Primitive for Agentic Systems"
+    year: 2026
+    doi: "10.5281/zenodo.20436088"

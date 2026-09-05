@@ -139,6 +139,10 @@ Built and live: the screen at sepiola.semanticintent.dev, the analyst at chirp-m
 - [docs/plan.md](docs/plan.md) — the two tracks, what's done, what's next
 - [CLAUDE.md](CLAUDE.md) — working instructions for a model in this repo
 
+## Paper and citation
+
+The pattern is written up as a short paper, [docs/paper/telestrator-pattern.md](docs/paper/telestrator-pattern.md): context, forces, the pattern, this worked example, and six things building it taught. Cite the software with [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this repository" button).
+
 ## Licence
 
 MIT. Barlow and Barlow Condensed are by Jeremy Tribby under the SIL Open Font License 1.1 (`src/fonts/OFL.txt`). No team logos, wordmarks, or jersey designs: generic shapes in club colours only.

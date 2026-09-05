@@ -1,0 +1,9 @@
+{
+  "title": "Sepiola: A WebMCP Telestrator — the page is the screen, not the actor",
+  "description": "WebMCP lets a web page register tools an in-browser agent can call; nearly every example makes the page the actor. Sepiola demonstrates the complementary pattern, the telestrator: a page that exposes tools which show rather than do, so an agent whose intelligence lives elsewhere can draw it onto a persistent surface the human is also looking at. Three roles are kept apart: an analyst (the CHIRP MCP server) that decides, a pen (any WebMCP agent) that draws, and a screen (this page) that has no opinions, enforced by a test in which every rendered text node must come from the analyst's read or the interface copy. Seven broadcast moves (cue_roster, read_ice, circle, replay, split, cut_to, wipe) are registered against Chromium's real WebMCP implementation. The paper is at docs/paper/telestrator-pattern.md.",
+  "creators": [{ "name": "Shatny, Michael", "affiliation": "Semantic Intent", "orcid": "0009-0006-2011-3258" }],
+  "keywords": ["webmcp", "model-context-protocol", "ai-agents", "telestrator", "human-ai-collaboration", "fantasy-hockey", "semantic-intent", "cloudflare-workers"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "upload_type": "software"
+}
