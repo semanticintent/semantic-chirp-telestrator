@@ -1,7 +1,7 @@
 // Every static string the interface shows. Views may show a string from here or a string from the read. Nothing else.
 // Templates use {name} slots; fill() puts read values into them. The no-opinions test knows about both.
 export const copy = {
-  brand: 'Telestrator',
+  brand: 'Sepiola',
   rink: {
     title: 'My rink',
     subEmpty: 'Cue a roster to load the board',

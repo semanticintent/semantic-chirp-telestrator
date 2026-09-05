@@ -115,7 +115,7 @@ Every verb is one sentence the pen can say visually. That is the test for adding
 - The page really is the actor. If the job is to book or buy, use WebMCP the ordinary way.
 - Nobody will look twice. Disposable answers belong in chat.
 
-## Worked example: the CHIRP telestrator
+## Worked example: Sepiola, the CHIRP telestrator
 
 Fantasy hockey is a natural host because the visuals *are* the argument. A lineup is positional. A schedule is a calendar. A back-to-back is two adjacent tiles. Draw CHIRP's schedule intelligence as ice quality under each skater's feet and the whole read is visible before the analyst says a word.
 
@@ -139,4 +139,4 @@ The screen is a single HTML page styled as a warm desktop: a rink window with th
 
 ---
 
-*Reference implementation: `chirp-telestrator.html`. Analyst: semantic-chirp-intelligence-mcp.*
+*Reference implementation: Sepiola (this repository). Analyst: semantic-chirp-intelligence-mcp.*

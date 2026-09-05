@@ -8,7 +8,7 @@ Last updated 2026-09-04 (evening).
 
 ## D1 — Separate repo, never imports CHIRP — decided
 
-`semantic-chirp-telestrator` is its own repo. The screen reaches the analyst over HTTP or from `fixtures/`; the shape is identical either way. No import, no shared build. A separate repo enforces the boundary for free and keeps the page's dependencies out of the MCP server's.
+`sepiola` is its own repo. The screen reaches the analyst over HTTP or from `fixtures/`; the shape is identical either way. No import, no shared build. A separate repo enforces the boundary for free and keeps the page's dependencies out of the MCP server's.
 
 ## D2 — The read contract lives here, CHIRP vendors it — decided
 
@@ -60,15 +60,15 @@ The mockup hardcoded one club's jersey colours inline. `tokens.css` carries a `-
 
 ## D13 — Stack — decided
 
-Vanilla ES modules, SVG, GSAP (npm, bundled), Vite, `vite-plugin-singlefile` for `dist/telestrator.html`, Vitest for unit and contract tests, Playwright for scenarios, Ajv for schema validation. Barlow is inlined into the single-file build; the dev server may load it from Google Fonts. Check each package against the rules in the user's global CLAUDE.md before installing; report weekly downloads and last publish date for anything not already in the ecosystem.
+Vanilla ES modules, SVG, GSAP (npm, bundled), Vite, `vite-plugin-singlefile` for `dist/sepiola.html`, Vitest for unit and contract tests, Playwright for scenarios, Ajv for schema validation. Barlow is inlined into the single-file build; the dev server may load it from Google Fonts. Check each package against the rules in the user's global CLAUDE.md before installing; report weekly downloads and last publish date for anything not already in the ecosystem.
 
 ## D14 — GitHub repo — open
 
-Recommendation: public under `semanticintent/semantic-chirp-telestrator`, MIT, matching the CHIRP repo. Create after task 1 lands so the first public commit already runs. **Needs a yes.**
+Recommendation: public under `semanticintent/sepiola`, MIT, matching the CHIRP repo. Create after task 1 lands so the first public commit already runs. **Needs a yes.**
 
 ## D15 — Where the page is hosted — decided
 
-Cloudflare Pages is the canonical URL (existing infra, same as the CHIRP docs site). The single-file `dist/telestrator.html` is what gets deployed. Registration with whichever WebMCP hosts are live happens at S4; the overview's ChatGPT Sites claim is verified then, not assumed.
+Cloudflare Pages is the canonical URL (existing infra, same as the CHIRP docs site). The single-file `dist/sepiola.html` is what gets deployed. Registration with whichever WebMCP hosts are live happens at S4; the overview's ChatGPT Sites claim is verified then, not assumed.
 
 ## D16 — WebMCP API surface — verified against the primary spec, closed
 
@@ -104,11 +104,11 @@ Live reads need a network call, and handlers are pure. A grammar entry may decla
 
 ## D24 — Deploy scaffold now, deploy when the analyst is live — superseded: deployed 2026-09-04
 
-The user asked for the deploy ahead of the analyst. Pages project `chirp-telestrator` created; live at https://chirp-telestrator.pages.dev (fixture mode, so the demo path works without CHIRP). Pages config does not accept `account_id`; pass `CLOUDFLARE_ACCOUNT_ID` in the environment when wrangler needs it. The repo stays private until the analyst is live. Original decision follows.
+The user asked for the deploy ahead of the analyst. Pages project `chirp-telestrator` created; live at https://sepiola.pages.dev (fixture mode, so the demo path works without CHIRP). Pages config does not accept `account_id`; pass `CLOUDFLARE_ACCOUNT_ID` in the environment when wrangler needs it. The repo stays private until the analyst is live. Original decision follows.
 
 ### D24 as first written
 
-`wrangler.jsonc` declares a Pages project `chirp-telestrator` with `pages_build_output_dir: dist` (the lesson from the CHIRP docs site: a Worker-shaped config against a Pages project deploys nowhere). `npm run deploy` builds and deploys. The build emits `dist/index.html` for Pages and the identical `dist/telestrator.html` for sharing. Not deployed yet: the repo is private until ready, and a page with no live analyst behind it is not ready. First deploy follows A3.
+`wrangler.jsonc` declares a Pages project `chirp-telestrator` with `pages_build_output_dir: dist` (the lesson from the CHIRP docs site: a Worker-shaped config against a Pages project deploys nowhere). `npm run deploy` builds and deploys. The build emits `dist/index.html` for Pages and the identical `dist/sepiola.html` for sharing. Not deployed yet: the repo is private until ready, and a page with no live analyst behind it is not ready. First deploy follows A3.
 
 ## D25 — Fonts are inlined — decided
 
@@ -128,12 +128,16 @@ All of them are in CHIRP's `src/services/ReadIceService.ts`: schedule value (gam
 
 ## D29 — The production build defaults to the hosted analyst — decided
 
-The analyst has a hosted face: `chirp-edge` on Cloudflare Workers (KV-cached NHL data, CORS, per-address rate limit, anonymous). `vite build` in production mode bakes its URL in as the default, so https://chirp-telestrator.pages.dev reads live. Precedence: `?analyst=<url>`, then `?analyst=fixtures` to force fixture mode, then `window.TELESTRATOR_ANALYST`, then the build default. Dev and tests have no default and stay on fixtures. Override the baked URL with `ANALYST_URL=... npm run build`.
+The analyst has a hosted face: `chirp-edge` on Cloudflare Workers (KV-cached NHL data, CORS, per-address rate limit, anonymous). `vite build` in production mode bakes its URL in as the default, so https://sepiola.pages.dev reads live. Precedence: `?analyst=<url>`, then `?analyst=fixtures` to force fixture mode, then `window.SEPIOLA_ANALYST`, then the build default. Dev and tests have no default and stay on fixtures. Override the baked URL with `ANALYST_URL=... npm run build`.
 
-## D30 — The brand is Telestrator; the repo keeps its ecosystem name — decided
+## D30 — The brand is Telestrator; the repo keeps its ecosystem name — superseded by D32
 
-The product and the pattern are called **Telestrator**. The page title, the menubar, and the README say so. CHIRP is the first analyst behind it and is named where an analyst belongs: in the panel's source line and in the docs. The repository stays `semantic-chirp-telestrator`, matching the `semantic-*` naming of the ecosystem and saying which analyst it was built for. If a second rink appears for a different analyst, the grammar and runner move to a `telestrator` core repo and this one becomes the CHIRP screen. Not before.
+The product and the pattern are called **Telestrator**. The page title, the menubar, and the README say so. CHIRP is the first analyst behind it and is named where an analyst belongs: in the panel's source line and in the docs. The repository stays `sepiola`, matching the `semantic-*` naming of the ecosystem and saying which analyst it was built for. If a second rink appears for a different analyst, the grammar and runner move to a `telestrator` core repo and this one becomes the CHIRP screen. Not before.
 
 ## D31 — Domain — open, with a recommendation
 
 `telestrator.dev` is available (first year on promotion). Two honest options. **Canonical:** register it, add it as the Pages custom domain, keep it renewed; the brand and the URL are one word. **Redirect:** point it at a durable canonical and let it lapse later; not recommended, because a lapsed brand domain breaks every link that used it and hands the name to whoever registers it next. The durable canonical in either case is `telestrator.semanticintent.dev` in the zone already used by the ecosystem. Recommendation: register `telestrator.dev` only if it will be kept; otherwise use the subdomain and skip the promo. Registration and DNS are the user's; Pages custom-domain wiring follows.
+
+## D32 — The product is Sepiola; the pattern is still the telestrator — decided
+
+`telestrator.com` is FingerWorks Telestrators, an active Vancouver company since 1999 that calls itself the number one telestrator, and the word is the generic name of the device. Legally low risk, but the bare word could never be distinctively ours. So the product and repo are **Sepiola**, the bobtail squid: cuttlefish skin is a display of chromatophore pixels driven directly by the brain, a surface with no opinions of its own, and the passing-cloud wave that fixates prey is the circle move in nature. The pattern keeps the descriptive name *the telestrator*; a pattern named after its metaphor is normal. Repo renamed `semanticintent/sepiola` (GitHub redirects the old name), Pages project `sepiola` (the old `chirp-telestrator.pages.dev` stays up until the domain is wired), page title and menubar say Sepiola, `window.sepiola` and `dist/sepiola.html` follow. The mockup keeps its historical filename. `sepiola.dev` was available on 2026-09-05; the only known collision is a dormant Swiss backup client of the same name.

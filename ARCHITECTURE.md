@@ -1,4 +1,4 @@
-# Architecture — the telestrator
+# Architecture — Sepiola, the telestrator
 
 *How the screen is built so that it stays predictable for people and models.*
 
@@ -170,7 +170,7 @@ Six steps, each in one predictable place.
 ## Layout
 
 ```
-telestrator/
+sepiola/
   CLAUDE.md
   ARCHITECTURE.md              this file
   index.html                   the shell: menubar, window frames, static ice sheet, dock
@@ -184,7 +184,7 @@ telestrator/
   fixtures/*.json
   scenarios/*.txt
   src/
-    main.js                    boot; the viewer's touches; window.telestrator
+    main.js                    boot; the viewer's touches; window.sepiola
     dispatch.js                the one path: handler → ack → transcript → render(touches + console) → play
     talkback.js                console convenience: surname → id (D21). Not a tool.
     analyst.js                 the only line to the analyst: fixtures, or POST /read when ?analyst= is set (D22)
@@ -207,7 +207,7 @@ telestrator/
     states.js                                            every state a view can render, from the fixtures
     contract.spec.js views.spec.js no-opinions.spec.js console.spec.js grammar.spec.js   (vitest)
     scenarios.spec.js                                    (playwright → test/shots/)
-  dist/telestrator.html        single-file build for sharing
+  dist/sepiola.html        single-file build for sharing
 ```
 
 The rink window is three views, not one: `rink` (ice patches and jerseys), `spot` (the spotlight), `strips` (legend, bench, IR), plus `chrome` for the subtitle. `circle` touches only `spot`, so a circle never rebuilds the skaters under it.

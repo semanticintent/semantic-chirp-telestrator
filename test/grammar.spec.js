@@ -33,11 +33,11 @@ describe('grammar', () => {
     globalThis.location = { search: '?analyst=http://a.test/' };
     expect(analystUrl()).toBe('http://a.test');
     globalThis.location = { search: '?analyst=fixtures' };
-    globalThis.TELESTRATOR_ANALYST = 'http://b.test';
+    globalThis.SEPIOLA_ANALYST = 'http://b.test';
     expect(analystUrl()).toBeNull();
     globalThis.location = { search: '' };
     expect(analystUrl()).toBe('http://b.test');
-    delete globalThis.TELESTRATOR_ANALYST;
+    delete globalThis.SEPIOLA_ANALYST;
     expect(analystUrl()).toBeNull(); // tests run without a build default
     delete globalThis.location;
   });

@@ -4,7 +4,7 @@ Working instructions for this repo. Read this before touching anything.
 
 ## What this is
 
-The telestrator: a WebMCP page that draws CHIRP's fantasy-hockey reads onto a persistent visual surface. CHIRP is the analyst. Any WebMCP agent is the pen. This page is the screen.
+Sepiola: a WebMCP telestrator that draws CHIRP's fantasy-hockey reads onto a persistent visual surface. Named for the bobtail squid, whose skin is a display driven by its brain and whose passing-cloud wave is a spotlight done by an animal. CHIRP is the analyst. Any WebMCP agent is the pen. This page is the screen.
 
 Read `docs/overview.md` for what we're after, `docs/pattern.md` for the idea, `ARCHITECTURE.md` for how it's built, `docs/decisions.md` for what is settled, `docs/plan.md` for what is next. In that order, once.
 
@@ -51,7 +51,7 @@ Producer verbs (`ready`, `roll`, `caption`, `layer`) are designed but not built.
 - Views are pure: `(state) → markup`. No tool calls, no DOM reads, no cross-view imports.
 - Motion is data. If you are writing `gsap.to(...)` outside `src/motion/runner.js`, move it to a sequence file.
 - One source of truth per fact. Tool definitions live only in `grammar.js`; WebMCP registration, the console, and `docs/grammar.md` derive from it.
-- `dist/telestrator.html` is a build output. Never edit it.
+- `dist/sepiola.html` is a build output. Never edit it.
 - Respect `prefers-reduced-motion`: every sequence must run correctly at duration zero.
 - No team logos, wordmarks, or jersey designs. Generic jersey shapes in team colours only.
 - Keep the warm, bright look. Tokens are in `tokens.css`; do not introduce colours inline.
@@ -64,7 +64,7 @@ You cannot see the screen. Use the eyes the repo gives you:
 npm test              schema validation, view rendering, no-opinions grep
 npm run scenarios     runs scenarios/*.txt through Playwright, screenshots to test/shots/
 npm run dev           local dev server
-npm run build         single-file dist/telestrator.html
+npm run build         single-file dist/sepiola.html
 ```
 
 A change is done when tests are green and the screenshots for the affected scenario look right. Describe what you see in the screenshots in your summary.

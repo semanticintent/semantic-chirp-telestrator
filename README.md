@@ -1,12 +1,14 @@
-# Telestrator
+# Sepiola
 
-**A WebMCP page that draws an analyst's read onto a persistent screen.** The analyst decides. The agent draws. The screen has no opinions.
+**A WebMCP telestrator: a page that draws an analyst's read onto a persistent screen.** The analyst decides. The agent draws. The screen has no opinions.
 
 The first analyst is [CHIRP](https://github.com/semanticintent/semantic-chirp-intelligence-mcp), a fantasy-hockey intelligence MCP server. Its read of your week — who plays, who sits on a back-to-back, who to stream, games in hand — used to arrive as a paragraph in a chat window. Here it arrives as a rink.
 
-**Live:** https://chirp-telestrator.pages.dev
+**Live:** https://sepiola.pages.dev
 
-![The telestrator: rink, panel, games in hand, replay, and the talkback console, drawn from a real pasted lineup](docs/images/telestrator-live.png)
+![Sepiola: rink, panel, games in hand, replay, and the talkback console, drawn from a real pasted lineup](docs/images/telestrator-live.png)
+
+**Why the name.** *Sepiola* is the bobtail squid. A cuttlefish's skin is a display of millions of pigment cells driven directly by its brain: a neuron fires and a pixel shows, the neuron stops and the skin clears. The skin decides nothing. And the passing cloud, a dark band that travels across the body to hold prey still, is a spotlight done by an animal. That is this page: a skin for an analyst's brain, with a circle move nature got to first.
 
 ## Try it in a minute
 
@@ -29,7 +31,7 @@ Television spent sixty years learning how to show reasoning: circle the defender
 
 The invariant that makes it work: **every number and every sentence on screen comes from the analyst's read or from the interface copy.** A test enforces it. If the screen ever ranks, sums, compares, or composes a sentence, something has leaked.
 
-The pattern is written up in [docs/pattern.md](docs/pattern.md). Its worked example is this page.
+The pattern is called *the telestrator* and is written up in [docs/pattern.md](docs/pattern.md). Sepiola is its first worked example.
 
 ## The seven moves
 
@@ -80,7 +82,7 @@ Everything that has meaning is data. Only rendering is code.
 | What is on screen right now | `src/state.js` — one object; nothing hidden in the DOM |
 | How things move | `src/motion/sequences/*.json` — timed steps over a small verb vocabulary, run by `src/motion/runner.js` (GSAP) |
 
-Views are pure `(state) → markup` and re-render only what a move touched. The transcript is state too. Vanilla ES modules, SVG, GSAP, Vite; no framework, because the telestrator already has a grammar and a framework would be a second one to hold. Fonts are inlined; the whole page is one 250 kB file.
+Views are pure `(state) → markup` and re-render only what a move touched. The transcript is state too. Vanilla ES modules, SVG, GSAP, Vite; no framework, because Sepiola already has a grammar and a framework would be a second one to hold. Fonts are inlined; the whole page is one 250 kB file.
 
 Verification a model can run without eyes:
 
@@ -98,7 +100,7 @@ npm install
 npm run dev          # http://localhost:5173 — fixture mode; add ?analyst=<url> for a live analyst
 npm test
 npm run scenarios
-npm run build        # dist/telestrator.html (one file) + dist/index.html for Pages
+npm run build        # dist/sepiola.html (one file) + dist/index.html for Pages
 npm run deploy       # Cloudflare Pages
 ```
 
@@ -129,7 +131,7 @@ Built and live: the screen on Pages, the analyst on Workers, CHIRP `read_ice` on
 ## Documents
 
 - [docs/overview.md](docs/overview.md) — what we're after
-- [docs/pattern.md](docs/pattern.md) — the telestrator pattern
+- [docs/pattern.md](docs/pattern.md) — the telestrator pattern, which Sepiola implements
 - [ARCHITECTURE.md](ARCHITECTURE.md) — how it's built
 - [docs/decisions.md](docs/decisions.md) — D1–D31, what was decided and why
 - [docs/plan.md](docs/plan.md) — the two tracks, what's done, what's next

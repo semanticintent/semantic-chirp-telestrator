@@ -1,4 +1,4 @@
-# CHIRP telestrator — overview
+# Sepiola — overview
 
 *What we're building, why, and the grammar it speaks now and later.*
 
@@ -91,4 +91,4 @@ The seven verbs are the **analyst's** moves. A real broadcast has two more layer
 
 ---
 
-*Companion documents: `telestrator-pattern.md` (the pattern), `chirp-telestrator.html` (the reference screen).*
+*Companion documents: `pattern.md` (the telestrator pattern), `../reference/telestrator-v0.html` (the original mockup).*

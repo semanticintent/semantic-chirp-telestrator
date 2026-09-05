@@ -1,5 +1,5 @@
 // The screen's only line to the analyst. Which analyst: ?analyst=<url> wins; ?analyst=fixtures forces fixture mode;
-// window.TELESTRATOR_ANALYST next; then the build's default (the hosted analyst in production builds, nothing in dev and
+// window.SEPIOLA_ANALYST next; then the build's default (the hosted analyst in production builds, nothing in dev and
 // tests). Same Read either way, and every live read is checked against the contract before a handler sees it. Nothing
 // here imports from CHIRP (D1).
 import { fixtures } from './fixtures.js';
@@ -14,7 +14,7 @@ export function analystUrl() {
   try {
     const q = new URLSearchParams(globalThis.location?.search ?? '').get('analyst');
     if (q === 'fixtures') return null;
-    return (q || globalThis.TELESTRATOR_ANALYST || BUILD_DEFAULT || null)?.replace(/\/$/, '') ?? null;
+    return (q || globalThis.SEPIOLA_ANALYST || BUILD_DEFAULT || null)?.replace(/\/$/, '') ?? null;
   } catch { return null; }
 }
 export const mode = () => (analystUrl() ? 'live' : 'fixture');

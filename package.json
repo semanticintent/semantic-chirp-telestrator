@@ -1,8 +1,8 @@
 {
-  "name": "semantic-chirp-telestrator",
+  "name": "sepiola",
   "version": "0.1.0",
   "private": true,
-  "description": "The telestrator: a WebMCP page that draws CHIRP's fantasy-hockey reads. CHIRP is the analyst, any agent is the pen, this page is the screen.",
+  "description": "Sepiola \u2014 a WebMCP telestrator: draws CHIRP's fantasy-hockey reads onto a persistent screen. The analyst decides, the agent draws, the screen has no opinions.",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "scenarios": "playwright test",
     "build": "vite build",
     "docs:grammar": "node scripts/grammar-doc.mjs",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name chirp-telestrator"
+    "deploy": "npm run build && wrangler pages deploy dist --project-name sepiola"
   },
   "dependencies": {
     "gsap": "3.15.0"

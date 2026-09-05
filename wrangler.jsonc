@@ -1,7 +1,7 @@
 {
   // Cloudflare Pages project for the telestrator (D15). Deploy with `npm run deploy`.
   // pages_build_output_dir marks this as a Pages project, not a Worker.
-  "name": "chirp-telestrator",
+  "name": "sepiola",
   "pages_build_output_dir": "dist",
   "compatibility_date": "2026-09-01"
 }

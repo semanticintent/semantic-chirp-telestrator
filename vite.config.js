@@ -2,11 +2,11 @@ import { defineConfig } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 import { copyFileSync, existsSync } from 'node:fs';
 
-// dist/telestrator.html is the single-file build for sharing; dist/index.html is the same file, where Pages expects it. Never edit either.
+// dist/sepiola.html is the single-file build for sharing; dist/index.html is the same file, where Pages expects it. Never edit either.
 const nameTheBuild = {
   name: 'telestrator-name-the-build',
   closeBundle() {
-    if (existsSync('dist/index.html')) copyFileSync('dist/index.html', 'dist/telestrator.html');
+    if (existsSync('dist/index.html')) copyFileSync('dist/index.html', 'dist/sepiola.html');
   },
 };
 

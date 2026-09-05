@@ -1,5 +1,5 @@
 // Boot. Wires the viewer's touches (open, close, drag, click a skater, press why, type a move) and exposes the one dispatch
-// path as window.telestrator for the scenario runner and, later, WebMCP.
+// path as window.sepiola for the scenario runner and, later, WebMCP.
 import './fonts.css';
 import './tokens.css';
 import './screen.css';
@@ -79,4 +79,4 @@ const webmcp = register().then((r) => {
   return r;
 });
 
-window.telestrator = { ready: true, run, call, submit, state: getState, settled, moves: moves(), webmcp };
+window.sepiola = { ready: true, run, call, submit, state: getState, settled, moves: moves(), webmcp };
