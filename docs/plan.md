@@ -14,6 +14,7 @@ Last updated 2026-09-04. Decisions referenced as Dn are in `docs/decisions.md`.
 - **S2 done 2026-09-04.** `replay`, `split`, the replay view, `flip`/`drop` verbs, verdict lookup by id set. 298 unit tests, 7 scenarios, green. `docs/grammar.md` now generated and drift-tested.
 - **S3 done 2026-09-04.** Panel (calls in the analyst's order, take, source footer), games in hand (one bar when no opponent), `cut_to`, talkback console with the transcript in state and surname convenience. 7 moves, 8 views, 9 scenarios.
 - **S4 built 2026-09-04.** `src/webmcp.js` registers the grammar with the draft-spec descriptor shape; `?analyst=<url>` switches `cue_roster`/`read_ice` to `POST /read` with a runtime contract check; fonts inlined; Pages deploy scaffold. 13 scenarios incl. a fake modelContext and a mocked analyst. **Not deployed** (D24).
+- **A2 + A3 done 2026-09-04** on the same CHIRP branch: `ReadIceService` emits the contract from the NHL schedule, club stats, and club rosters (jersey numbers); MCP tool `read_ice`; `src/http.ts` serves `POST /read` on localhost:3200. Proven end to end: the built single file with `?analyst=http://localhost:3200` and a real pasted Flames lineup for the week of 2026-10-12.
 - **A1 done 2026-09-04** on a CHIRP branch: vendored schema + README + a test that pins the version and byte-diffs against a sibling checkout.
 - CHIRP today returns analysis objects as JSON in a text block. It has no output schemas and no per-skater-per-day schedule shape. Its schedule service is club-level and its lineup analysis checks only today. That gap is the analyst track.
 
@@ -53,7 +54,7 @@ Verify the API surface (D16). `src/webmcp.js` derives registration from `grammar
 
 Copy `contracts/read.schema.json` into CHIRP and add the byte-diff test (D2). Small PR, no behaviour change.
 
-### A2 — `read_ice` analysis
+### A2 — `read_ice` analysis — done 2026-09-04 (CHIRP branch `feat/read-contract`)
 
 New `ReadIceAnalysis` on the existing `AnalysisTemplate`, emitting a Read:
 
@@ -67,13 +68,13 @@ New `ReadIceAnalysis` on the existing `AnalysisTemplate`, emitting a Read:
 
 Expose it as an MCP tool too, so the text clients get the same read. Validate output against the vendored schema in tests.
 
-### A3 — `chirp-http`
+### A3 — `chirp-http` — done 2026-09-04 (same branch)
 
 A second entry point, same core: `POST /read` with `{ roster_text, look_ahead_days, opponent_text? }`, stateless, CORS for the page origin, localhost by default (D11). The screen already speaks this: open it with `?analyst=http://localhost:<port>` and paste a lineup in the console.
 
 ### S5 — First deploy — deployed 2026-09-04, two items open
 
-Live at https://chirp-telestrator.pages.dev in fixture mode. Open: flip the repo public once the analyst is live; publish the single file to a ChatGPT Site for the Codex embedded browser (D26); optionally a custom domain in the `semanticintent.dev` zone.
+Live at https://chirp-telestrator.pages.dev in fixture mode. Open: merge and publish the CHIRP branch (read_ice ships in the next npm release); flip the repo public; publish the single file to a ChatGPT Site for the Codex embedded browser (D26); optionally a custom domain in the `semanticintent.dev` zone. A hosted analyst (D11 said localhost first) is the remaining step before the live page can read without a local server.
 
 ## Sequence
 

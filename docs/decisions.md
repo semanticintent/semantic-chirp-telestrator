@@ -117,3 +117,11 @@ Barlow and Barlow Condensed (latin subset, six faces, 104 kB, SIL OFL 1.1 with t
 ## D26 — What the agent hosts actually are — recorded
 
 The Codex / ChatGPT desktop app has an embedded browser that can call WebMCP tools; ChatGPT Sites (`*.chatgpt.site`) is its hosting and test environment, where the user has published before (Orbweaver). So the demo path is: page on Cloudflare Pages (canonical) and, when useful, the same single file on a Site; Chrome with the flag for local checks. Corrects the Desktop session's overview, which had this half right.
+
+## D27 — `read_ice` takes a `start` date — decided
+
+The analyst defaults the window to today, and today in September is preseason. `read_ice(look_ahead_days, start)` passes an optional YYYY-MM-DD through to the analyst so a week can be read ahead of time and the demo works before opening night. The screen still computes nothing about dates; the analyst returns the labels.
+
+## D28 — Where the analyst's opinions live now — recorded
+
+All of them are in CHIRP's `src/services/ReadIceService.ts`: schedule value (games in the window against four, less twenty for a back-to-back), flags (`warn` at two games or a back-to-back, `stream` for a four-game bench skater), the calls (Start needs at least half value; nothing is called when nobody plays), the verdict lines, the take, the games-in-hand take. Change a sentence there and every screen changes; change nothing here.

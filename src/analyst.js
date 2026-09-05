@@ -16,7 +16,7 @@ export function analystUrl() {
 export const mode = () => (analystUrl() ? 'live' : 'fixture');
 
 /** Fetch a Read: from a fixture by name, or from the analyst with the pasted lineup. */
-export async function read({ fixture, text, look_ahead_days = 7, opponent_text } = {}) {
+export async function read({ fixture, text, look_ahead_days = 7, opponent_text, start } = {}) {
   if (fixture) {
     const r = fixtures[fixture];
     if (!r) throw new AnalystError(fill(copy.errors.unknownFixture, { name: fixture }));
@@ -27,7 +27,7 @@ export async function read({ fixture, text, look_ahead_days = 7, opponent_text }
   if (!url) throw new AnalystError(copy.errors.noAnalyst);
   let res;
   try {
-    res = await fetch(`${url}/read`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ roster_text: text, look_ahead_days, opponent_text }) });
+    res = await fetch(`${url}/read`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ roster_text: text, look_ahead_days, opponent_text, start }) });
   } catch { throw new AnalystError(fill(copy.errors.analystDown, { url })); }
   if (!res.ok) throw new AnalystError(fill(copy.errors.analystDown, { url }));
   const body = await res.json().catch(() => null);

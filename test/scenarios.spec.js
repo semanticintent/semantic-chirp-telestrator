@@ -104,9 +104,9 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   await expect(page.locator('#mode-label')).toHaveText(/live/);
   const cued = await page.evaluate(() => window.telestrator.call('cue_roster', { text: 'Zary LW\nGridin LW' }));
   expect(cued).toEqual({ cued: 'fx-cgy-week1', skaters: 15 });
-  const read = await page.evaluate(() => window.telestrator.run('read_ice 3'));
+  const read = await page.evaluate(() => window.telestrator.run('read_ice 3 2026-10-05'));
   expect(read.read).toBe('fx-thin-week');
-  expect(posts.map((p) => [p.roster_text, p.look_ahead_days])).toEqual([['Zary LW\nGridin LW', 7], ['Zary LW\nGridin LW', 3]]);
+  expect(posts.map((p) => [p.roster_text, p.look_ahead_days, p.start])).toEqual([['Zary LW\nGridin LW', 7, undefined], ['Zary LW\nGridin LW', 3, '2026-10-05']]);
   const state = await page.evaluate(() => window.telestrator.state());
   expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW' });
 });

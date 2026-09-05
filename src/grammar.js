@@ -26,13 +26,13 @@ export const grammar = [
   {
     name: 'read_ice',
     move: 'Read the ice',
-    description: 'Reveal the read: ice quality under the skates, badges, the calls, games in hand.',
-    input: { look_ahead_days: 'number?' },
-    positional: ['look_ahead_days'],
+    description: 'Reveal the read: ice quality under the skates, badges, the calls, games in hand. `start` (YYYY-MM-DD) moves the window; the analyst defaults to today.',
+    input: { look_ahead_days: 'number?', start: 'string?' },
+    positional: ['look_ahead_days', 'start'],
     touches: ['chrome', 'rink', 'strips', 'panel', 'hand'],
     sequence: 'read_ice',
     prepare: async (input, state) => (state.source?.mode === 'live'
-      ? { ...input, read: await analyst.read({ text: state.source.text, look_ahead_days: input.look_ahead_days ?? 7 }) }
+      ? { ...input, read: await analyst.read({ text: state.source.text, look_ahead_days: input.look_ahead_days ?? 7, start: input.start }) }
       : input),
     handler(state, { read }) {
       if (!state.read) refuse(copy.errors.noRoster);

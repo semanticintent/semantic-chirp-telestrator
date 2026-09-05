@@ -26,7 +26,7 @@ describe('grammar', () => {
   });
   it('read_ice.prepare leaves a fixture-sourced state alone', async () => {
     const ri = grammar.find((g) => g.name === 'read_ice');
-    expect(await ri.prepare({ look_ahead_days: 3 }, { source: { mode: 'fixture', fixture: 'cgy-week1' } })).toEqual({ look_ahead_days: 3 });
+    expect(await ri.prepare({ look_ahead_days: 3, start: '2026-10-05' }, { source: { mode: 'fixture', fixture: 'cgy-week1' } })).toEqual({ look_ahead_days: 3, start: '2026-10-05' });
   });
   it('docs/grammar.md is up to date (npm run docs:grammar)', () => {
     expect(existsSync('docs/grammar.md')).toBe(true);
