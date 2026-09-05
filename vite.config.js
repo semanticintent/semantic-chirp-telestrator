@@ -11,7 +11,7 @@ const nameTheBuild = {
 };
 
 // The production build defaults to the hosted analyst (D29); dev and tests stay in fixture mode unless ?analyst= says otherwise.
-const HOSTED_ANALYST = 'https://chirp-edge.michshat.workers.dev';
+const HOSTED_ANALYST = 'https://chirp-mcp.semanticintent.dev';
 
 export default defineConfig(({ mode }) => ({
   define: { __DEFAULT_ANALYST__: JSON.stringify(mode === 'production' ? (process.env.ANALYST_URL ?? HOSTED_ANALYST) : '') },

@@ -4,7 +4,7 @@
 
 The first analyst is [CHIRP](https://github.com/semanticintent/semantic-chirp-intelligence-mcp), a fantasy-hockey intelligence MCP server. Its read of your week — who plays, who sits on a back-to-back, who to stream, games in hand — used to arrive as a paragraph in a chat window. Here it arrives as a rink.
 
-**Live:** https://sepiola.pages.dev
+**Live:** https://sepiola.semanticintent.dev
 
 ![Sepiola: rink, panel, games in hand, replay, and the talkback console, drawn from a real pasted lineup](docs/images/telestrator-live.png)
 
