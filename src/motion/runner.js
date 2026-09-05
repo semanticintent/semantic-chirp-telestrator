@@ -13,7 +13,9 @@ export const VERBS = {
   fade_in: (tl, els, s) => tl.fromTo(els, { opacity: 0 }, { opacity: 1, duration: s.duration, ease: s.ease }, s.at),
   fade_out: (tl, els, s) => tl.to(els, { opacity: 0, duration: s.duration, ease: s.ease }, s.at),
   dim: (tl, els, s) => tl.to(els, { opacity: 0.35, duration: s.duration, ease: s.ease }, s.at),
-  sweep: (tl, els, s) => tl.fromTo(els, { attr: { r: 0 } }, { attr: { r: (i, el) => +el.getAttribute('r') }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
+  // End values come from data-* (D8), never from the live attribute: GSAP applies the from-values before it resolves
+  // function-based to-values, so reading the attribute would sweep from the start value to itself.
+  sweep: (tl, els, s) => tl.fromTo(els, { attr: { r: (i, el) => +(el.dataset.fromR ?? 0) } }, { attr: { r: (i, el) => +(el.dataset.toR ?? el.getAttribute('r')) }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
   fill: (tl, els, s) => tl.fromTo(els, { attr: { width: 0 } }, { attr: { width: (i, el) => +el.dataset.toWidth }, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
   flip: (tl, els, s) => tl.fromTo(els, { scale: 0.6, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: s.duration, ease: s.ease, stagger: s.stagger }, s.at),
   count_up: (tl, els, s) => els.forEach((el, i) => {

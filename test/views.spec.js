@@ -21,6 +21,8 @@ describe('views', () => {
       const { worded, circled } = states(name, read);
       expect(String(views.spot(worded))).toContain('the pen said so');
       expect(String(views.spot(circled))).toContain(onIce(read).reason);
+      expect(String(views.spot(circled))).toMatch(/data-hole="95"/); // a ring, not a mask (Safari)
+      expect(String(views.spot(circled))).not.toContain('<mask');
     });
     it(`spot is empty over ${name} after a wipe`, () => {
       expect(String(views.spot(states(name, read).wiped))).toBe('');
