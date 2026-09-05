@@ -72,9 +72,9 @@ Expose it as an MCP tool too, so the text clients get the same read. Validate ou
 
 A second entry point, same core: `POST /read` with `{ roster_text, look_ahead_days, opponent_text? }`, stateless, CORS for the page origin, localhost by default (D11). The screen already speaks this: open it with `?analyst=http://localhost:<port>` and paste a lineup in the console.
 
-### S5 — First deploy — deployed 2026-09-04, two items open
+### S5 — First deploy — deployed 2026-09-04; reading live since 2026-09-05
 
-Live at https://chirp-telestrator.pages.dev in fixture mode. Open: merge and publish the CHIRP branch (read_ice ships in the next npm release); flip the repo public; publish the single file to a ChatGPT Site for the Codex embedded browser (D26); optionally a custom domain in the `semanticintent.dev` zone. A hosted analyst (D11 said localhost first) is the remaining step before the live page can read without a local server.
+Live at https://chirp-telestrator.pages.dev, defaulting to the hosted analyst `chirp-edge` (https://chirp-edge.michshat.workers.dev, CHIRP PR `feat/chirp-edge`). Paste a lineup in the talkback and `read_ice 7 2026-10-12`. `?analyst=fixtures` for fixture mode. Open: flip the repo public; publish the single file to a ChatGPT Site for the Codex embedded browser (D26); a custom domain in the `semanticintent.dev` zone; `npm publish` of CHIRP 4.2.0 (needs `npm login`).
 
 ## Sequence
 

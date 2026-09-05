@@ -2,7 +2,7 @@
 
 The telestrator: a WebMCP page that draws CHIRP's fantasy-hockey reads onto a persistent visual surface. CHIRP is the analyst. Any WebMCP agent is the pen. This page is the screen.
 
-Live at https://chirp-telestrator.pages.dev (fixture mode until the analyst's `read_ice` ships). Start with `CLAUDE.md`, then `ARCHITECTURE.md`, then `docs/`.
+Live at https://chirp-telestrator.pages.dev, reading from the hosted analyst. Paste a lineup in the talkback, then `read_ice 7 2026-10-12`. Add `?analyst=fixtures` for the built-in fixtures, or `?analyst=http://localhost:3200` for a local CHIRP. Start with `CLAUDE.md`, then `ARCHITECTURE.md`, then `docs/`.
 
 ```
 npm install
