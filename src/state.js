@@ -1,5 +1,6 @@
 // The whole show as one plain object. Nothing lives in the DOM that is not derivable from here.
-export const WINDOWS = ['rink', 'panel', 'hand', 'replay', 'console'];
+export const WINDOWS = ['rink', 'panel', 'hand', 'replay', 'console'];       // the pen's windows: cut_to can reach these
+export const SHELL_WINDOWS = ['welcome', 'about'];                           // the viewer's: menus and hashes open these
 
 export function initialState() {
   return {
@@ -9,7 +10,7 @@ export function initialState() {
     circle: null,    // { id, reason|null } | null — persists until wipe() or the next circle()
     replay: null,    // { ids } | null
     log: [],         // the talkback transcript: [{ line, ack }], appended by dispatch, never by a handler
-    windows: Object.fromEntries(WINDOWS.map((name, i) => [name, { open: name === 'rink' || name === 'console', x: null, y: null, z: i }])),
+    windows: Object.fromEntries([...WINDOWS, ...SHELL_WINDOWS].map((name, i) => [name, { open: name === 'rink' || name === 'console' || name === 'welcome', x: null, y: null, z: i }])),
   };
 }
 

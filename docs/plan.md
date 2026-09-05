@@ -85,6 +85,10 @@ A1 ──▶ A2 ──▶ A3 ────┘
 
 A1 can happen today. A2 is the long pole; start it as soon as S1 confirms the contract needs no shape change.
 
+### S6 — Front door — done 2026-09-05
+
+Welcome window with a sample-week button, About window with quick start and legal sections addressable by hash, menubar consolidated into Sepiola and Windows menus with a GitHub mark (D34).
+
 ## Not in scope
 
 Producer verbs (`ready`, `roll`, `caption`, `layer`), a `state()` tool, multiple circles, remote hosting behind auth, any second analyst, any Yahoo integration.

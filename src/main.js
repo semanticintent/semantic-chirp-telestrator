@@ -14,8 +14,38 @@ import { copy, fill } from './copy.js';
 
 render(getState());
 
+// Menus close after a choice or a click elsewhere.
+const closeMenus = (except) => document.querySelectorAll('details.menu[open]').forEach((d) => { if (d !== except) d.removeAttribute('open'); });
+
+/** Open the About window at a section. Sections are addressable as #about, #quickStart, #privacy, #terms, #disclaimer, #credits. */
+function showAbout(section) {
+  touch((s) => open(s, 'about'));
+  const target = document.getElementById(`about-${section}`);
+  const body = document.querySelector('#w-about .about-body');
+  if (target && body) body.scrollTop = target.offsetTop - body.offsetTop - 44; // scroll the window's body, never the desktop
+  if (section && location.hash !== `#${section}`) history.replaceState(null, '', `#${section}`);
+}
+const ABOUT_SECTIONS = ['about', 'quickStart', 'privacy', 'terms', 'disclaimer', 'credits'];
+const openFromHash = () => { const h = location.hash.replace(/^#/, ''); if (ABOUT_SECTIONS.includes(h)) showAbout(h); };
+window.addEventListener('hashchange', openFromHash);
+openFromHash();
+
 // Viewer touches. A click on a skater on the ice circles him; a bench or IR chip, or a panel's "why", runs it back.
 document.addEventListener('click', (e) => {
+  const menu = e.target.closest('details.menu');
+  closeMenus(e.target.closest('summary') ? menu : null);
+  if (e.target.closest('.menu-list')) menu?.removeAttribute('open');
+  const aboutLink = e.target.closest('.about-nav a');
+  if (aboutLink) { e.preventDefault(); return showAbout(aboutLink.getAttribute('href').slice(1)); }
+  const aboutOpener = e.target.closest('[data-open-about]');
+  if (aboutOpener) return showAbout(aboutOpener.dataset.openAbout);
+  if (e.target.closest('[data-sample]')) return (async () => { await run('cue_roster cgy-week1'); await run('read_ice'); })();
+  if (e.target.closest('[data-paste]')) {
+    touch((s) => open(s, 'console'));
+    const details = document.getElementById('paste'); if (details) details.open = true;
+    document.getElementById('paste-in')?.focus();
+    return;
+  }
   const opener = e.target.closest('[data-open]');
   if (opener) return touch((s) => open(s, opener.dataset.open));
   const closer = e.target.closest('[data-close]');
@@ -79,4 +109,4 @@ const webmcp = register().then((r) => {
   return r;
 });
 
-window.sepiola = { ready: true, run, call, submit, state: getState, settled, moves: moves(), webmcp };
+window.sepiola = { ready: true, run, call, submit, state: getState, settled, moves: moves(), webmcp, showAbout };

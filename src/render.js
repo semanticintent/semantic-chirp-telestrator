@@ -13,7 +13,7 @@ export function render(state, touches = Object.keys(views)) {
     if (!win) continue;
     win.classList.toggle('hidden', !w.open);
     win.style.zIndex = String(10 + w.z);
-    if (w.x != null) Object.assign(win.style, { left: `${w.x}px`, top: `${w.y}px`, right: 'auto', bottom: 'auto' });
+    if (w.x != null) Object.assign(win.style, { left: `${w.x}px`, top: `${w.y}px`, right: 'auto', bottom: 'auto', transform: 'none' });
   }
   const top = Object.entries(state.windows).filter(([, w]) => w.open).sort((a, b) => b[1].z - a[1].z)[0]?.[0];
   for (const win of document.querySelectorAll('.win')) win.classList.toggle('focus', win.dataset.name === top);

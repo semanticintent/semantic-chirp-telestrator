@@ -41,6 +41,23 @@ body::after{ /* fine grain */
 .bar .site-tools i{width:7px;height:7px;border-radius:50%;background:#BBB;display:inline-block}
 .bar .site-tools.on i{background:var(--go); box-shadow:0 0 0 3px rgba(47,143,91,.2)}
 
+/* menubar menus */
+.menu{position:relative}
+.menu summary{list-style:none; cursor:pointer; padding:4px 8px; border-radius:6px; user-select:none}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary:hover,.menu[open] summary{background:rgba(255,255,255,.6)}
+.menu .brand{padding:2px 8px}
+.menu-list{
+  position:absolute; top:34px; left:0; min-width:220px; z-index:60; display:flex; flex-direction:column; padding:6px;
+  background:var(--glass); backdrop-filter:blur(26px) saturate(1.4); border:1px solid var(--glass-edge); border-radius:12px;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 24px 48px -16px rgba(120,60,10,.45);
+}
+.menu-list button,.menu-list a{all:unset; display:block; cursor:pointer; padding:7px 10px; border-radius:8px; font-size:13.5px; color:var(--ink)}
+.menu-list button:hover,.menu-list a:hover,.menu-list button:focus-visible,.menu-list a:focus-visible{background:var(--sun); outline:none}
+.menu-list hr{border:0; border-top:1px solid rgba(180,130,60,.25); margin:5px 8px}
+.bar .gh{display:inline-flex; align-items:center; color:var(--ink); opacity:.8}
+.bar .gh:hover{opacity:1}
+
 /* windows */
 .win{
   position:absolute; z-index:10; min-width:260px;
@@ -177,6 +194,30 @@ body::after{ /* fine grain */
 .paste textarea{display:block; width:100%; margin-top:6px; font:12.5px ui-monospace, Menlo, Consolas, monospace; padding:8px 10px; border-radius:10px; border:1px solid rgba(43,32,22,.18); background:#fff; color:var(--ink); resize:vertical}
 .paste textarea:focus{outline:2px solid var(--amber); outline-offset:1px}
 .paste button{margin-top:6px; font-family:var(--font-d); font-weight:700; font-size:14px; padding:5px 12px; border-radius:8px; border:0; background:var(--ink); color:#fff; cursor:pointer}
+
+/* welcome */
+#w-welcome{left:50%; top:150px; transform:translateX(-50%); width:min(560px, calc(100vw - 40px))}
+.lead{margin:2px 0 14px; font-size:15px; line-height:1.5}
+.ways{display:grid; gap:8px}
+.way{
+  all:unset; cursor:pointer; display:grid; gap:2px; padding:10px 14px; border-radius:12px; text-align:left;
+  background:rgba(255,255,255,.55); border:1px solid rgba(180,130,60,.22);
+}
+.way:hover,.way:focus-visible{background:#fff; border-color:var(--amber); outline:none}
+.way b{font-family:var(--font-d); font-size:17px; font-weight:700; letter-spacing:.01em}
+.way small{color:var(--ink-2); font-size:12.5px}
+
+/* about */
+#w-about{left:50%; top:70px; transform:translateX(-50%); width:min(680px, calc(100vw - 40px)); max-height:calc(100vh - 170px)}
+.about-body{overflow:auto; font-size:14px; line-height:1.55}
+.about-nav{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; position:sticky; top:0; padding:4px 0 8px; background:var(--cream)}
+.about-nav a{font-family:var(--font-d); font-weight:700; font-size:14px; color:var(--ink); text-decoration:none; padding:3px 10px; border-radius:999px; background:rgba(255,255,255,.6); border:1px solid rgba(180,130,60,.25)}
+.about-nav a:hover{background:var(--sun)}
+.about-section{padding:6px 0 12px; border-bottom:1px solid rgba(180,130,60,.16)}
+.about-section:last-child{border-bottom:0}
+.about-section h3{margin:8px 0 6px; font-family:var(--font-d); font-weight:800; font-size:20px}
+.about-section p{margin:0 0 8px}
+.about-section ol{margin:0; padding-left:22px} .about-section li{margin:0 0 6px}
 
 /* dock */
 .dock{

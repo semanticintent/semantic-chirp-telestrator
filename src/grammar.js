@@ -1,7 +1,7 @@
 // The only place a tool is defined. WebMCP registration, the console, the scenario runner, and docs/grammar.md derive from this array.
 // Handlers are pure: (state, input) → state. They never touch the DOM. They throw MoveError with a line from copy when a move cannot be made.
 import * as analyst from './analyst.js';
-import { open, skater, verdictFor, WINDOWS } from './state.js';
+import { open, close, skater, verdictFor, WINDOWS } from './state.js';
 import { copy, fill } from './copy.js';
 
 export class MoveError extends Error {}
@@ -19,7 +19,7 @@ export const grammar = [
     prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text }) }),
     handler(state, { read, fixture, text }) {
       const source = fixture ? { mode: 'fixture', fixture } : { mode: 'live', text };
-      return open({ ...state, read, source, ice: false, circle: null, replay: null }, 'rink');
+      return close(open({ ...state, read, source, ice: false, circle: null, replay: null }, 'rink'), 'welcome');
     },
     ack: (s) => ({ cued: s.read.analysis_id, skaters: s.read.skaters.length }),
   },

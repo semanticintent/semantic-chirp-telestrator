@@ -132,3 +132,30 @@ test('an analyst that does not answer is reported, and fixtures still work witho
   expect(noAnalyst.error).toMatch(/No analyst is configured/);
   expect(await page.evaluate(() => window.sepiola.run('cue_roster cgy-week1'))).toEqual({ cued: 'fx-cgy-week1', skaters: 15 });
 });
+
+test('a visitor is welcomed, the sample loads through the grammar, and the welcome steps aside', async ({ page }) => {
+  await boot(page);
+  await expect(page.locator('.win[data-name="welcome"]')).toBeVisible();
+  await expect(page.locator('.win[data-name="welcome"]')).toContainText('Nothing here has an opinion of its own.');
+  await page.click('.win[data-name="welcome"] [data-sample]');
+  await page.waitForFunction(() => window.sepiola.state().ice === true);
+  await page.evaluate(() => window.sepiola.settled());
+  const state = await page.evaluate(() => window.sepiola.state());
+  expect(state.windows.welcome.open).toBe(false);
+  expect(state.log.map((e) => e.line)).toEqual(['cue_roster cgy-week1', 'read_ice']);
+  await page.screenshot({ path: 'test/shots/welcome-sample.png' });
+});
+
+test('the menubar menus open windows and the about sections answer to hashes', async ({ page }) => {
+  await boot(page);
+  await page.click('details.menu summary.brand');
+  await expect(page.locator('.menu-list').first()).toBeVisible();
+  await page.click('[data-open-about="privacy"]');
+  await expect(page.locator('.win[data-name="about"]')).toBeVisible();
+  await expect(page.locator('#about-privacy')).toContainText('No accounts, no sign-in, no cookies');
+  expect(await page.evaluate(() => location.hash)).toBe('#privacy');
+  await page.goto('/#terms');
+  await page.waitForFunction(() => window.sepiola?.ready === true);
+  expect(await page.evaluate(() => window.sepiola.state().windows.about.open)).toBe(true);
+  await page.screenshot({ path: 'test/shots/about-terms.png' });
+});
