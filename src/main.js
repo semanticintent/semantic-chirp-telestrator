@@ -11,6 +11,7 @@ import { submit } from './talkback.js';
 import { register } from './webmcp.js';
 import { mode, analystUrl } from './analyst.js';
 import { mountSignal } from './signal.js';
+import { copy } from './copy.js';
 
 render(getState());
 

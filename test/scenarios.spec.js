@@ -106,8 +106,15 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   await page.goto('/?analyst=http://analyst.test');
   await page.waitForFunction(() => window.sepiola?.ready === true);
   await expect(page.locator('#pill-analyst')).toHaveText(/Analyst · live/);
-  const cued = await page.evaluate(() => window.sepiola.call('cue_roster', { text: 'Zary LW\nGridin LW' }));
-  expect(cued).toEqual({ cued: 'fx-cgy-week1', skaters: 15 });
+  // Through the real UI: open the paste window from the welcome card, type, press Cue it.
+  await page.click('.win[data-name="welcome"] [data-paste]');
+  await page.fill('#paste-in', 'Zary LW\nGridin LW');
+  await page.click('#paste-go');
+  await page.waitForFunction(() => window.sepiola.state().read !== null);
+  const state0 = await page.evaluate(() => window.sepiola.state());
+  expect(state0.log.at(-1)).toEqual({ line: 'cue_roster (pasted lineup)', ack: { cued: 'fx-cgy-week1', skaters: 15 } });
+  expect(state0.windows.paste.open).toBe(false);
+  expect(state0.windows.welcome.open).toBe(false);
   const read = await page.evaluate(() => window.sepiola.run('read_ice 3 2026-10-05'));
   expect(read.read).toBe('fx-thin-week');
   expect(posts.map((p) => [p.roster_text, p.look_ahead_days, p.start])).toEqual([['Zary LW\nGridin LW', 7, undefined], ['Zary LW\nGridin LW', 3, '2026-10-05']]);
