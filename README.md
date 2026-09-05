@@ -126,7 +126,7 @@ reference/telestrator-v0.html   the original mockup; the visual target, never ed
 
 ## Status
 
-Built and live: the screen on Pages, the analyst on Workers, CHIRP `read_ice` on npm (4.3.0). Open: a custom domain, jersey colours for all 32 clubs, and the producer layer when a second analyst arrives. See [docs/plan.md](docs/plan.md).
+Built and live: the screen at sepiola.semanticintent.dev, the analyst at chirp-mcp.semanticintent.dev, CHIRP `read_ice` on npm (4.3.0). Jerseys carry all 32 clubs' colours. Open: the producer layer when a second analyst arrives. See [docs/plan.md](docs/plan.md).
 
 ## Documents
 

@@ -16,7 +16,39 @@
   /* jerseys: generic shapes in club colours. --c1 body, --c2 stripe. */
   --jersey-edge: rgba(0, 0, 0, .3); --jersey-ink: #fff;
   --club-none-1: #8A8F99; --club-none-2: #E6E8EC;
+  /* All 32 clubs: body (-1) and stripe (-2). Colours only, never marks; bodies chosen dark enough for the white number. */
+  --club-ANA-1: #000000; --club-ANA-2: #F47A38;
+  --club-BOS-1: #000000; --club-BOS-2: #FFB81C;
+  --club-BUF-1: #003087; --club-BUF-2: #FFB81C;
+  --club-CAR-1: #CC0000; --club-CAR-2: #000000;
+  --club-CBJ-1: #002654; --club-CBJ-2: #CE1126;
   --club-CGY-1: #B5262C; --club-CGY-2: #F7C56A;
+  --club-CHI-1: #CF0A2C; --club-CHI-2: #000000;
+  --club-COL-1: #6F263D; --club-COL-2: #236192;
+  --club-DAL-1: #006847; --club-DAL-2: #8F8F8C;
+  --club-DET-1: #CE1126; --club-DET-2: #FFFFFF;
+  --club-EDM-1: #041E42; --club-EDM-2: #FF4C00;
+  --club-FLA-1: #C8102E; --club-FLA-2: #B9975B;
+  --club-LAK-1: #111111; --club-LAK-2: #A2AAAD;
+  --club-MIN-1: #154734; --club-MIN-2: #A6192E;
+  --club-MTL-1: #AF1E2D; --club-MTL-2: #192168;
+  --club-NJD-1: #CE1126; --club-NJD-2: #000000;
+  --club-NSH-1: #041E42; --club-NSH-2: #FFB81C;
+  --club-NYI-1: #00539B; --club-NYI-2: #F47D30;
+  --club-NYR-1: #0038A8; --club-NYR-2: #CE1126;
+  --club-OTT-1: #000000; --club-OTT-2: #C8102E;
+  --club-PHI-1: #F74902; --club-PHI-2: #000000;
+  --club-PIT-1: #000000; --club-PIT-2: #FCB514;
+  --club-SEA-1: #001628; --club-SEA-2: #99D9D9;
+  --club-SJS-1: #006D75; --club-SJS-2: #EA7200;
+  --club-STL-1: #002F87; --club-STL-2: #FCB514;
+  --club-TBL-1: #002868; --club-TBL-2: #FFFFFF;
+  --club-TOR-1: #00205B; --club-TOR-2: #FFFFFF;
+  --club-UTA-1: #000000; --club-UTA-2: #69B3E7;
+  --club-VAN-1: #00205B; --club-VAN-2: #00843D;
+  --club-VGK-1: #333F42; --club-VGK-2: #B4975A;
+  --club-WPG-1: #041E42; --club-WPG-2: #AC162C;
+  --club-WSH-1: #041E42; --club-WSH-2: #C8102E;
 
   /* type */
   --font-d: "Barlow Condensed", "Arial Narrow", sans-serif;
