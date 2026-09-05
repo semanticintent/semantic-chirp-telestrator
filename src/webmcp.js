@@ -1,5 +1,6 @@
 // WebMCP registration, derived from the grammar. One adapter, against the W3C Community Group draft (checked 2026-09-04):
 // registerTool({ name, title, description, inputSchema, execute, annotations }) returning a Promise; execute(input, { signal })
+// Verified 2026-09-05 against Chromium 153 with --enable-features=WebMCP: all seven descriptors accepted (test/webmcp-real.spec.js).
 // resolves to any JSON-serializable value, so the ack goes back as-is. No unregisterTool; an AbortSignal does that.
 import { grammar } from './grammar.js';
 import { call } from './dispatch.js';
@@ -32,8 +33,9 @@ export const descriptors = () => grammar.map((g) => ({
   execute: (input) => call(g.name, input ?? {}, `agent ${g.name} ${JSON.stringify(input ?? {})}`),
 }));
 
+/** Chrome (153, --enable-features=WebMCP) and Orbweaver's host both attach it to document; navigator is the fallback. */
 export function modelContext() {
-  return globalThis.navigator?.modelContext ?? globalThis.document?.modelContext ?? null;
+  return globalThis.document?.modelContext ?? globalThis.navigator?.modelContext ?? null;
 }
 
 /** Register every move. Returns what happened so the menubar can say so. */

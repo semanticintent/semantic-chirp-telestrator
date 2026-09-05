@@ -78,7 +78,7 @@ test('an agent with WebMCP sees every move and can make one', async ({ page }) =
   await page.evaluate(() => window.sepiola.webmcp);
   await expect(page.locator('#pill-webmcp')).toHaveText(/WebMCP · 7 tools/);
   await page.click('.signal summary');
-  await expect(page.locator('#signal-panel')).toContainText('7 tools registered with navigator.modelContext');
+  await expect(page.locator('#signal-panel')).toContainText('7 tools registered with the browser');
   expect(await page.locator('#signal-panel .chips-row code').count()).toBe(7);
   const names = await page.evaluate(() => navigator.modelContext.tools.map((t) => t.name));
   expect(names).toEqual(await page.evaluate(() => window.sepiola.moves));

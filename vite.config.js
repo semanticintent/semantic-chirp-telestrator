@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => ({
   build: { outDir: 'dist', cssCodeSplit: false, assetsInlineLimit: 100_000_000 },
   test: {
     include: ['test/**/*.spec.js'],
-    exclude: ['test/scenarios.spec.js', 'node_modules/**'],
+    exclude: ['test/scenarios.spec.js', 'test/webmcp-real.spec.js', 'node_modules/**'],
   },
 }));
