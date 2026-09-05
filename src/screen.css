@@ -218,6 +218,8 @@ body::after{ /* fine grain */
 #w-paste{left:50%; top:130px; transform:translateX(-50%); width:min(560px, calc(100vw - 40px))}
 .paste textarea{display:block; width:100%; font:13px ui-monospace, Menlo, Consolas, monospace; padding:10px 12px; border-radius:10px; border:1px solid rgba(43,32,22,.18); background:#fff; color:var(--ink); resize:vertical}
 .paste textarea:focus{outline:2px solid var(--amber); outline-offset:1px}
+.opp-label{display:block; margin:10px 0 4px; font-family:var(--font-d); font-weight:700; font-size:14px}
+.opp-label small{display:block; font-family:var(--font-b); font-weight:400; font-size:12px; color:var(--ink-2)}
 .paste-row{display:flex; gap:12px; align-items:center; margin-top:10px}
 .paste-row small{flex:1; color:var(--ink-2); font-size:12px; line-height:1.4}
 .paste-row button,.paste-open{font-family:var(--font-d); font-weight:700; font-size:15px; padding:6px 14px; border-radius:10px; border:0; background:var(--ink); color:#fff; cursor:pointer}

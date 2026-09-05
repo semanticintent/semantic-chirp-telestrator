@@ -11,14 +11,14 @@ export const grammar = [
   {
     name: 'cue_roster',
     move: 'Load the board',
-    description: 'Load a roster onto the rink. Give `text`, the pasted lineup (any format, one player per line), when an analyst is configured; or `fixture`, the name of a read in fixtures/.',
-    input: { text: 'string?', fixture: 'string?' },
+    description: 'Load a roster onto the rink. Give `text`, the pasted lineup (any format, one player per line), when an analyst is configured; or `fixture`, the name of a read in fixtures/. `opponent_text`, the other side\'s lineup, gives games in hand its second bar.',
+    input: { text: 'string?', fixture: 'string?', opponent_text: 'string?' },
     positional: ['fixture'],
     touches: ['chrome', 'rink', 'spot', 'strips', 'panel', 'hand'],
     sequence: null,
-    prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text }) }),
-    handler(state, { read, fixture, text }) {
-      const source = fixture ? { mode: 'fixture', fixture } : { mode: 'live', text };
+    prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text, opponent_text: input.opponent_text }) }),
+    handler(state, { read, fixture, text, opponent_text }) {
+      const source = fixture ? { mode: 'fixture', fixture } : { mode: 'live', text, opponent_text: opponent_text || undefined };
       return close(close(open({ ...state, read, source, ice: false, circle: null, replay: null }, 'rink'), 'welcome'), 'paste');
     },
     ack: (s) => ({ cued: s.read.analysis_id, skaters: s.read.skaters.length }),
@@ -32,7 +32,7 @@ export const grammar = [
     touches: ['chrome', 'rink', 'strips', 'panel', 'hand'],
     sequence: 'read_ice',
     prepare: async (input, state) => (state.source?.mode === 'live'
-      ? { ...input, read: await analyst.read({ text: state.source.text, look_ahead_days: input.look_ahead_days ?? 7, start: input.start }) }
+      ? { ...input, read: await analyst.read({ text: state.source.text, opponent_text: state.source.opponent_text, look_ahead_days: input.look_ahead_days ?? 7, start: input.start }) }
       : input),
     handler(state, { read }) {
       if (!state.read) refuse(copy.errors.noRoster);

@@ -96,7 +96,7 @@ Four items, in order. Each lands with tests, a deploy, and a line here. Status: 
 | # | Item | Scope | Status |
 |---|---|---|---|
 | 1 | **Real WebMCP host** | A Playwright project that launches Chromium with `--enable-features=WebMCP` and runs the agent scenario against Chrome's real `document.modelContext`; adapter looks at `document` first; signal copy stops naming `navigator`; D16 addendum. Done when `npm run scenarios` proves 7 registrations on the real API. | ☑ 2026-09-05 — Chromium 153, `document.modelContext`, 7 accepted |
-| 2 | **Opponent's lineup** | Second box in the paste window; `cue_roster` and `read_ice` carry `opponent_text` to the analyst; `state.source` remembers it for re-reads; games in hand shows both bars and the analyst's edge line. Done when the live scenario posts both rosters and the hand window draws two bars. | ☐ |
+| 2 | **Opponent's lineup** | Second box in the paste window; `cue_roster` and `read_ice` carry `opponent_text` to the analyst; `state.source` remembers it for re-reads; games in hand shows both bars and the analyst's edge line. Done when the live scenario posts both rosters and the hand window draws two bars. | ☑ 2026-09-05 |
 | 3 | **CHIRP 4.3.1** | Version, changelog (Unreleased → 4.3.1), tag, GitHub release from main. `npm publish` needs the user's OTP. Done when npm shows 4.3.1. | ☐ |
 | 4 | **Write-up** | `docs/paper/` — the telestrator pattern as a paper (abstract, the pattern, the worked example, what was learned, references) ready for Zenodo; `CITATION.cff`; a `v0.1.0` release tag so Zenodo's GitHub integration can mint a DOI; a LinkedIn launch draft in `docs/launch/` in the product-launch voice. Done when the user has three files to read and one button to press. | ☐ |
 

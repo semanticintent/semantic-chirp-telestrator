@@ -23,7 +23,7 @@ describe('webmcp descriptors', () => {
   it('makes optional inputs optional and typed inputs typed', () => {
     const cue = inputSchema(grammar.find((g) => g.name === 'cue_roster'));
     expect(cue.required).toEqual([]);
-    expect(Object.keys(cue.properties).sort()).toEqual(['fixture', 'text']);
+    expect(Object.keys(cue.properties).sort()).toEqual(['fixture', 'opponent_text', 'text']);
     const circle = inputSchema(grammar.find((g) => g.name === 'circle'));
     expect(circle.required).toEqual(['ids']);
     expect(circle.properties.ids.type).toBe('array');

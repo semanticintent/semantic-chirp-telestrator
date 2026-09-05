@@ -101,7 +101,8 @@ for (const win of document.querySelectorAll('.win')) {
 // Paste a lineup: the live path to cue_roster. In fixture mode the analyst line says what to do instead.
 document.getElementById('paste-go')?.addEventListener('click', () => {
   const text = document.getElementById('paste-in').value.trim();
-  if (text) call('cue_roster', { text }, copy.console.pasted);
+  const opponent_text = document.getElementById('opp-in')?.value.trim();
+  if (text) call('cue_roster', opponent_text ? { text, opponent_text } : { text }, copy.console.pasted);
 });
 
 // The signal: whether an agent can reach the moves (WebMCP), and where the reads come from (the analyst).

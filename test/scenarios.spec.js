@@ -109,6 +109,7 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   // Through the real UI: open the paste window from the welcome card, type, press Cue it.
   await page.click('.win[data-name="welcome"] [data-paste]');
   await page.fill('#paste-in', 'Zary LW\nGridin LW');
+  await page.fill('#opp-in', 'Auston Matthews C');
   await page.click('#paste-go');
   await page.waitForFunction(() => window.sepiola.state().read !== null);
   const state0 = await page.evaluate(() => window.sepiola.state());
@@ -117,9 +118,10 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   expect(state0.windows.welcome.open).toBe(false);
   const read = await page.evaluate(() => window.sepiola.run('read_ice 3 2026-10-05'));
   expect(read.read).toBe('fx-thin-week');
-  expect(posts.map((p) => [p.roster_text, p.look_ahead_days, p.start])).toEqual([['Zary LW\nGridin LW', 7, undefined], ['Zary LW\nGridin LW', 3, '2026-10-05']]);
+  expect(posts.map((p) => [p.roster_text, p.opponent_text, p.look_ahead_days, p.start])).toEqual([['Zary LW\nGridin LW', 'Auston Matthews C', 7, undefined], ['Zary LW\nGridin LW', 'Auston Matthews C', 3, '2026-10-05']]);
+  expect(await page.locator('[data-view="hand"] [data-seq="gih_bar"]').count()).toBe(2); // fixture cgy-week1 carries an opponent
   const state = await page.evaluate(() => window.sepiola.state());
-  expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW' });
+  expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW', opponent_text: 'Auston Matthews C' });
   await page.click('.signal summary');
   await expect(page.locator('#signal-panel')).toContainText(/chirp · season 20262027 · answered in \d+ ms/);
   await page.screenshot({ path: 'test/shots/signal-live.png' });

@@ -63,6 +63,8 @@ export const copy = {
       ['A row copied from a fantasy site', 'D    Cale Makar    COL - D    Q'],
       ['Just a surname', 'Nylander'],
     ],
+    opponent: 'Opponent\'s lineup (optional)',
+    opponentHint: 'Paste the other side too and games in hand gets its second bar and the analyst\'s edge.',
     useSample: 'Use the sample lineup',
     sample: 'Connor McDavid C\nMatvei Gridin LW\nMatt Coronato RW\nMorgan Frost C\nConnor Zary LW\nJoel Farabee RW\nCale Makar D\nRasmus Andersson D\nMacKenzie Weegar D\nKevin Bahl D\nDustin Wolf G\nBN Ryan Strome C\nBN Mikael Backlund C\nIR Jonathan Huberdeau LW',
   },
