@@ -181,6 +181,8 @@ export const copy = {
     unknownId: 'No skater in the read called "{id}".',
     sameSkater: 'Split needs two different skaters.',
     unknownWindow: 'No window called "{view}". Try rink, panel, hand, replay, or console.',
+    expectedNumber: 'Expected a number for {key}. Try: {example}',
+    badDays: 'look_ahead_days must be a whole number from 1 to 14. Try: {example}',
     needsRoster: 'Give cue_roster a fixture name, or a pasted lineup when an analyst is configured.',
     noAnalyst: 'No analyst is configured. Load a fixture with cue_roster <fixture>, or open the page with ?analyst=<url>.',
     analystDown: 'The analyst did not answer at {url}.',

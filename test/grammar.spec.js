@@ -2,6 +2,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { grammar } from '../src/grammar.js';
+import { initialState } from '../src/state.js';
+import { fixtures } from '../src/fixtures.js';
 import { grammarDoc } from '../src/grammar-doc.js';
 import { sequences } from '../src/motion/runner.js';
 
@@ -40,6 +42,26 @@ describe('grammar', () => {
     delete globalThis.SEPIOLA_ANALYST;
     expect(analystUrl()).toBeNull(); // tests run without a build default
     delete globalThis.location;
+  });
+  it('parseLine: a date where days were expected slides to start; nonsense is refused with the example', async () => {
+    const { parseLine } = await import('../src/dispatch.js');
+    expect(parseLine('read_ice 2026-10-05')).toEqual({ name: 'read_ice', input: { start: '2026-10-05' } });
+    expect(parseLine('read_ice 7 2026-10-05')).toEqual({ name: 'read_ice', input: { look_ahead_days: 7, start: '2026-10-05' } });
+    expect(parseLine('read_ice 3')).toEqual({ name: 'read_ice', input: { look_ahead_days: 3 } });
+    const bad = parseLine('read_ice seven');
+    expect(bad.error).toBe('Expected a number for look_ahead_days. Try: read_ice 7 2026-10-05');
+    expect(parseLine('circle zary 2 games, back-to-back')).toEqual({ name: 'circle', input: { ids: ['zary'], reason: '2 games, back-to-back' } });
+  });
+  it('read_ice refuses a window length that is not 1–14 whole days', () => {
+    const ri = grammar.find((g) => g.name === 'read_ice');
+    const cued = grammar.find((g) => g.name === 'cue_roster').handler(initialState(), { fixture: 'cgy-week1', read: fixtures['cgy-week1'] });
+    expect(() => ri.handler(cued, { look_ahead_days: 0 })).toThrow(/1 to 14/);
+    expect(() => ri.handler(cued, { look_ahead_days: 2.5 })).toThrow(/whole number/);
+    expect(ri.handler(cued, { look_ahead_days: 7 }).ice).toBe(true);
+  });
+  it('a new read touches every view that shows read data', () => {
+    const ri = grammar.find((g) => g.name === 'read_ice');
+    for (const v of ['rink', 'spot', 'panel', 'hand', 'replay', 'strips']) expect(ri.touches).toContain(v);
   });
   it('docs/grammar.md is up to date (npm run docs:grammar)', () => {
     expect(existsSync('docs/grammar.md')).toBe(true);

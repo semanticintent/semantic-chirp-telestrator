@@ -14,6 +14,7 @@ export const grammar = [
     description: 'Load a roster onto the rink. Give `text`, the pasted lineup (any format, one player per line), when an analyst is configured; or `fixture`, the name of a read in fixtures/. `opponent_text`, the other side\'s lineup, gives games in hand its second bar.',
     input: { text: 'string?', fixture: 'string?', opponent_text: 'string?' },
     positional: ['fixture'],
+    example: 'cue_roster cgy-week1',
     touches: ['chrome', 'rink', 'spot', 'strips', 'panel', 'hand'],
     sequence: null,
     prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text, opponent_text: input.opponent_text }) }),
@@ -29,17 +30,22 @@ export const grammar = [
     description: 'Reveal the read: ice quality under the skates, badges, the calls, games in hand. `start` (YYYY-MM-DD) moves the window; the analyst defaults to today.',
     input: { look_ahead_days: 'number?', start: 'string?' },
     positional: ['look_ahead_days', 'start'],
-    touches: ['chrome', 'rink', 'strips', 'panel', 'hand'],
+    example: 'read_ice 7 2026-10-05',
+    touches: ['chrome', 'rink', 'spot', 'strips', 'panel', 'hand', 'replay'], // every view that shows read data, so nothing stays on an old read
     sequence: 'read_ice',
     prepare: async (input, state) => (state.source?.mode === 'live'
       ? { ...input, read: await analyst.read({ text: state.source.text, opponent_text: state.source.opponent_text, look_ahead_days: input.look_ahead_days ?? 7, start: input.start }) }
       : input),
-    handler(state, { read }) {
+    handler(state, { read, look_ahead_days }) {
       if (!state.read) refuse(copy.errors.noRoster);
+      if (look_ahead_days !== undefined && !(Number.isInteger(look_ahead_days) && look_ahead_days >= 1 && look_ahead_days <= 14)) {
+        refuse(copy.errors.badDays, { example: 'read_ice 7 2026-10-05' });
+      }
       return open(open(open({ ...state, read: read ?? state.read, ice: true }, 'hand'), 'panel'), 'rink');
     },
     ack: (s) => ({
       read: s.read.analysis_id,
+      window: { start: s.read.window.start, end: s.read.window.end, days: s.read.window.days },
       calls: s.read.calls,
       games_in_hand: { you: s.read.games_in_hand.you, opp: s.read.games_in_hand.opp },
     }),
@@ -50,6 +56,7 @@ export const grammar = [
     description: 'Spotlight one skater with the reason pinned above. Without a reason, the analyst\'s own line is used.',
     input: { ids: 'id[]', reason: 'string?' },
     positional: ['ids[]', 'reason...'],
+    example: 'circle zary 2 games, back-to-back',
     touches: ['spot'],
     sequence: 'circle',
     handler(state, { ids, reason }) {
@@ -66,6 +73,7 @@ export const grammar = [
     description: 'Stage the reasoning behind one skater: his week, the analyst\'s line, his projected points, and the call if the analyst made one.',
     input: { id: 'id' },
     positional: ['id'],
+    example: 'replay gridin',
     touches: ['replay'],
     sequence: 'replay',
     handler(state, { id }) {
@@ -81,6 +89,7 @@ export const grammar = [
     description: 'Two skaters\' weeks side by side, then the analyst\'s call on who gets the start, if the analyst made one.',
     input: { a: 'id', b: 'id' },
     positional: ['a', 'b'],
+    example: 'split gridin zary',
     touches: ['replay'],
     sequence: 'replay',
     handler(state, { a, b }) {
@@ -97,6 +106,7 @@ export const grammar = [
     description: 'Bring a window forward: rink, panel, hand, replay, or console.',
     input: { view: 'view' },
     positional: ['view'],
+    example: 'cut_to panel',
     touches: [],
     sequence: null,
     handler(state, { view }) {

@@ -126,6 +126,19 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
     ['Zary LW\nGridin LW', 'Auston Matthews C', 3, '2026-10-05'],
   ]);
   expect(await page.locator('[data-view="hand"] [data-seq="gih_bar"]').count()).toBe(1); // thin-week has no opponent
+  // Codex feedback: a circle drawn before a re-read must show the new read's reason, not the old one.
+  await page.evaluate(() => window.sepiola.run('circle zary'));
+  await page.evaluate(() => window.sepiola.run('read_ice 7'));   // back to cgy-week1: Zary's reason changes
+  await expect(page.locator('[data-view="spot"] .callout text')).toHaveText('2 games, back-to-back');
+  await page.evaluate(() => window.sepiola.run('read_ice 3 2026-10-05'));   // thin-week again
+  await expect(page.locator('[data-view="spot"] .callout text')).toHaveText('2 games this week');
+  // Codex feedback: a date alone means "the week starting that day"; nonsense says what was expected.
+  const shorthand = await page.evaluate(() => window.sepiola.run('read_ice 2026-10-05'));
+  expect(shorthand.window).toEqual({ start: '2026-10-05', end: '2026-10-11', days: 7 }); // the mocked analyst answers 7-day reads with cgy-week1
+  expect(posts.at(-1)).toMatchObject({ look_ahead_days: 7, start: '2026-10-05' });
+  const nonsense = await page.evaluate(() => window.sepiola.run('read_ice seven'));
+  expect(nonsense.error).toBe('Expected a number for look_ahead_days. Try: read_ice 7 2026-10-05');
+  await expect(page.locator('[data-view="console"] .log')).toContainText('Expected a number for look_ahead_days');
   const state = await page.evaluate(() => window.sepiola.state());
   expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW', opponent_text: 'Auston Matthews C' });
   await page.click('.signal summary');

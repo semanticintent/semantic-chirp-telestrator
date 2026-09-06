@@ -113,6 +113,19 @@ Stateless remote MCP at `chirp-mcp.semanticintent.dev/mcp`, so an agent anywhere
 | 3 | **`/mcp` on the Worker** (CHIRP) | SDK web-standard Streamable HTTP transport, stateless, JSON responses; one server per request; `/health` reports the endpoint and tool count; same pacing, cache, rate limit. Proven with a real MCP client against the live host. | ☑ 2026-09-06 |
 | 4 | **Sepiola shows it** | The analyst card in the signal panel reads `/health` and shows the MCP endpoint and tool count; README and paper availability updated. | ☑ 2026-09-06 |
 
+## Sprint: Codex feedback (started 2026-09-06)
+
+An agent in Codex drove the screen through WebMCP and the analyst through MCP, then reviewed the screen from the viewer's seat. Six points, all fair. Bugs first.
+
+| # | Item | Scope | Status |
+|---|---|---|---|
+| 1 | **Stale spotlight after a re-read** | `read_ice` touches every view that shows read data (spot, replay too); the ack names the window it read. | ☑ 2026-09-06 |
+| 2 | **`read_ice 2026-09-29` read the wrong week** | Console: a date where days were expected slides to `start`; nonsense is refused with the move's example; `look_ahead_days` must be 1–14 whole days. Grammar entries carry an `example`. | ☑ 2026-09-06 |
+| 3 | **The week, unmistakable** | Analyst returns `window.label`; every window showing week data shows it; previous/next-week controls issue `read_ice` moves. | ☐ |
+| 4 | **Player actions on click** | Click a skater → Spotlight · Replay · Compare with… (two-click pick). Moves stay the moves. | ☐ |
+| 5 | **Talkback as history** | Reads kept in state; readable entries from copy templates filled with ack values; click restores, Run again re-issues; raw JSON expandable. Seed of `state()`. | ☐ |
+| 6 | **Comparison on demand** | Contract 0.2: opponent skaters with games/b2b/projected; whether bench counts, in the analyst's words. CHIRP alongside. | ☐ |
+
 ## Not in scope
 
 Producer verbs (`ready`, `roll`, `caption`, `layer`), a `state()` tool, multiple circles, remote hosting behind auth, any second analyst, any Yahoo integration.

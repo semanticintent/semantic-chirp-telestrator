@@ -34,21 +34,54 @@ export async function call(name, input = {}, line = describe(name, input)) {
   return ack;
 }
 
-/** Parse one line of a scenario or console script: `circle zary 2 games, back-to-back`. */
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Parse one line of a scenario or console script: `circle zary 2 games, back-to-back`.
+ * A token that is not a number where a number is expected slides to the next positional when it fits there
+ * (`read_ice 2026-10-05` reads the week starting that day); otherwise the line is refused with the move's example.
+ */
 export function parseLine(line) {
   const [name, ...args] = line.trim().split(/\s+/);
   const move = findMove(name);
   const input = {};
-  move?.positional.forEach((spec, i) => {
+  if (!move) return { name, input };
+  let i = 0;
+  for (let p = 0; p < move.positional.length; p++) {
+    const spec = move.positional[p];
     const key = spec.replace(/(\[\]|\.\.\.)$/, '');
-    const value = spec.endsWith('...') ? args.slice(i).join(' ') : args[i];
-    if (value === undefined || value === '') return;
-    input[key] = spec.endsWith('[]') ? [value] : move.input[key]?.startsWith('number') ? Number(value) : value;
-  });
+    const type = move.input[key] ?? 'string';
+    if (spec.endsWith('...')) { const rest = args.slice(i).join(' '); if (rest) input[key] = rest; i = args.length; break; }
+    const value = args[i];
+    if (value === undefined || value === '') break;
+    if (type.startsWith('number')) {
+      if (!/^-?\d+(\.\d+)?$/.test(value)) {
+        const next = move.positional[p + 1];
+        if (next && DATE.test(value)) continue; // slide: this token belongs to the next positional
+        return { name, input, error: fill(copy.errors.expectedNumber, { key, example: move.example ?? name }) };
+      }
+      input[key] = Number(value);
+    } else {
+      input[key] = spec.endsWith('[]') ? [value] : value;
+    }
+    i++;
+  }
   return { name, input };
 }
 
-export const run = (line) => { const { name, input } = parseLine(line); return call(name, input, line.trim()); };
+/** A line the parser refused still lands in the transcript, as an error, so the viewer sees what was said and why it did not run. */
+function refuseLine(line, error) {
+  const ack = { error };
+  state = { ...state, log: [...state.log, { line, ack }].slice(-200) };
+  render(state, ['console']);
+  return ack;
+}
+
+export const run = (line) => {
+  const { name, input, error } = parseLine(line);
+  if (error) return Promise.resolve(refuseLine(line.trim(), error));
+  return call(name, input, line.trim());
+};
 
 /** A viewer's touch (open, close, drag) is a state change that is not a move. It renders chrome only. */
 export function touch(fn) {
