@@ -15,6 +15,12 @@ export function render(state, touches = Object.keys(views)) {
     win.style.zIndex = String(10 + w.z);
     if (w.x != null) Object.assign(win.style, { left: `${w.x}px`, top: `${w.y}px`, right: 'auto', bottom: 'auto', transform: 'none' });
   }
+  const nav = document.querySelector('.week-nav');
+  if (nav) {
+    const w = state.read?.window;
+    nav.hidden = !(state.source?.mode === 'live' && state.ice && w?.previous && w?.next);
+    const input = nav.querySelector('input'); if (input && w?.start && input.value !== w.start) input.value = w.start;
+  }
   const top = Object.entries(state.windows).filter(([, w]) => w.open).sort((a, b) => b[1].z - a[1].z)[0]?.[0];
   for (const win of document.querySelectorAll('.win')) win.classList.toggle('focus', win.dataset.name === top);
   for (const b of document.querySelectorAll('.dock [data-open]')) b.classList.toggle('open', !!state.windows[b.dataset.open]?.open);

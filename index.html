@@ -98,6 +98,11 @@
   <div class="head">
     <div class="lights"><button class="x" aria-label="Close" data-close="rink"></button><button class="m" aria-label="Minimize" data-close="rink"></button></div>
     <span class="title">My rink</span>
+    <span class="week-nav" hidden>
+      <button type="button" data-week="previous" aria-label="Previous week" title="Previous week">‹</button>
+      <input type="date" id="week-in" aria-label="Week starting" title="Week starting">
+      <button type="button" data-week="next" aria-label="Next week" title="Next week">›</button>
+    </span>
     <span class="sub" data-view="chrome"></span>
   </div>
   <div class="body">
@@ -148,7 +153,7 @@
 <section class="win hidden" id="w-panel" data-name="panel" tabindex="0">
   <div class="head">
     <div class="lights"><button class="x" aria-label="Close" data-close="panel"></button><button class="m" aria-label="Minimize" data-close="panel"></button></div>
-    <span class="title">The panel</span><span class="sub">the calls</span>
+    <span class="title">The panel</span><span class="sub" data-view="chrome-panel"></span>
   </div>
   <div class="body" data-view="panel"></div>
 </section>
@@ -157,7 +162,7 @@
 <section class="win hidden" id="w-hand" data-name="hand" tabindex="0">
   <div class="head">
     <div class="lights"><button class="x" aria-label="Close" data-close="hand"></button><button class="m" aria-label="Minimize" data-close="hand"></button></div>
-    <span class="title">Games in hand</span><span class="sub">who skates more</span>
+    <span class="title">Games in hand</span><span class="sub" data-view="chrome-hand"></span>
   </div>
   <div class="body" data-view="hand"></div>
 </section>
@@ -166,7 +171,7 @@
 <section class="win hidden" id="w-replay" data-name="replay" tabindex="0">
   <div class="head">
     <div class="lights"><button class="x" aria-label="Close" data-close="replay"></button><button class="m" aria-label="Minimize" data-close="replay"></button></div>
-    <span class="title">Replay</span><span class="sub">run it back</span>
+    <span class="title">Replay</span><span class="sub" data-view="chrome-replay"></span>
   </div>
   <div class="body">
     <svg id="replay" data-view="replay" viewBox="0 0 540 240" xmlns="http://www.w3.org/2000/svg" aria-label="Run it back"></svg>

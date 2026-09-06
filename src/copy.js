@@ -7,6 +7,10 @@ export const copy = {
     subEmpty: 'Cue a roster to load the board',
     subBefore: 'Lineup before the ice is read',
     subAfter: 'Ice read for the next {days} days',
+    subRead: 'Ice read',
+    previousWeek: 'Previous week',
+    nextWeek: 'Next week',
+    weekStarting: 'Week starting',
   },
   legend: {
     fresh: 'fresh ice: the schedule is on his side',
@@ -29,11 +33,13 @@ export const copy = {
     empty: 'Run it back on a skater and his week shows up here.',
   },
   panel: {
+    sub: 'the calls',
     empty: 'Nothing read yet. Run read_ice, or let your agent call it.',
     start: 'Start', sit: 'Sit', ir: 'IR', stream: 'Stream',
     why: 'why',
   },
   hand: {
+    sub: 'who skates more',
     empty: 'Run the ice to see the edge.',
     you: 'You', opp: 'Opp',
   },

@@ -198,7 +198,7 @@ sepiola/
     fixtures.js                fixtures by name
     copy.js                    every static string the interface shows
     html.js                    template helper
-    views/                     index.js chrome.js rink.js spot.js strips.js replay.js panel.js hand.js console.js
+    views/                     index.js chrome.js (4 header subtitles) rink.js spot.js strips.js replay.js panel.js hand.js console.js welcome.js about.js formats.js
     motion/runner.js
     motion/sequences/*.json    read_ice circle replay wipe
     tokens.css                 colours, type, glass

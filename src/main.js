@@ -51,6 +51,12 @@ document.addEventListener('click', (e) => {
     box.value = copy.paste.sample; box.focus({ preventScroll: true });
     return;
   }
+  const weekBtn = e.target.closest('[data-week]');
+  if (weekBtn) {
+    const w = getState().read?.window;
+    if (w?.[weekBtn.dataset.week]) run(`read_ice ${w.days} ${w[weekBtn.dataset.week]}`);
+    return;
+  }
   const opener = e.target.closest('[data-open]');
   if (opener) return touch((s) => open(s, opener.dataset.open));
   const closer = e.target.closest('[data-close]');
@@ -67,6 +73,11 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     run(`circle ${e.target.dataset.id}`);
   }
+});
+
+document.getElementById('week-in')?.addEventListener('change', (e) => {
+  const w = getState().read?.window;
+  if (e.target.value && w) run(`read_ice ${w.days} ${e.target.value}`);
 });
 
 // Talkback: one move per line, surnames allowed where an id is expected.

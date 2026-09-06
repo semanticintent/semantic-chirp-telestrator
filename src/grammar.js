@@ -15,7 +15,7 @@ export const grammar = [
     input: { text: 'string?', fixture: 'string?', opponent_text: 'string?' },
     positional: ['fixture'],
     example: 'cue_roster cgy-week1',
-    touches: ['chrome', 'rink', 'spot', 'strips', 'panel', 'hand'],
+    touches: ['chrome', 'chrome-panel', 'chrome-hand', 'chrome-replay', 'rink', 'spot', 'strips', 'panel', 'hand'],
     sequence: null,
     prepare: async (input) => ({ ...input, read: await analyst.read({ fixture: input.fixture, text: input.text, opponent_text: input.opponent_text }) }),
     handler(state, { read, fixture, text, opponent_text }) {
@@ -31,7 +31,7 @@ export const grammar = [
     input: { look_ahead_days: 'number?', start: 'string?' },
     positional: ['look_ahead_days', 'start'],
     example: 'read_ice 7 2026-10-05',
-    touches: ['chrome', 'rink', 'spot', 'strips', 'panel', 'hand', 'replay'], // every view that shows read data, so nothing stays on an old read
+    touches: ['chrome', 'chrome-panel', 'chrome-hand', 'chrome-replay', 'rink', 'spot', 'strips', 'panel', 'hand', 'replay'], // every view that shows read data, so nothing stays on an old read
     sequence: 'read_ice',
     prepare: async (input, state) => (state.source?.mode === 'live'
       ? { ...input, read: await analyst.read({ text: state.source.text, opponent_text: state.source.opponent_text, look_ahead_days: input.look_ahead_days ?? 7, start: input.start }) }
@@ -74,7 +74,7 @@ export const grammar = [
     input: { id: 'id' },
     positional: ['id'],
     example: 'replay gridin',
-    touches: ['replay'],
+    touches: ['replay', 'chrome-replay'],
     sequence: 'replay',
     handler(state, { id }) {
       if (!state.read) refuse(copy.errors.noRoster);
@@ -90,7 +90,7 @@ export const grammar = [
     input: { a: 'id', b: 'id' },
     positional: ['a', 'b'],
     example: 'split gridin zary',
-    touches: ['replay'],
+    touches: ['replay', 'chrome-replay'],
     sequence: 'replay',
     handler(state, { a, b }) {
       if (!state.read) refuse(copy.errors.noRoster);
@@ -121,7 +121,7 @@ export const grammar = [
     description: 'Clean the screen. The roster stays cued; the read, the circle, and the replay are cleared.',
     input: {},
     positional: [],
-    touches: ['chrome', 'rink', 'spot', 'strips', 'replay', 'panel', 'hand'],
+    touches: ['chrome', 'chrome-panel', 'chrome-hand', 'chrome-replay', 'rink', 'spot', 'strips', 'replay', 'panel', 'hand'],
     sequence: 'wipe',
     handler(state) {
       return { ...state, ice: false, circle: null, replay: null };

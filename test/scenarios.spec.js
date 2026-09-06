@@ -126,9 +126,21 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
     ['Zary LW\nGridin LW', 'Auston Matthews C', 3, '2026-10-05'],
   ]);
   expect(await page.locator('[data-view="hand"] [data-seq="gih_bar"]').count()).toBe(1); // thin-week has no opponent
+  // Codex feedback: every week view says which week it shows, in the analyst's words; controls move by a week.
+  await expect(page.locator('.win[data-name="rink"] .sub')).toContainText('Nov 9 – 15');
+  await expect(page.locator('.win[data-name="panel"] .sub')).toContainText('Nov 9 – 15');
+  await expect(page.locator('.win[data-name="hand"] .sub')).toContainText('Nov 9 – 15');
+  expect(await page.locator('.week-nav').isVisible()).toBe(true);
+  expect(await page.inputValue('#week-in')).toBe('2026-11-09');
+  const before = posts.length;
+  await page.click('[data-week="previous"]');
+  await page.waitForFunction((n) => window.sepiola.state().log.length > n, await page.evaluate(() => window.sepiola.state().log.length));
+  expect(posts.length).toBe(before + 1);
+  expect(posts.at(-1)).toMatchObject({ start: '2026-11-02', look_ahead_days: 7 }); // the current read's window length (the fixture's), not the earlier request's
   // Codex feedback: a circle drawn before a re-read must show the new read's reason, not the old one.
   await page.evaluate(() => window.sepiola.run('circle zary'));
   await page.evaluate(() => window.sepiola.run('read_ice 7'));   // back to cgy-week1: Zary's reason changes
+  await expect(page.locator('.win[data-name="rink"] .sub')).toContainText('Oct 5 – 11');
   await expect(page.locator('[data-view="spot"] .callout text')).toHaveText('2 games, back-to-back');
   await page.evaluate(() => window.sepiola.run('read_ice 3 2026-10-05'));   // thin-week again
   await expect(page.locator('[data-view="spot"] .callout text')).toHaveText('2 games this week');
@@ -167,6 +179,14 @@ test('an analyst that does not answer is reported, and fixtures still work witho
   const noAnalyst = await page.evaluate(() => window.sepiola.call('cue_roster', { text: 'Zary LW' }));
   expect(noAnalyst.error).toMatch(/No analyst is configured/);
   expect(await page.evaluate(() => window.sepiola.run('cue_roster cgy-week1'))).toEqual({ cued: 'fx-cgy-week1', skaters: 15 });
+});
+
+test('in fixture mode the week is labelled but the week controls stay hidden', async ({ page }) => {
+  await boot(page);
+  await page.click('.win[data-name="welcome"] [data-sample]');
+  await page.waitForFunction(() => window.sepiola.state().ice === true);
+  await expect(page.locator('.win[data-name="rink"] .sub')).toContainText('Oct 5 – 11');
+  expect(await page.locator('.week-nav').isVisible()).toBe(false);
 });
 
 test('a visitor is welcomed, the sample loads through the grammar, and the welcome steps aside', async ({ page }) => {
