@@ -97,7 +97,7 @@ test('an agent with WebMCP sees every move and can make one', async ({ page }) =
 
 test('with an analyst configured, cue_roster posts the lineup and read_ice re-reads with the window', async ({ page }) => {
   const posts = [];
-  await page.route('**/health', (route) => route.fulfill({ status: 200, headers: CORS, body: JSON.stringify({ ok: true, analyst: 'chirp', season: '20262027' }) }));
+  await page.route('**/health', (route) => route.fulfill({ status: 200, headers: CORS, body: JSON.stringify({ ok: true, analyst: 'chirp', season: '20262027', mcp: { endpoint: '/mcp', tools: 23, stateless: true } }) }));
   await page.route('**/read', async (route) => {
     const body = JSON.parse(route.request().postData());
     posts.push(body);
@@ -130,6 +130,7 @@ test('with an analyst configured, cue_roster posts the lineup and read_ice re-re
   expect(state.source).toEqual({ mode: 'live', text: 'Zary LW\nGridin LW', opponent_text: 'Auston Matthews C' });
   await page.click('.signal summary');
   await expect(page.locator('#signal-panel')).toContainText(/chirp · season 20262027 · answered in \d+ ms/);
+  await expect(page.locator('#signal-panel')).toContainText('23 tools at http://analyst.test/mcp');
   await page.screenshot({ path: 'test/shots/signal-live.png' });
 });
 

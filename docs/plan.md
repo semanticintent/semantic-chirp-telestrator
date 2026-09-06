@@ -108,10 +108,10 @@ Stateless remote MCP at `chirp-mcp.semanticintent.dev/mcp`, so an agent anywhere
 
 | # | Item | Scope | Status |
 |---|---|---|---|
-| 1 | **Tool registry** (CHIRP) | Pull the 23 definitions and the call switch out of `src/index.ts` into `src/tools.ts`; `src/server.ts` builds a Server from them; stdio entry becomes thin. Same list from one source, like Sepiola's grammar. | ☐ |
-| 2 | **Roster in arguments** (CHIRP) | Every roster-dependent tool accepts optional `roster_text` / `opponent_text`; a request-scoped override (AsyncLocalStorage) makes analyses read the pasted roster instead of disk for that call. On the Worker the `set_*` tools answer "this endpoint keeps no state; pass roster_text". | ☐ |
-| 3 | **`/mcp` on the Worker** (CHIRP) | SDK web-standard Streamable HTTP transport, stateless, JSON responses; one server per request; `/health` reports the endpoint and tool count; same pacing, cache, rate limit. Proven with a real MCP client against the live host. | ☐ |
-| 4 | **Sepiola shows it** | The analyst card in the signal panel reads `/health` and shows the MCP endpoint and tool count; README and paper availability updated. | ☐ |
+| 1 | **Tool registry** (CHIRP) | Pull the 23 definitions and the call switch out of `src/index.ts` into `src/tools.ts`; `src/server.ts` builds a Server from them; stdio entry becomes thin. Same list from one source, like Sepiola's grammar. | ☑ 2026-09-06 |
+| 2 | **Roster in arguments** (CHIRP) | Every roster-dependent tool accepts optional `roster_text` / `opponent_text`; a request-scoped override (AsyncLocalStorage) makes analyses read the pasted roster instead of disk for that call. On the Worker the `set_*` tools answer "this endpoint keeps no state; pass roster_text". | ☑ 2026-09-06 |
+| 3 | **`/mcp` on the Worker** (CHIRP) | SDK web-standard Streamable HTTP transport, stateless, JSON responses; one server per request; `/health` reports the endpoint and tool count; same pacing, cache, rate limit. Proven with a real MCP client against the live host. | ☑ 2026-09-06 |
+| 4 | **Sepiola shows it** | The analyst card in the signal panel reads `/health` and shows the MCP endpoint and tool count; README and paper availability updated. | ☑ 2026-09-06 |
 
 ## Not in scope
 

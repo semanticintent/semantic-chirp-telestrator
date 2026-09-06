@@ -108,7 +108,7 @@ npm run build        # dist/sepiola.html (one file) + dist/index.html for Pages
 npm run deploy       # Cloudflare Pages
 ```
 
-Production builds default to the hosted analyst, `chirp-edge`, a Cloudflare Worker face of CHIRP. Override with `ANALYST_URL=... npm run build`. To run the analyst yourself: in the CHIRP repo, `npm run build && npm run serve:http` gives you `POST /read` on `localhost:3200`.
+Production builds default to the hosted analyst, `chirp-edge`, a Cloudflare Worker face of CHIRP. The same host is also a stateless MCP server at `https://chirp-mcp.semanticintent.dev/mcp`, so an agent can reach the analyst's 23 tools directly and this page's 7 moves through WebMCP: two faces, one analyst, no proxying (D38). Override with `ANALYST_URL=... npm run build`. To run the analyst yourself: in the CHIRP repo, `npm run build && npm run serve:http` gives you `POST /read` on `localhost:3200`.
 
 ## Layout
 

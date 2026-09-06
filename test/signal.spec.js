@@ -16,6 +16,8 @@ describe('signal', () => {
     for (const g of grammar) expect(m).toContain(`<code>${g.name}</code>`);
     expect(m).toContain('chirp@4.3.0 · season 20262027 · answered in 88 ms');
     expect(m).toContain('https://a.test');
+    const withMcp = String(signalMarkup({ webmcp: null, mode: 'live', url: 'https://a.test', health: { analyst: 'chirp@4.4.0', season: '20262027', ms: 40, mcp: { endpoint: '/mcp', tools: 23, stateless: true } } }));
+    expect(withMcp).toContain('23 tools at https://a.test/mcp');
     expect(String(signalMarkup({ webmcp: null, mode: 'fixture', url: null, health: null }))).toContain('Built-in reads. No network, no analyst.');
   });
 });

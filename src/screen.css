@@ -54,6 +54,7 @@ body::after{ /* fine grain */
 .signal-card .status{font-weight:600}
 .signal-card .url{font-family:ui-monospace, Menlo, monospace; font-size:12px; font-weight:500}
 .signal-card .hint-line{color:var(--ink-2); font-size:11.5px; margin:6px 0 0}
+.signal-card .mcp-line{font-size:12px; margin:6px 0 0; padding:6px 8px; border-radius:8px; background:rgba(43,94,158,.08); color:var(--ink)}
 .chips-row{display:flex; flex-wrap:wrap; gap:4px; margin-top:4px}
 .chips-row code{font-family:ui-monospace, Menlo, monospace; font-size:11px; background:rgba(255,255,255,.8); border:1px solid rgba(43,32,22,.1); padding:1px 6px; border-radius:5px}
 .signal-more{margin:10px 0 0; text-align:right}

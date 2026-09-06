@@ -33,6 +33,7 @@ export function signalMarkup(s) {
         <h5><i class="dot ${p.analyst.state}"></i>${c.analyst.heading}</h5>
         <p>${c.analyst.what}</p>
         <p class="status">${s.mode === 'live' ? html`<span class="url">${s.url}</span><br>` : ''}${healthLine}</p>
+        ${s.health?.mcp ? html`<p class="mcp-line">${fill(c.analyst.mcp, { tools: s.health.mcp.tools, endpoint: `${s.url}${s.health.mcp.endpoint}` })}</p>` : ''}
         <p class="hint-line">${c.analyst.hint}</p>
       </section>
     </div>
@@ -46,7 +47,7 @@ export async function checkHealth(url) {
     const res = await fetch(`${url}/health`);
     if (!res.ok) return 'down';
     const body = await res.json();
-    return { analyst: body.analyst ? `${body.analyst}` : 'analyst', season: body.season ?? '—', ms: Math.round(performance.now() - t0) };
+    return { analyst: body.analyst ? `${body.analyst}` : 'analyst', season: body.season ?? '—', ms: Math.round(performance.now() - t0), mcp: body.mcp ?? null };
   } catch { return 'down'; }
 }
 

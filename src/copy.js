@@ -89,6 +89,7 @@ export const copy = {
       fixturesLine: 'Built-in reads. No network, no analyst.',
       checking: 'checking…',
       health: '{analyst} · season {season} · answered in {ms} ms',
+      mcp: 'Also an MCP server: {tools} tools at {endpoint}, stateless — pass your lineup with each call.',
       down: 'Did not answer.',
       hint: 'Point the page elsewhere with ?analyst=<url>, or at nothing with ?analyst=fixtures.',
     },

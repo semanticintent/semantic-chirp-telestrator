@@ -69,7 +69,7 @@ Should the screen expose a `state()` tool so a fresh pen can read what the viewe
 
 ## 9. Availability
 
-Screen: https://sepiola.semanticintent.dev · source https://github.com/semanticintent/sepiola (MIT). Analyst: CHIRP, https://github.com/semanticintent/semantic-chirp-intelligence-mcp (MIT; npm `@semanticintent/semantic-chirp-intelligence-mcp` ≥ 4.3), hosted at https://chirp-mcp.semanticintent.dev. The read contract, fixtures, decision log (D1–D37), and scenario scripts are in the Sepiola repository.
+Screen: https://sepiola.semanticintent.dev · source https://github.com/semanticintent/sepiola (MIT). Analyst: CHIRP, https://github.com/semanticintent/semantic-chirp-intelligence-mcp (MIT; npm `@semanticintent/semantic-chirp-intelligence-mcp` ≥ 4.3), hosted at https://chirp-mcp.semanticintent.dev, which serves both the stateless `POST /read` the screen draws from and, at `/mcp`, the analyst's full tool set over Streamable HTTP for agents anywhere; the screen never proxies the analyst. The read contract, fixtures, decision log (D1–D37), and scenario scripts are in the Sepiola repository.
 
 ## References
 
