@@ -102,6 +102,17 @@ Four items, in order. Each lands with tests, a deploy, and a line here. Status: 
 
 Out of this sprint: remote MCP face for `read_ice` behind Signet; producer verbs; the spotlight dim (D5); mobile.
 
+## Sprint: the analyst's MCP face (started 2026-09-05)
+
+Stateless remote MCP at `chirp-mcp.semanticintent.dev/mcp`, so an agent anywhere gets the analyst's tools and an agent in a browser gets both halves from one host. No sessions, no Signet (D38).
+
+| # | Item | Scope | Status |
+|---|---|---|---|
+| 1 | **Tool registry** (CHIRP) | Pull the 23 definitions and the call switch out of `src/index.ts` into `src/tools.ts`; `src/server.ts` builds a Server from them; stdio entry becomes thin. Same list from one source, like Sepiola's grammar. | ☐ |
+| 2 | **Roster in arguments** (CHIRP) | Every roster-dependent tool accepts optional `roster_text` / `opponent_text`; a request-scoped override (AsyncLocalStorage) makes analyses read the pasted roster instead of disk for that call. On the Worker the `set_*` tools answer "this endpoint keeps no state; pass roster_text". | ☐ |
+| 3 | **`/mcp` on the Worker** (CHIRP) | SDK web-standard Streamable HTTP transport, stateless, JSON responses; one server per request; `/health` reports the endpoint and tool count; same pacing, cache, rate limit. Proven with a real MCP client against the live host. | ☐ |
+| 4 | **Sepiola shows it** | The analyst card in the signal panel reads `/health` and shows the MCP endpoint and tool count; README and paper availability updated. | ☐ |
+
 ## Not in scope
 
 Producer verbs (`ready`, `roll`, `caption`, `layer`), a `state()` tool, multiple circles, remote hosting behind auth, any second analyst, any Yahoo integration.

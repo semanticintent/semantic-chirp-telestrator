@@ -163,3 +163,9 @@ The menubar's right side is two status pills, **WebMCP · n tools** (the pen sid
 ## D37 — The mark — decided
 
 A bobtail squid drawn as a crest, after the flat, bold-outlined style of national sports crests: sun-yellow mantle, amber side lobes, ink outline, two round eyes with a highlight, four heavy arms, and the passing cloud as an ember band across the mantle, the spotlight motif in the animal itself. One SVG (`public/sepiola.svg`) is the source; PNGs at 32, 180, 192, and 512 are rendered from it for browsers that ignore SVG favicons. The favicon travels as a data URI inside the single file; the menubar brand and the welcome title reuse the mark through one `<symbol>`. Palette only from tokens; no club colours, so it never resembles a team.
+
+## D38 — The analyst's remote face is MCP, stateless, unauthenticated — decided
+
+Sepiola will not proxy the analyst's tools through WebMCP: a proxied tool returns prose and draws nothing, which is the failure the pattern exists to fix; it would make the page a menu instead of a grammar; and it would be an open relay. Analyst capability enters the page only as a move that draws (D6, and `read_ice` is the precedent). Everything else is reached over MCP, hosted beside `/read` on the same Worker.
+
+Stateless because the roster is cheap to send and the agent already holds it: every tool takes `roster_text` / `opponent_text` in its arguments, the way `read_ice` does, and nothing is stored. Sessions (the MCP session id in KV) and identity (Signet, as Wake does it) are deferred until there is something worth owning or protecting: saved leagues, a paid tier, abuse a rate limit cannot handle. The `AUTH_MODE` switch stays in the Worker config so that door remains one flip away.
